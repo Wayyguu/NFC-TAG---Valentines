@@ -48,6 +48,10 @@
       }
     }
 
+    /* 
+      2. Both counters share the same W/H for visual symmetry.
+         We'll do: width: 200px, min-height: 120px (enough space for text).
+    */
     .time-counter {
       position: fixed;
       top: max(var(--safe-area-inset-top), 20px);
@@ -58,7 +62,8 @@
       z-index: 1001;
       text-align: center;
       line-height: 1.3;
-      width: 180px;  /* Fixed width for both counters */
+      width: 200px;
+      min-height: 120px; /* same size for both counters */
     }
 
     .time-counter span:not(.counter-label) {
@@ -68,7 +73,6 @@
     }
 
     #dating-counter {
-      width: 200px;  /* Slightly larger for "Together Since" */
       right: max(var(--safe-area-inset-right), 20px);
     }
 
@@ -157,11 +161,13 @@
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
     }
 
+    /* 
+       1. Witty message should now move in sync with the 'No' button's same speed. 
+       We'll set a transition on top & left to match .4s ease-out, 
+       so it animates along with the button. 
+    */
     .funny-message {
       position: fixed;
-      top: max(var(--safe-area-inset-top), 20px);
-      left: 50%;
-      transform: translateX(-50%);
       background-color: white;
       color: var(--primary-color);
       padding: 15px 30px;
@@ -170,10 +176,11 @@
       z-index: 1000;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
       opacity: 0;
-      transition: opacity 0.3s;
       text-align: center;
       max-width: 90%;
       pointer-events: none;
+      transform: translate(-50%, -100%);
+      transition: top 0.4s ease-out, left 0.4s ease-out, opacity 0.3s; /* sync with button's move */
     }
 
     .scroll-indicator {
@@ -586,6 +593,27 @@
 
     /* Mobile adjustments */
     @media (max-width: 768px) {
+      /* Make counters match main box design for mobile, while
+         still retaining the same width and min-height for symmetry. 
+      */
+      .time-counter {
+        position: static !important;
+        margin: 0 auto 10px auto !important;
+        display: block !important;
+        font-size: 0.9em;
+        padding: 8px 15px;
+        border-radius: 20px !important; /* match container's radius */
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2) !important;
+        width: 200px !important;
+        min-height: 120px !important;
+      }
+
+      #dating-counter,
+      #valentine-counter {
+        left: auto !important;
+        right: auto !important;
+      }
+
       .gallery-section {
         margin: 100px auto;
         padding: 30px;
@@ -631,21 +659,6 @@
         padding: 12px 30px;
         font-size: clamp(1em, 4vw, 1.4em);
       }
-
-      /* Stack the counters vertically on mobile */
-      .time-counter {
-        position: static !important;
-        margin: 0 auto 10px auto !important;
-        display: block !important;
-        font-size: 0.9em;
-        padding: 8px 15px;
-      }
-
-      #dating-counter,
-      #valentine-counter {
-        left: auto !important;
-        right: auto !important;
-      }
     }
 
     @media (max-width: 480px) {
@@ -663,7 +676,10 @@
         display: none;
       }
 
-      /* Remove previous mobile-specific button behavior on coarse pointer devices */
+      /* 
+         We no longer block the 'No' button on mobile. 
+         It's allowed to be pressed, so it moves. 
+      */
       .btn-no:active {
         transform: none;
       }
@@ -683,7 +699,7 @@
   </style>
 </head>
 <body>
-  <!-- Keep the time counters at the top corners as before -->
+  <!-- Counters (same size for both web & mobile) -->
   <div class="time-counter" id="dating-counter">
     <span class="counter-label">Together Since</span>
     <span id="dating-days">0</span> Days
@@ -696,12 +712,14 @@
     </div>
   </div>
 
+  <!-- Funny message that moves with the 'No' button -->
   <div class="funny-message" id="funnyMessage"></div>
+
   <div class="floating-elements" id="floatingElements"></div>
   <div class="confetti-container" id="confettiContainer"></div>
   <div class="custom-cursor" id="customCursor">❄️</div>
 
-  <!-- 1. Gallery at the top now -->
+  <!-- Gallery at top -->
   <section class="gallery-section">
     <h2 class="gallery-title">Our Journey Together</h2>
     <div class="gallery-grid">
@@ -744,13 +762,13 @@
     </div>
   </section>
 
-  <!-- 2. Scroll indicator after the gallery -->
+  <!-- Scroll indicator -> scrolls to the container below -->
   <div class="scroll-indicator" id="scrollIndicator">
     <span>Scroll down</span>
     <span>👇</span>
   </div>
 
-  <!-- 3. Main text box at the bottom -->
+  <!-- Main text box at the bottom -->
   <div class="container">
     <h1>Will You Be My Valentine?</h1>
     <p class="message">
@@ -764,7 +782,6 @@
     </div>
   </div>
 
-  <!-- Music player remains below the container -->
   <div class="music-player" style="margin-bottom: 60px;">
     <button id="playSongBtn" class="play-song-btn">
       Play Our Song ♪
@@ -772,7 +789,7 @@
     <audio id="ourSong" src="our-song.mp3"></audio>
   </div>
 
-  <!-- Modals remain unchanged -->
+  <!-- Modals remain below -->
   <div id="galleryModal" class="gallery-modal">
     <div class="gallery-modal-content">
       <span class="close-gallery-modal">&times;</span>
@@ -826,44 +843,44 @@
         this.messageTimeout = null;
         this.moveTimeout = null;
         this.boundingPadding = 20;
-        this.isTouchDevice = window.matchMedia('(pointer: coarse)').matches;
 
         this.setupEventListeners();
       }
 
       setupEventListeners() {
-        // Handle both mouse and touch events the same way
-        this.button.addEventListener("mouseover", () => this.moveButton());
-        this.button.addEventListener("focus", () => this.moveButton());
-        this.button.addEventListener("click", (e) => {
-          e.preventDefault();
-          this.moveButton();
-        });
-        this.button.addEventListener("touchstart", (e) => {
-          e.preventDefault();
-          this.moveButton();
+        // We'll handle all pointer events to move the button the same way
+        const events = ["mouseover", "focus", "click", "touchstart"];
+        events.forEach(evt => {
+          this.button.addEventListener(evt, (e) => {
+            e.preventDefault();
+            this.moveButton();
+          });
         });
       }
 
       moveButton() {
-        if (this.isTouchDevice || this.isMoving || this.button.disabled) return;
+        if (this.isMoving || this.button.disabled) return;
         this.isMoving = true;
 
+        const rect = this.button.getBoundingClientRect();
+
+        // If not already fixed, fix it
         if (this.button.style.position !== "fixed") {
-          const rect = this.button.getBoundingClientRect();
           this.button.style.position = "fixed";
           this.button.style.top = rect.top + "px";
           this.button.style.left = rect.left + "px";
           this.button.style.margin = "0";
         }
 
-        const newPos = this.getRandomPosition();
-
+        // Animate the button's position
         this.button.style.transition = "all 0.4s ease-out";
+
+        const newPos = this.getRandomPosition(rect);
         this.button.style.left = newPos.x + "px";
         this.button.style.top = newPos.y + "px";
 
-        this.showMessage();
+        // Show the witty message at the same speed
+        this.showMessage(newPos, rect);
 
         clearTimeout(this.moveTimeout);
         this.moveTimeout = setTimeout(() => {
@@ -871,8 +888,7 @@
         }, 400);
       }
 
-      getRandomPosition() {
-        const buttonRect = this.button.getBoundingClientRect();
+      getRandomPosition(buttonRect) {
         const viewportWidth = window.innerWidth;
         const viewportHeight = window.innerHeight;
 
@@ -900,10 +916,21 @@
         return { x: newX, y: newY };
       }
 
-      showMessage() {
-        const randomMsg =
-          wittyMessages[Math.floor(Math.random() * wittyMessages.length)];
+      showMessage(newPos, buttonRect) {
+        // Choose random message
+        const randomMsg = wittyMessages[Math.floor(Math.random() * wittyMessages.length)];
         this.messageElement.textContent = randomMsg;
+
+        // We'll animate top/left with same 0.4s ease-out
+        this.messageElement.style.transition = "top 0.4s ease-out, left 0.4s ease-out, opacity 0.3s";
+
+        // Slightly above the new button position
+        // center horizontally: newPos.x + half buttonRect
+        const messageX = newPos.x + buttonRect.width / 2;
+        const messageY = newPos.y - 10; // 10px above
+
+        this.messageElement.style.left = messageX + "px";
+        this.messageElement.style.top = messageY + "px";
         this.messageElement.style.opacity = "1";
 
         clearTimeout(this.messageTimeout);
@@ -916,6 +943,7 @@
         this.button.disabled = false;
         this.button.style.opacity = "1";
         this.button.style.cursor = "pointer";
+        // Return to static positioning if needed
         if (this.button.style.position === "fixed") {
           this.button.style.position = "static";
           this.button.style.top = "auto";
@@ -1219,7 +1247,6 @@
 
     function setupScrollIndicator() {
       const scrollIndicator = document.getElementById('scrollIndicator');
-      // Now we scroll to the container instead of the gallery
       const mainContainer = document.querySelector('.container');
 
       if (scrollIndicator && mainContainer) {
