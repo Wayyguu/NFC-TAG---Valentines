@@ -60,6 +60,10 @@
       line-height: 1.3;
     }
 
+    .time-counter {
+      width: 180px;  /* Fixed width for both counters */
+    }
+
     .time-counter span:not(.counter-label) {
       font-family: var(--font-sans);
       color: #000000;
@@ -67,6 +71,7 @@
     }
 
     #dating-counter {
+      width: 200px;  /* Slightly larger for "Together Since" */
       right: max(var(--safe-area-inset-right), 20px);
     }
 
@@ -338,10 +343,9 @@
     }
 
     .music-player {
-      position: fixed;
-      bottom: max(var(--safe-area-inset-bottom), 20px);
-      left: max(var(--safe-area-inset-left), 20px);
-      z-index: 1001;
+      width: 100%;
+      text-align: center;
+      margin: 40px 0;
     }
 
     .play-song-btn {
@@ -659,14 +663,9 @@
         display: none;
       }
 
-      .btn-no {
-        position: static !important;
-        transition: none !important;
-        opacity: 0.8;
-      }
-
+      /* Remove previous mobile-specific button behavior */
       .btn-no:active {
-        transform: scale(0.95);
+        transform: none;
       }
 
       .gallery-item:hover {
@@ -762,7 +761,7 @@
     </div>
   </section>
 
-  <div class="music-player">
+  <div class="music-player" style="margin-bottom: 60px;">
     <button id="playSongBtn" class="play-song-btn">
       Play Our Song ♪
     </button>
@@ -828,18 +827,16 @@
       }
 
       setupEventListeners() {
-        if (!this.isTouchDevice) {
-          this.button.addEventListener("mouseover", () => this.moveButton());
-          this.button.addEventListener("focus", () => this.moveButton());
-        }
-        
+        // Handle both mouse and touch events the same way
+        this.button.addEventListener("mouseover", () => this.moveButton());
+        this.button.addEventListener("focus", () => this.moveButton());
         this.button.addEventListener("click", (e) => {
           e.preventDefault();
-          if (this.isTouchDevice) {
-            this.showMessage();
-          } else {
-            this.moveButton();
-          }
+          this.moveButton();
+        });
+        this.button.addEventListener("touchstart", (e) => {
+          e.preventDefault();
+          this.moveButton();
         });
       }
 
@@ -1138,6 +1135,8 @@
       const modalImage = galleryModal.querySelector('.gallery-modal-image');
       const modalCaption = galleryModal.querySelector('.gallery-modal-caption');
       const closeButton = galleryModal.querySelector('.close-gallery-modal');
+      const buttons = document.querySelectorAll('.btn');
+      const musicPlayer = document.querySelector('.music-player');
 
       document.querySelectorAll('.gallery-item').forEach(item => {
         const img = item.querySelector('.gallery-image');
@@ -1148,16 +1147,28 @@
           modalImage.alt = img.alt;
           modalCaption.textContent = caption.textContent;
           galleryModal.style.display = 'flex';
+          // Hide buttons and music player
+          buttons.forEach(btn => btn.style.display = 'none');
+          if (musicPlayer) musicPlayer.style.display = 'none';
         });
       });
 
       closeButton.addEventListener('click', () => {
         galleryModal.style.display = 'none';
+        // Show buttons and music player
+        buttons.forEach(btn => btn.style.display = 'inline-block');
+        if (musicPlayer) musicPlayer.style.display = 'block';
       });
 
       window.addEventListener('click', (e) => {
         if (e.target === galleryModal) {
           galleryModal.style.display = 'none';
+          // Show buttons and music player
+          buttons.forEach(btn => btn.style.display = 'inline-block');
+          if (musicPlayer) musicPlayer.style.display = 'block';
+          // Show buttons and music player
+          buttons.forEach(btn => btn.style.display = 'inline-block');
+          if (musicPlayer) musicPlayer.style.display = 'block';
         }
       });
 
