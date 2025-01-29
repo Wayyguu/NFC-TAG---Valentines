@@ -48,7 +48,10 @@
       }
     }
 
-    /* Counters share the same symmetrical design. */
+    /* 3. The counter texts should be centered, 
+       cursive titles larger for hierarchy. 
+       We'll use clamp(1.8em, 5vw, 2.2em) for bigger cursive. 
+    */
     .time-counter {
       position: fixed;
       top: max(var(--safe-area-inset-top), 20px);
@@ -61,6 +64,10 @@
       line-height: 1.3;
       width: 200px;
       min-height: 120px; 
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
     }
 
     .time-counter span:not(.counter-label) {
@@ -80,9 +87,9 @@
     .counter-label {
       display: block;
       font-family: var(--font-script);
-      font-size: clamp(1.2em, 4vw, 1.6em);
+      font-size: clamp(1.8em, 5vw, 2.2em);
       color: var(--primary-color);
-      margin-bottom: 3px;
+      margin-bottom: 5px;
     }
 
     .valentine-time {
@@ -184,27 +191,27 @@
       font-family: var(--font-script);
       font-size: clamp(1.2em, 4vw, 1.5em);
       opacity: 1;
-      animation: bounce 2s infinite;
+      animation: bounce 3s infinite; /* less frequent bounce */
       margin: 20px auto 0 auto;
       text-align: center;
-      position: relative; /* For the halo ring effect */
+      position: relative;
     }
 
     /*
-      4. The pulsing halo effect and bounce 
-         We'll sync them with the same 2s infinite so they align better. 
+      1. Make the ring smaller and the movement less frequent, more subtle. 
+      We'll reduce size to ~100px diameter and increase times to 3s. 
     */
     .scroll-indicator::after {
       content: "";
       position: absolute;
-      width: 140px;
-      height: 140px;
+      width: 100px;
+      height: 100px;
       border-radius: 50%;
       left: 50%;
       top: 50%;
       transform: translate(-50%, -50%);
       box-shadow: 0 0 15px 5px rgba(255,255,255,0.3), 0 0 30px 10px rgba(128,128,128,0.2) inset;
-      animation: ringPulse 2s ease-in-out infinite;
+      animation: ringPulse 3s ease-in-out infinite;
       z-index: -1;
     }
 
@@ -213,9 +220,9 @@
         transform: translate(-50%, -50%) scale(1);
         opacity: 1;
       }
-      40%,60% {
-        transform: translate(-50%, -50%) scale(1.4);
-        opacity: 1;
+      50% {
+        transform: translate(-50%, -50%) scale(1.3);
+        opacity: 0.9;
       }
     }
 
@@ -270,12 +277,16 @@
       aspect-ratio: 1;
     }
 
+    /* 2. Thicker gallery borders. For 
+       default border we can do 3px or 4px 
+       (the user said "bit thicker"). 
+    */
     .gallery-frame {
       background: white;
       padding: 20px;
       border-radius: 15px;
       box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-      border: 1px solid rgba(255, 107, 129, 0.1);
+      border: 3px solid rgba(255, 107, 129, 0.2);
       height: 100%;
       display: flex;
       flex-direction: column;
@@ -311,7 +322,7 @@
 
     .gallery-item:hover .gallery-frame {
       box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
-      border-color: rgba(255, 107, 129, 0.2);
+      border-color: rgba(255, 107, 129, 0.4);
     }
 
     .gallery-item:hover .gallery-image {
@@ -433,10 +444,6 @@
       scroll-margin-top: var(--safe-area-inset-top, 0);
     }
 
-    /* 
-      3. Thicker border with a halo effect around hovered picture 
-         in the "Yes!" modal. Using var(--primary-color) + smooth animation.
-    */
     .modal-photo-container {
       width: 100%;
       max-width: 400px;
@@ -622,11 +629,6 @@
       }
     }
 
-    /* 
-      2. For Mobile: ensure the counter boxes are spaced
-         professionally. We'll add margin around them, 
-         similar to the main box's approach. 
-    */
     @media (max-width: 768px) {
       .time-counter {
         position: static !important;
@@ -637,7 +639,7 @@
         box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2) !important;
         width: 200px !important;
         min-height: 120px !important;
-        margin: 30px auto !important; /* More "professional" spacing */
+        margin: 30px auto !important;
       }
 
       #dating-counter,
@@ -729,11 +731,11 @@
 <body>
   <!-- Counters -->
   <div class="time-counter" id="dating-counter">
-    <span class="counter-label">Together Since</span>
+    <span class="counter-label">Together</span>
     <span id="dating-days">0</span> Days
   </div>
   <div class="time-counter" id="valentine-counter">
-    <span class="counter-label">Until Valentine's</span>
+    <span class="counter-label">Valentine's</span>
     <div class="valentine-time">
       <span id="valentine-days">0</span> Days
       <span id="valentine-hours">0</span> Hours
@@ -871,7 +873,7 @@
         this.isMoving = false;
         this.messageTimeout = null;
         this.moveTimeout = null;
-        this.boundingPadding = 20;
+        this.boundingPadding = 20; // ensures we won't go off screen
         this.setupEventListeners();
       }
 
@@ -888,20 +890,23 @@
         if (this.isMoving || this.button.disabled) return;
         this.isMoving = true;
 
-        const rect = this.button.getBoundingClientRect();
+        const buttonRect = this.button.getBoundingClientRect();
+
+        // Fix position if not already
         if (this.button.style.position !== "fixed") {
           this.button.style.position = "fixed";
-          this.button.style.top = rect.top + "px";
-          this.button.style.left = rect.left + "px";
+          this.button.style.top = buttonRect.top + "px";
+          this.button.style.left = buttonRect.left + "px";
           this.button.style.margin = "0";
         }
 
         this.button.style.transition = "all 0.4s ease-out";
-        const newPos = this.getRandomPosition(rect);
+        const newPos = this.getRandomPosition(buttonRect);
+        // Clamping so the button won't travel outside visible screen
         this.button.style.left = newPos.x + "px";
         this.button.style.top = newPos.y + "px";
 
-        this.showMessage(newPos, rect);
+        this.showMessage(newPos, buttonRect);
 
         clearTimeout(this.moveTimeout);
         this.moveTimeout = setTimeout(() => {
@@ -942,11 +947,32 @@
         this.messageElement.textContent = randomMsg;
 
         this.messageElement.style.transition = "top 0.4s ease-out, left 0.4s ease-out, opacity 0.3s";
+
+        // Position the message above the button
         const messageX = newPos.x + buttonRect.width / 2;
         const messageY = newPos.y - 10;
 
-        this.messageElement.style.left = messageX + "px";
-        this.messageElement.style.top = messageY + "px";
+        // We'll set them, then clamp so the message doesn't overflow
+        const messageRectWidth = 250; // approximate or max
+        const messageRectHeight = 40; // approximate height
+        let finalX = messageX;
+        let finalY = messageY;
+
+        // clamp horizontally
+        if (finalX - messageRectWidth / 2 < this.boundingPadding) {
+          finalX = this.boundingPadding + messageRectWidth / 2;
+        }
+        if (finalX + messageRectWidth / 2 > window.innerWidth - this.boundingPadding) {
+          finalX = window.innerWidth - this.boundingPadding - messageRectWidth / 2;
+        }
+
+        // clamp vertically
+        if (finalY - messageRectHeight < this.boundingPadding) {
+          finalY = this.boundingPadding + messageRectHeight;
+        }
+
+        this.messageElement.style.left = finalX + "px";
+        this.messageElement.style.top = finalY + "px";
         this.messageElement.style.opacity = "1";
 
         clearTimeout(this.messageTimeout);
@@ -1086,7 +1112,7 @@
         this.ctx.rotate(p.rotation);
         this.ctx.beginPath();
         const size = p.size;
-        // A heart-ish shape
+        // Heart-like shape
         this.ctx.moveTo(0, 0);
         this.ctx.bezierCurveTo(-size / 2, -size / 2, -size, size / 4, 0, size);
         this.ctx.bezierCurveTo(size, size / 4, size / 2, -size / 2, 0, 0);
@@ -1097,16 +1123,14 @@
       }
 
       createBurst(cx, cy, count, isMobile = false) {
-        // For mobile: smaller hearts
         for (let i = 0; i < count; i++) {
           if (this.particles.length >= this.maxParticles) break;
           const angle = Math.random() * 2 * Math.PI;
-          // Speed range the same, but size changes if mobile
           const speed = Math.random() * 4 + 3;
           const vx = Math.cos(angle) * speed;
           const vy = Math.sin(angle) * speed;
-          const baseSize = isMobile ? 8 : 12;   // smaller base size for mobile
-          const sizeRange = isMobile ? 10 : 16; // reduce range for mobile
+          const baseSize = isMobile ? 8 : 12;   
+          const sizeRange = isMobile ? 10 : 16; 
           this.particles.push({
             x: cx,
             y: cy,
@@ -1121,11 +1145,9 @@
       }
 
       launch(isMobile) {
-        // "When yes is pressed, make the animation faster like fireworks."
-        // If mobile, we do smaller hearts + faster intervals.
         const totalBursts = 5;
-        const count = isMobile ? 25 : 40;  // fewer hearts for mobile
-        const interval = isMobile ? 300 : 800; // faster bursts on mobile
+        const count = isMobile ? 25 : 40;
+        const interval = isMobile ? 300 : 800; 
         for (let i = 0; i < totalBursts; i++) {
           setTimeout(() => {
             const centerX = this.canvas.width * 0.2 + Math.random() * this.canvas.width * 0.6;
@@ -1280,7 +1302,6 @@
       }
     }
 
-    // Initialize everything when the DOM is loaded
     document.addEventListener('DOMContentLoaded', () => {
       const floatingElements = new FloatingElementsManager(
         document.getElementById("floatingElements")
@@ -1309,8 +1330,7 @@
 
       yesButton.addEventListener("click", () => {
         showModal();
-        // 1. Make the animation faster like fireworks. 
-        //    For MOBILE ONLY => smaller hearts
+        // Faster fireworks for mobile
         const isMobile = window.matchMedia('(max-width: 768px)').matches;
         confetti.launch(isMobile);
 
@@ -1357,7 +1377,7 @@
         }
       });
 
-      // Custom cursor for non-touch devices
+      // Custom cursor
       if (!window.matchMedia('(pointer: coarse)').matches) {
         document.addEventListener("mousemove", (e) => {
           const cursor = document.getElementById("customCursor");
@@ -1382,20 +1402,17 @@
         });
       }
 
-      // Setup features
       setupGalleryModal();
       setupMusicPlayer();
       setupScrollIndicator();
 
-      // Initialize counters
+      // Start counters
       updateDatingCounter();
       updateValentineCounter();
-
-      // Update counters periodically
       setInterval(() => {
         updateDatingCounter();
         updateValentineCounter();
-      }, 1000 * 60 * 5); // every 5 minutes
+      }, 1000 * 60 * 5);
     });
   </script>
 </body>
