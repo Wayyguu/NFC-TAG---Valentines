@@ -48,10 +48,7 @@
       }
     }
 
-    /* 3. The counter texts should be centered, 
-       cursive titles larger for hierarchy. 
-       We'll use clamp(1.8em, 5vw, 2.2em) for bigger cursive. 
-    */
+    /* Both counters share symmetrical design and text centered. */
     .time-counter {
       position: fixed;
       top: max(var(--safe-area-inset-top), 20px);
@@ -61,35 +58,34 @@
       box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
       z-index: 1001;
       text-align: center;
-      line-height: 1.3;
+      line-height: 1.4; 
       width: 200px;
       min-height: 120px; 
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
     }
 
     .time-counter span:not(.counter-label) {
       font-family: var(--font-sans);
       color: #000000;
       font-size: clamp(1em, 3vw, 1.2em);
+      display: block; /* ensure each line can center properly */
     }
 
-    #dating-counter {
-      right: max(var(--safe-area-inset-right), 20px);
-    }
-
-    #valentine-counter {
-      left: max(var(--safe-area-inset-left), 20px);
-    }
-
+    /* 3. The cursive titles bigger for better visual hierarchy. */
     .counter-label {
       display: block;
       font-family: var(--font-script);
-      font-size: clamp(1.8em, 5vw, 2.2em);
+      font-size: clamp(1.5em, 5vw, 2em); /* bigger cursive label */
       color: var(--primary-color);
-      margin-bottom: 5px;
+      margin-bottom: 8px;
+      text-align: center;
+    }
+
+    /* Place them at corners on desktop */
+    #dating-counter {
+      right: max(var(--safe-area-inset-right), 20px);
+    }
+    #valentine-counter {
+      left: max(var(--safe-area-inset-left), 20px);
     }
 
     .valentine-time {
@@ -197,21 +193,21 @@
       position: relative;
     }
 
-    /*
-      1. Make the ring smaller and the movement less frequent, more subtle. 
-      We'll reduce size to ~100px diameter and increase times to 3s. 
+    /* 
+      1. Make ring movement less frequent (3s) 
+         Slightly smaller ring, still bigger than text/emoji. 
     */
     .scroll-indicator::after {
       content: "";
       position: absolute;
-      width: 100px;
-      height: 100px;
+      width: 110px; /* slightly smaller than before */
+      height: 110px;
       border-radius: 50%;
       left: 50%;
       top: 50%;
       transform: translate(-50%, -50%);
       box-shadow: 0 0 15px 5px rgba(255,255,255,0.3), 0 0 30px 10px rgba(128,128,128,0.2) inset;
-      animation: ringPulse 3s ease-in-out infinite;
+      animation: ringPulse 3s ease-in-out infinite; 
       z-index: -1;
     }
 
@@ -221,8 +217,8 @@
         opacity: 1;
       }
       50% {
-        transform: translate(-50%, -50%) scale(1.3);
-        opacity: 0.9;
+        transform: translate(-50%, -50%) scale(1.2);
+        opacity: 0.8;
       }
     }
 
@@ -277,16 +273,12 @@
       aspect-ratio: 1;
     }
 
-    /* 2. Thicker gallery borders. For 
-       default border we can do 3px or 4px 
-       (the user said "bit thicker"). 
-    */
     .gallery-frame {
       background: white;
       padding: 20px;
       border-radius: 15px;
       box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-      border: 3px solid rgba(255, 107, 129, 0.2);
+      border: 1px solid rgba(255, 107, 129, 0.1);
       height: 100%;
       display: flex;
       flex-direction: column;
@@ -316,19 +308,17 @@
       transition: all 0.3s ease;
     }
 
+    /* 2. ONLY WHEN HOVERING: border is thicker, using var(--primary-color) */
     .gallery-item:hover {
       transform: translateY(-5px);
     }
-
     .gallery-item:hover .gallery-frame {
       box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
-      border-color: rgba(255, 107, 129, 0.4);
+      border: 3px solid var(--primary-color); /* thicker border on hover */
     }
-
     .gallery-item:hover .gallery-image {
       transform: scale(1.05);
     }
-
     .gallery-item:hover .gallery-caption {
       color: var(--primary-color);
       transform: translateY(-2px);
@@ -629,6 +619,7 @@
       }
     }
 
+    /* 2. For Mobile: more professional spacing for counters */
     @media (max-width: 768px) {
       .time-counter {
         position: static !important;
@@ -639,7 +630,7 @@
         box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2) !important;
         width: 200px !important;
         min-height: 120px !important;
-        margin: 30px auto !important;
+        margin: 30px auto !important; /* improved spacing */
       }
 
       #dating-counter,
@@ -720,6 +711,7 @@
 
       .gallery-item:hover .gallery-frame {
         box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(255, 107, 129, 0.1);
       }
 
       .gallery-item:hover .gallery-image {
@@ -729,20 +721,20 @@
   </style>
 </head>
 <body>
-  <!-- Counters -->
+  <!-- Counter boxes -->
   <div class="time-counter" id="dating-counter">
-    <span class="counter-label">Together</span>
+    <span class="counter-label">Together Since</span>
     <span id="dating-days">0</span> Days
   </div>
   <div class="time-counter" id="valentine-counter">
-    <span class="counter-label">Valentine's</span>
+    <span class="counter-label">Until Valentine's</span>
     <div class="valentine-time">
       <span id="valentine-days">0</span> Days
       <span id="valentine-hours">0</span> Hours
     </div>
   </div>
 
-  <!-- Witty message follows the No button -->
+  <!-- Witty message -->
   <div class="funny-message" id="funnyMessage"></div>
 
   <div class="floating-elements" id="floatingElements"></div>
@@ -873,7 +865,7 @@
         this.isMoving = false;
         this.messageTimeout = null;
         this.moveTimeout = null;
-        this.boundingPadding = 20; // ensures we won't go off screen
+        this.boundingPadding = 20;
         this.setupEventListeners();
       }
 
@@ -890,23 +882,20 @@
         if (this.isMoving || this.button.disabled) return;
         this.isMoving = true;
 
-        const buttonRect = this.button.getBoundingClientRect();
-
-        // Fix position if not already
+        const rect = this.button.getBoundingClientRect();
         if (this.button.style.position !== "fixed") {
           this.button.style.position = "fixed";
-          this.button.style.top = buttonRect.top + "px";
-          this.button.style.left = buttonRect.left + "px";
+          this.button.style.top = rect.top + "px";
+          this.button.style.left = rect.left + "px";
           this.button.style.margin = "0";
         }
 
         this.button.style.transition = "all 0.4s ease-out";
-        const newPos = this.getRandomPosition(buttonRect);
-        // Clamping so the button won't travel outside visible screen
+        const newPos = this.getRandomPosition(rect);
         this.button.style.left = newPos.x + "px";
         this.button.style.top = newPos.y + "px";
 
-        this.showMessage(newPos, buttonRect);
+        this.showMessage(newPos, rect);
 
         clearTimeout(this.moveTimeout);
         this.moveTimeout = setTimeout(() => {
@@ -947,32 +936,18 @@
         this.messageElement.textContent = randomMsg;
 
         this.messageElement.style.transition = "top 0.4s ease-out, left 0.4s ease-out, opacity 0.3s";
+        let messageX = newPos.x + buttonRect.width / 2;
+        let messageY = newPos.y - 10;
 
-        // Position the message above the button
-        const messageX = newPos.x + buttonRect.width / 2;
-        const messageY = newPos.y - 10;
+        // 4. Ensure message doesn't go off screen:
+        const vpWidth = window.innerWidth;
+        const vpHeight = window.innerHeight;
+        const offset = 20;
+        messageX = Math.max(offset, Math.min(messageX, vpWidth - offset));
+        messageY = Math.max(offset, Math.min(messageY, vpHeight - offset));
 
-        // We'll set them, then clamp so the message doesn't overflow
-        const messageRectWidth = 250; // approximate or max
-        const messageRectHeight = 40; // approximate height
-        let finalX = messageX;
-        let finalY = messageY;
-
-        // clamp horizontally
-        if (finalX - messageRectWidth / 2 < this.boundingPadding) {
-          finalX = this.boundingPadding + messageRectWidth / 2;
-        }
-        if (finalX + messageRectWidth / 2 > window.innerWidth - this.boundingPadding) {
-          finalX = window.innerWidth - this.boundingPadding - messageRectWidth / 2;
-        }
-
-        // clamp vertically
-        if (finalY - messageRectHeight < this.boundingPadding) {
-          finalY = this.boundingPadding + messageRectHeight;
-        }
-
-        this.messageElement.style.left = finalX + "px";
-        this.messageElement.style.top = finalY + "px";
+        this.messageElement.style.left = messageX + "px";
+        this.messageElement.style.top = messageY + "px";
         this.messageElement.style.opacity = "1";
 
         clearTimeout(this.messageTimeout);
@@ -1112,7 +1087,6 @@
         this.ctx.rotate(p.rotation);
         this.ctx.beginPath();
         const size = p.size;
-        // Heart-like shape
         this.ctx.moveTo(0, 0);
         this.ctx.bezierCurveTo(-size / 2, -size / 2, -size, size / 4, 0, size);
         this.ctx.bezierCurveTo(size, size / 4, size / 2, -size / 2, 0, 0);
@@ -1129,8 +1103,8 @@
           const speed = Math.random() * 4 + 3;
           const vx = Math.cos(angle) * speed;
           const vy = Math.sin(angle) * speed;
-          const baseSize = isMobile ? 8 : 12;   
-          const sizeRange = isMobile ? 10 : 16; 
+          const baseSize = isMobile ? 8 : 12;
+          const sizeRange = isMobile ? 10 : 16;
           this.particles.push({
             x: cx,
             y: cy,
@@ -1330,7 +1304,6 @@
 
       yesButton.addEventListener("click", () => {
         showModal();
-        // Faster fireworks for mobile
         const isMobile = window.matchMedia('(max-width: 768px)').matches;
         confetti.launch(isMobile);
 
@@ -1364,7 +1337,6 @@
         }
       });
 
-      // Keyboard accessibility
       window.addEventListener("keydown", (e) => {
         if (e.key === "Escape" && modal.style.display === "flex") {
           modal.style.display = "none";
@@ -1377,7 +1349,7 @@
         }
       });
 
-      // Custom cursor
+      // Custom cursor for non-touch devices
       if (!window.matchMedia('(pointer: coarse)').matches) {
         document.addEventListener("mousemove", (e) => {
           const cursor = document.getElementById("customCursor");
@@ -1406,9 +1378,9 @@
       setupMusicPlayer();
       setupScrollIndicator();
 
-      // Start counters
       updateDatingCounter();
       updateValentineCounter();
+      
       setInterval(() => {
         updateDatingCounter();
         updateValentineCounter();
