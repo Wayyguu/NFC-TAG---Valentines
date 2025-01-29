@@ -48,10 +48,7 @@
       }
     }
 
-    /* 
-      2. Both counters share the same W/H for visual symmetry.
-         We'll do: width: 200px, min-height: 120px (enough space for text).
-    */
+    /* Counters share the same symmetrical design. */
     .time-counter {
       position: fixed;
       top: max(var(--safe-area-inset-top), 20px);
@@ -63,7 +60,7 @@
       text-align: center;
       line-height: 1.3;
       width: 200px;
-      min-height: 120px; /* same size for both counters */
+      min-height: 120px; 
     }
 
     .time-counter span:not(.counter-label) {
@@ -161,11 +158,6 @@
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
     }
 
-    /* 
-       1. Witty message should now move in sync with the 'No' button's same speed. 
-       We'll set a transition on top & left to match .4s ease-out, 
-       so it animates along with the button. 
-    */
     .funny-message {
       position: fixed;
       background-color: white;
@@ -180,7 +172,7 @@
       max-width: 90%;
       pointer-events: none;
       transform: translate(-50%, -100%);
-      transition: top 0.4s ease-out, left 0.4s ease-out, opacity 0.3s; /* sync with button's move */
+      transition: top 0.4s ease-out, left 0.4s ease-out, opacity 0.3s;
     }
 
     .scroll-indicator {
@@ -195,6 +187,36 @@
       animation: bounce 2s infinite;
       margin: 20px auto 0 auto;
       text-align: center;
+      position: relative; /* For the halo ring effect */
+    }
+
+    /*
+      4. The pulsing halo effect and bounce 
+         We'll sync them with the same 2s infinite so they align better. 
+    */
+    .scroll-indicator::after {
+      content: "";
+      position: absolute;
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      box-shadow: 0 0 15px 5px rgba(255,255,255,0.3), 0 0 30px 10px rgba(128,128,128,0.2) inset;
+      animation: ringPulse 2s ease-in-out infinite;
+      z-index: -1;
+    }
+
+    @keyframes ringPulse {
+      0%,100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+      }
+      40%,60% {
+        transform: translate(-50%, -50%) scale(1.4);
+        opacity: 1;
+      }
     }
 
     .scroll-indicator span {
@@ -396,7 +418,7 @@
     }
 
     .modal-content {
-      background: #fff;
+      background: #fff; 
       padding: 40px;
       border-radius: 15px;
       text-align: center;
@@ -409,9 +431,12 @@
       flex-direction: column;
       align-items: center;
       scroll-margin-top: var(--safe-area-inset-top, 0);
-      background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNmZmYiLz48ZyBvcGFjaXR5PSIwLjEiPjxwYXRoIGQ9Ik0wIDBoMjV2MjVIMHoiIGZpbGw9IiMwMDAiIHRyYW5zZm9ybT0icm90YXRlKDMwKSBzY2FsZSgxLjIpIi8+PHBhdGggZD0iTTAgMGgyNXYyNUgweiIgZmlsbD0iIzAwMCIgdHJhbnNmb3JtPSJyb3RhdGUoNjApIHNjYWxlKDEuNSkiLz48L2c+PC9zdmc+');
     }
 
+    /* 
+      3. Thicker border with a halo effect around hovered picture 
+         in the "Yes!" modal. Using var(--primary-color) + smooth animation.
+    */
     .modal-photo-container {
       width: 100%;
       max-width: 400px;
@@ -422,6 +447,12 @@
       position: relative;
       border: 5px solid var(--primary-color);
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      transition: all 0.3s ease;
+    }
+
+    .modal-photo-container:hover {
+      border: 12px solid var(--primary-color);
+      box-shadow: 0 0 20px 5px rgba(255, 107, 129, 0.5);
     }
 
     .modal-photo {
@@ -591,21 +622,22 @@
       }
     }
 
-    /* Mobile adjustments */
+    /* 
+      2. For Mobile: ensure the counter boxes are spaced
+         professionally. We'll add margin around them, 
+         similar to the main box's approach. 
+    */
     @media (max-width: 768px) {
-      /* Make counters match main box design for mobile, while
-         still retaining the same width and min-height for symmetry. 
-      */
       .time-counter {
         position: static !important;
-        margin: 0 auto 10px auto !important;
         display: block !important;
         font-size: 0.9em;
         padding: 8px 15px;
-        border-radius: 20px !important; /* match container's radius */
+        border-radius: 20px !important;
         box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2) !important;
         width: 200px !important;
         min-height: 120px !important;
+        margin: 30px auto !important; /* More "professional" spacing */
       }
 
       #dating-counter,
@@ -676,10 +708,6 @@
         display: none;
       }
 
-      /* 
-         We no longer block the 'No' button on mobile. 
-         It's allowed to be pressed, so it moves. 
-      */
       .btn-no:active {
         transform: none;
       }
@@ -699,7 +727,7 @@
   </style>
 </head>
 <body>
-  <!-- Counters (same size for both web & mobile) -->
+  <!-- Counters -->
   <div class="time-counter" id="dating-counter">
     <span class="counter-label">Together Since</span>
     <span id="dating-days">0</span> Days
@@ -712,7 +740,7 @@
     </div>
   </div>
 
-  <!-- Funny message that moves with the 'No' button -->
+  <!-- Witty message follows the No button -->
   <div class="funny-message" id="funnyMessage"></div>
 
   <div class="floating-elements" id="floatingElements"></div>
@@ -762,7 +790,7 @@
     </div>
   </section>
 
-  <!-- Scroll indicator -> scrolls to the container below -->
+  <!-- Scroll indicator -->
   <div class="scroll-indicator" id="scrollIndicator">
     <span>Scroll down</span>
     <span>👇</span>
@@ -789,7 +817,7 @@
     <audio id="ourSong" src="our-song.mp3"></audio>
   </div>
 
-  <!-- Modals remain below -->
+  <!-- Gallery modal -->
   <div id="galleryModal" class="gallery-modal">
     <div class="gallery-modal-content">
       <span class="close-gallery-modal">&times;</span>
@@ -798,6 +826,7 @@
     </div>
   </div>
 
+  <!-- "Yes" modal -->
   <div id="modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-describedby="modalDescription">
     <div class="modal-content">
       <span class="close-modal" id="closeModal" aria-label="Close Modal">&times;</span>
@@ -843,14 +872,11 @@
         this.messageTimeout = null;
         this.moveTimeout = null;
         this.boundingPadding = 20;
-
         this.setupEventListeners();
       }
 
       setupEventListeners() {
-        // We'll handle all pointer events to move the button the same way
-        const events = ["mouseover", "focus", "click", "touchstart"];
-        events.forEach(evt => {
+        ["mouseover","focus","click","touchstart"].forEach(evt => {
           this.button.addEventListener(evt, (e) => {
             e.preventDefault();
             this.moveButton();
@@ -863,8 +889,6 @@
         this.isMoving = true;
 
         const rect = this.button.getBoundingClientRect();
-
-        // If not already fixed, fix it
         if (this.button.style.position !== "fixed") {
           this.button.style.position = "fixed";
           this.button.style.top = rect.top + "px";
@@ -872,14 +896,11 @@
           this.button.style.margin = "0";
         }
 
-        // Animate the button's position
         this.button.style.transition = "all 0.4s ease-out";
-
         const newPos = this.getRandomPosition(rect);
         this.button.style.left = newPos.x + "px";
         this.button.style.top = newPos.y + "px";
 
-        // Show the witty message at the same speed
         this.showMessage(newPos, rect);
 
         clearTimeout(this.moveTimeout);
@@ -917,17 +938,12 @@
       }
 
       showMessage(newPos, buttonRect) {
-        // Choose random message
         const randomMsg = wittyMessages[Math.floor(Math.random() * wittyMessages.length)];
         this.messageElement.textContent = randomMsg;
 
-        // We'll animate top/left with same 0.4s ease-out
         this.messageElement.style.transition = "top 0.4s ease-out, left 0.4s ease-out, opacity 0.3s";
-
-        // Slightly above the new button position
-        // center horizontally: newPos.x + half buttonRect
         const messageX = newPos.x + buttonRect.width / 2;
-        const messageY = newPos.y - 10; // 10px above
+        const messageY = newPos.y - 10;
 
         this.messageElement.style.left = messageX + "px";
         this.messageElement.style.top = messageY + "px";
@@ -943,7 +959,6 @@
         this.button.disabled = false;
         this.button.style.opacity = "1";
         this.button.style.cursor = "pointer";
-        // Return to static positioning if needed
         if (this.button.style.position === "fixed") {
           this.button.style.position = "static";
           this.button.style.top = "auto";
@@ -1071,6 +1086,7 @@
         this.ctx.rotate(p.rotation);
         this.ctx.beginPath();
         const size = p.size;
+        // A heart-ish shape
         this.ctx.moveTo(0, 0);
         this.ctx.bezierCurveTo(-size / 2, -size / 2, -size, size / 4, 0, size);
         this.ctx.bezierCurveTo(size, size / 4, size / 2, -size / 2, 0, 0);
@@ -1080,19 +1096,23 @@
         this.ctx.restore();
       }
 
-      createBurst(cx, cy, count) {
+      createBurst(cx, cy, count, isMobile = false) {
+        // For mobile: smaller hearts
         for (let i = 0; i < count; i++) {
           if (this.particles.length >= this.maxParticles) break;
           const angle = Math.random() * 2 * Math.PI;
+          // Speed range the same, but size changes if mobile
           const speed = Math.random() * 4 + 3;
           const vx = Math.cos(angle) * speed;
           const vy = Math.sin(angle) * speed;
+          const baseSize = isMobile ? 8 : 12;   // smaller base size for mobile
+          const sizeRange = isMobile ? 10 : 16; // reduce range for mobile
           this.particles.push({
             x: cx,
             y: cy,
             vx,
             vy,
-            size: 12 + Math.random() * 16,
+            size: baseSize + Math.random() * sizeRange,
             color: this.colors[Math.floor(Math.random() * this.colors.length)],
             rotation: Math.random() * 2 * Math.PI,
             rotationSpeed: (Math.random() - 0.5) * 0.1,
@@ -1100,18 +1120,22 @@
         }
       }
 
-      launch() {
+      launch(isMobile) {
+        // "When yes is pressed, make the animation faster like fireworks."
+        // If mobile, we do smaller hearts + faster intervals.
         const totalBursts = 5;
+        const count = isMobile ? 25 : 40;  // fewer hearts for mobile
+        const interval = isMobile ? 300 : 800; // faster bursts on mobile
         for (let i = 0; i < totalBursts; i++) {
           setTimeout(() => {
             const centerX = this.canvas.width * 0.2 + Math.random() * this.canvas.width * 0.6;
             const centerY = this.canvas.height * 0.2 + Math.random() * this.canvas.height * 0.6;
-            this.createBurst(centerX, centerY, 40);
+            this.createBurst(centerX, centerY, count, isMobile);
             this.addSparkleEffect(centerX, centerY);
             if (!this.animationFrameId) {
               this.updateAndDraw();
             }
-          }, i * 800);
+          }, i * interval);
         }
       }
 
@@ -1278,7 +1302,6 @@
       const closeModal = document.getElementById("closeModal");
       let isYesPressed = false;
 
-      // Setup modal interactions
       function showModal() {
         modal.style.display = "flex";
         modalContent.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -1286,7 +1309,11 @@
 
       yesButton.addEventListener("click", () => {
         showModal();
-        confetti.launch();
+        // 1. Make the animation faster like fireworks. 
+        //    For MOBILE ONLY => smaller hearts
+        const isMobile = window.matchMedia('(max-width: 768px)').matches;
+        confetti.launch(isMobile);
+
         if (!isYesPressed) {
           isYesPressed = true;
           noButtonHandler.disable();
@@ -1330,7 +1357,7 @@
         }
       });
 
-      // Custom cursor handling for non-touch devices
+      // Custom cursor for non-touch devices
       if (!window.matchMedia('(pointer: coarse)').matches) {
         document.addEventListener("mousemove", (e) => {
           const cursor = document.getElementById("customCursor");
@@ -1355,20 +1382,20 @@
         });
       }
 
-      // Initialize features
+      // Setup features
       setupGalleryModal();
       setupMusicPlayer();
       setupScrollIndicator();
 
-      // Initialize and start counters
+      // Initialize counters
       updateDatingCounter();
       updateValentineCounter();
-      
+
       // Update counters periodically
       setInterval(() => {
         updateDatingCounter();
         updateValentineCounter();
-      }, 1000 * 60 * 5); // Update every 5 minutes
+      }, 1000 * 60 * 5); // every 5 minutes
     });
   </script>
 </body>
