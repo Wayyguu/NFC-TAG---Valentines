@@ -58,9 +58,6 @@
       z-index: 1001;
       text-align: center;
       line-height: 1.3;
-    }
-
-    .time-counter {
       width: 180px;  /* Fixed width for both counters */
     }
 
@@ -189,7 +186,7 @@
       font-size: clamp(1.2em, 4vw, 1.5em);
       opacity: 1;
       animation: bounce 2s infinite;
-      margin: 40px auto 0 auto;
+      margin: 20px auto 0 auto;
       text-align: center;
     }
 
@@ -587,7 +584,27 @@
       }
     }
 
+    /* Mobile adjustments */
     @media (max-width: 768px) {
+      .gallery-section {
+        margin: 100px auto;
+        padding: 30px;
+      }
+
+      .gallery-grid {
+        gap: 20px;
+        padding: 10px;
+      }
+
+      .modal-photo-container {
+        height: 180px;
+      }
+
+      .close-gallery-modal {
+        top: -30px;
+        right: -10px;
+      }
+
       .container {
         padding: 30px;
         margin: 100px auto;
@@ -615,36 +632,19 @@
         font-size: clamp(1em, 4vw, 1.4em);
       }
 
+      /* Stack the counters vertically on mobile */
       .time-counter {
+        position: static !important;
+        margin: 0 auto 10px auto !important;
+        display: block !important;
         font-size: 0.9em;
         padding: 8px 15px;
       }
 
-      #dating-counter {
-        right: max(var(--safe-area-inset-right), 10px);
-      }
-
+      #dating-counter,
       #valentine-counter {
-        left: max(var(--safe-area-inset-left), 10px);
-      }
-
-      .gallery-section {
-        margin: 100px auto;
-        padding: 30px;
-      }
-
-      .gallery-grid {
-        gap: 20px;
-        padding: 10px;
-      }
-
-      .modal-photo-container {
-        height: 180px;
-      }
-
-      .close-gallery-modal {
-        top: -30px;
-        right: -10px;
+        left: auto !important;
+        right: auto !important;
       }
     }
 
@@ -663,7 +663,7 @@
         display: none;
       }
 
-      /* Remove previous mobile-specific button behavior */
+      /* Remove previous mobile-specific button behavior on coarse pointer devices */
       .btn-no:active {
         transform: none;
       }
@@ -683,11 +683,11 @@
   </style>
 </head>
 <body>
+  <!-- Keep the time counters at the top corners as before -->
   <div class="time-counter" id="dating-counter">
     <span class="counter-label">Together Since</span>
     <span id="dating-days">0</span> Days
   </div>
-
   <div class="time-counter" id="valentine-counter">
     <span class="counter-label">Until Valentine's</span>
     <div class="valentine-time">
@@ -701,24 +701,7 @@
   <div class="confetti-container" id="confettiContainer"></div>
   <div class="custom-cursor" id="customCursor">❄️</div>
 
-  <div class="container">
-    <h1>Will You Be My Valentine?</h1>
-    <p class="message">
-      From the moment we met, you've brought so much joy and love into my life.
-      Every day with you is a new adventure, and I can't imagine my life without you.
-      Will you be my Valentine?
-    </p>
-    <div class="buttons">
-      <button id="yesButton" class="btn btn-yes">Yes!</button>
-      <button id="noButton" class="btn btn-no">No</button>
-    </div>
-  </div>
-
-  <div class="scroll-indicator" id="scrollIndicator">
-    <span>Scroll down</span>
-    <span>👇</span>
-  </div>
-
+  <!-- 1. Gallery at the top now -->
   <section class="gallery-section">
     <h2 class="gallery-title">Our Journey Together</h2>
     <div class="gallery-grid">
@@ -742,7 +725,7 @@
       </div>
       <div class="gallery-item">
         <div class="gallery-frame">
-          <img src="images/farmcart.JPG" loading="lazy" alt="Farmcart" class="gallery-image" />
+          <img src="images/farmcart.JPG" loading="lazy" alt="Farm Market" class="gallery-image" />
           <p class="gallery-caption">Farm Market 🚜</p>
         </div>
       </div>
@@ -761,6 +744,27 @@
     </div>
   </section>
 
+  <!-- 2. Scroll indicator after the gallery -->
+  <div class="scroll-indicator" id="scrollIndicator">
+    <span>Scroll down</span>
+    <span>👇</span>
+  </div>
+
+  <!-- 3. Main text box at the bottom -->
+  <div class="container">
+    <h1>Will You Be My Valentine?</h1>
+    <p class="message">
+      From the moment we met, you've brought so much joy and love into my life.
+      Every day with you is a new adventure, and I can't imagine my life without you.
+      Will you be my Valentine?
+    </p>
+    <div class="buttons">
+      <button id="yesButton" class="btn btn-yes">Yes!</button>
+      <button id="noButton" class="btn btn-no">No</button>
+    </div>
+  </div>
+
+  <!-- Music player remains below the container -->
   <div class="music-player" style="margin-bottom: 60px;">
     <button id="playSongBtn" class="play-song-btn">
       Play Our Song ♪
@@ -768,6 +772,7 @@
     <audio id="ourSong" src="our-song.mp3"></audio>
   </div>
 
+  <!-- Modals remain unchanged -->
   <div id="galleryModal" class="gallery-modal">
     <div class="gallery-modal-content">
       <span class="close-gallery-modal">&times;</span>
@@ -1137,6 +1142,7 @@
       const closeButton = galleryModal.querySelector('.close-gallery-modal');
       const buttons = document.querySelectorAll('.btn');
       const musicPlayer = document.querySelector('.music-player');
+      const counters = document.querySelectorAll('.time-counter');
 
       document.querySelectorAll('.gallery-item').forEach(item => {
         const img = item.querySelector('.gallery-image');
@@ -1147,34 +1153,39 @@
           modalImage.alt = img.alt;
           modalCaption.textContent = caption.textContent;
           galleryModal.style.display = 'flex';
-          // Hide buttons and music player
+
+          // Hide buttons, music player, and counters
           buttons.forEach(btn => btn.style.display = 'none');
           if (musicPlayer) musicPlayer.style.display = 'none';
+          counters.forEach(counter => counter.style.display = 'none');
         });
       });
 
       closeButton.addEventListener('click', () => {
         galleryModal.style.display = 'none';
-        // Show buttons and music player
+        // Show buttons, music player, and counters
         buttons.forEach(btn => btn.style.display = 'inline-block');
         if (musicPlayer) musicPlayer.style.display = 'block';
+        counters.forEach(counter => counter.style.display = 'block');
       });
 
       window.addEventListener('click', (e) => {
         if (e.target === galleryModal) {
           galleryModal.style.display = 'none';
-          // Show buttons and music player
+          // Show buttons, music player, and counters
           buttons.forEach(btn => btn.style.display = 'inline-block');
           if (musicPlayer) musicPlayer.style.display = 'block';
-          // Show buttons and music player
-          buttons.forEach(btn => btn.style.display = 'inline-block');
-          if (musicPlayer) musicPlayer.style.display = 'block';
+          counters.forEach(counter => counter.style.display = 'block');
         }
       });
 
       window.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && galleryModal.style.display === 'flex') {
           galleryModal.style.display = 'none';
+          // Show buttons, music player, and counters
+          buttons.forEach(btn => btn.style.display = 'inline-block');
+          if (musicPlayer) musicPlayer.style.display = 'block';
+          counters.forEach(counter => counter.style.display = 'block');
         }
       });
     }
@@ -1208,11 +1219,12 @@
 
     function setupScrollIndicator() {
       const scrollIndicator = document.getElementById('scrollIndicator');
-      const gallerySection = document.querySelector('.gallery-section');
-      
-      if (scrollIndicator && gallerySection) {
+      // Now we scroll to the container instead of the gallery
+      const mainContainer = document.querySelector('.container');
+
+      if (scrollIndicator && mainContainer) {
         scrollIndicator.addEventListener('click', () => {
-          gallerySection.scrollIntoView({ behavior: 'smooth' });
+          mainContainer.scrollIntoView({ behavior: 'smooth' });
         });
       }
     }
