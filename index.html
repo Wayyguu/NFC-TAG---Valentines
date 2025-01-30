@@ -2,10 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
-  />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Be My Valentine?</title>
   <link
     href="https://fonts.googleapis.com/css2?family=Parisienne&family=Poppins:wght@400;700&display=swap"
@@ -15,44 +12,37 @@
     :root {
       --primary-color: #ff6b81;
       --secondary-color: #ffffff;
-      --background-gradient: radial-gradient(
-        circle at top left,
-        #f9c6d5,
-        #d6a4e7,
-        #a18cd1,
-        #fbc2eb
-      );
+      --background-gradient: radial-gradient(circle at top left, #f9c6d5, #d6a4e7, #a18cd1, #fbc2eb);
       --font-sans: "Poppins", sans-serif;
       --font-script: "Parisienne", cursive;
       --safe-area-inset-top: env(safe-area-inset-top, 20px);
       --safe-area-inset-right: env(safe-area-inset-right, 20px);
       --safe-area-inset-bottom: env(safe-area-inset-bottom, 20px);
       --safe-area-inset-left: env(safe-area-inset-left, 20px);
+      --pink-50: #fdf2f8;
+      --pink-800: #9d174d;
+      --red-400: #ff4d8d;
+      --gray-700: #555;
     }
-
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
-
     body {
       font-family: var(--font-sans);
-      color: #000000;
+      color: #000;
       background: var(--background-gradient);
       min-height: 100vh;
       padding: var(--safe-area-inset-top) var(--safe-area-inset-right)
         var(--safe-area-inset-bottom) var(--safe-area-inset-left);
       overflow-x: hidden;
     }
-
     @media (pointer: fine) {
       body {
         cursor: none;
       }
     }
-
-    /* Both counters share symmetrical design and text centered. */
     .time-counter {
       position: fixed;
       top: max(var(--safe-area-inset-top), 20px);
@@ -66,14 +56,6 @@
       width: 200px;
       min-height: 120px;
     }
-
-    .time-counter span:not(.counter-label) {
-      font-family: var(--font-sans);
-      color: #000000;
-      font-size: clamp(1em, 3vw, 1.2em);
-      display: block; /* ensure each line can center properly */
-    }
-
     .counter-label {
       display: block;
       font-family: var(--font-script);
@@ -82,247 +64,23 @@
       margin-bottom: 8px;
       text-align: center;
     }
-
+    .time-values {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+    .time-counter span:not(.counter-label) {
+      font-family: var(--font-sans);
+      color: #000;
+      font-size: clamp(1em, 3vw, 1.2em);
+      display: block;
+    }
     #dating-counter {
       right: max(var(--safe-area-inset-right), 20px);
     }
     #valentine-counter {
       left: max(var(--safe-area-inset-left), 20px);
     }
-
-    .time-values {
-      display: flex;
-      gap: 10px;
-      justify-content: center;
-    }
-
-    .valentine-time {
-      display: flex;
-      gap: 10px;
-      justify-content: center;
-    }
-
-    /* Slightly narrower for gallery and main container */
-    .gallery-section {
-      width: min(90%, 1000px);
-      margin: 150px auto;
-      padding: 60px;
-      background: rgba(255, 255, 255, 0.98);
-      border-radius: 30px;
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
-      animation: fadeIn 1.5s ease-in-out;
-    }
-
-    .gallery-title {
-      font-family: var(--font-script);
-      color: var(--primary-color);
-      font-size: clamp(2.2em, 6vw, 4em);
-      text-align: center;
-      margin-bottom: 60px;
-      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-      position: relative;
-    }
-
-    .gallery-title:after {
-      content: "";
-      position: absolute;
-      bottom: -15px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 100px;
-      height: 3px;
-      background: linear-gradient(
-        90deg,
-        transparent,
-        var(--primary-color),
-        transparent
-      );
-    }
-
-    .gallery-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 40px;
-      padding: 20px;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .gallery-item {
-      position: relative;
-      transition: all 0.4s ease;
-      transform-origin: center;
-      aspect-ratio: 1;
-    }
-
-    .gallery-frame {
-      box-sizing: border-box;
-      background: white;
-      padding: 20px;
-      border-radius: 15px;
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-      border: 3px solid rgba(255, 107, 129, 0.1);
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      transition: border 0.4s ease, box-shadow 0.4s ease, transform 0.4s ease;
-      overflow: hidden;
-    }
-
-    .gallery-image {
-      width: 100%;
-      height: calc(100% - 60px);
-      object-fit: cover;
-      border-radius: 8px;
-      transition: all 0.4s ease;
-      cursor: pointer;
-    }
-
-    .gallery-caption {
-      font-family: var(--font-sans);
-      color: #000000;
-      font-size: clamp(0.9em, 3vw, 1em);
-      text-align: center;
-      margin-top: 15px;
-      padding: 0 10px;
-      line-height: 1.4;
-      opacity: 1;
-      transform: translateY(0);
-      transition: all 0.3s ease;
-    }
-
-    .gallery-item:hover {
-      transform: translateY(-5px);
-    }
-    .gallery-item:hover .gallery-frame {
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
-      border: 3px solid var(--primary-color);
-    }
-    .gallery-item:hover .gallery-image {
-      transform: scale(1.05);
-    }
-    .gallery-item:hover .gallery-caption {
-      color: var(--primary-color);
-      transform: translateY(-2px);
-    }
-
-    .gallery-modal {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.9);
-      z-index: 1000;
-      justify-content: center;
-      align-items: center;
-      padding: max(var(--safe-area-inset-top), 20px)
-        max(var(--safe-area-inset-right), 20px)
-        max(var(--safe-area-inset-bottom), 20px)
-        max(var(--safe-area-inset-left), 20px);
-    }
-
-    .gallery-modal-content {
-      max-width: 90%;
-      max-height: 90vh;
-      position: relative;
-    }
-
-    .gallery-modal-image {
-      max-width: 100%;
-      max-height: 90vh;
-      object-fit: contain;
-      border-radius: 8px;
-    }
-
-    .gallery-modal-caption {
-      color: white;
-      text-align: center;
-      margin-top: 15px;
-      font-family: var(--font-sans);
-      font-size: clamp(1em, 3vw, 1.2em);
-    }
-
-    .close-gallery-modal {
-      position: absolute;
-      top: -40px;
-      right: -40px;
-      color: white;
-      font-size: 2em;
-      cursor: pointer;
-      padding: 10px;
-    }
-
-    /* The main text box, also narrower now */
-    .container {
-      width: min(90%, 1000px);
-      background: rgba(255, 255, 255, 0.95);
-      padding: 60px;
-      border-radius: 20px;
-      text-align: center;
-      margin: 150px auto;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-      position: relative;
-      z-index: 2;
-      animation: fadeIn 1.5s ease-in-out;
-    }
-
-    h1 {
-      font-family: var(--font-script);
-      color: var(--primary-color);
-      font-size: clamp(2.5em, 8vw, 5em);
-      margin-bottom: 50px;
-      animation: subtleBounce 2s infinite;
-      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-    .message {
-      font-size: clamp(1em, 4vw, 1.8em);
-      color: #000000;
-      margin-bottom: 50px;
-      line-height: 1.6;
-      animation: slideIn 1s;
-    }
-
-    .buttons {
-      display: flex;
-      justify-content: center;
-      gap: 40px;
-      margin-bottom: 30px;
-      position: relative;
-      min-height: 120px;
-    }
-
-    .btn {
-      padding: 20px 80px;
-      font-size: clamp(1em, 4vw, 1.8em);
-      border: none;
-      border-radius: 25px;
-      cursor: pointer;
-      transition: transform 0.3s, box-shadow 0.3s;
-      position: relative;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    }
-
-    .btn-yes {
-      background: linear-gradient(45deg, #ff6b81, #d6a4e7);
-      color: var(--secondary-color);
-      z-index: 3;
-    }
-
-    .btn-no {
-      background: linear-gradient(45deg, #808080, #a9a9a9);
-      color: var(--secondary-color);
-      z-index: 4;
-      transition: all 0.4s ease-out;
-    }
-
-    .btn:hover:not(:disabled) {
-      transform: scale(1.05);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-    }
-
     .funny-message {
       position: fixed;
       background-color: white;
@@ -339,41 +97,509 @@
       transform: translate(-50%, -100%);
       transition: top 0.4s ease-out, left 0.4s ease-out, opacity 0.3s;
     }
-
+    .floating-elements {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+      overflow: hidden;
+    }
+    .floating-element {
+      position: absolute;
+      animation: float linear infinite;
+      opacity: 0.6;
+      font-size: 1.5em;
+      user-select: none;
+    }
+    @keyframes float {
+      0% {
+        transform: translateY(-20px) rotate(0deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.6;
+      }
+      90% {
+        opacity: 0.6;
+      }
+      100% {
+        transform: translateY(105vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+    .confetti-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 999;
+    }
+    .custom-cursor {
+      position: fixed;
+      color: var(--secondary-color);
+      font-size: 24px;
+      pointer-events: none;
+      z-index: 1002;
+      width: auto;
+      height: auto;
+      background: transparent;
+      border-radius: 0;
+      box-shadow: none;
+      text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+      transition: transform 0.2s ease;
+    }
+    .custom-cursor.hover-yes {
+      transform: scale(1.5);
+    }
+    @media (pointer: coarse) {
+      .custom-cursor {
+        display: none;
+      }
+    }
+    .gallery-section {
+      width: min(90%, 1000px);
+      margin: 150px auto;
+      padding: 60px;
+      background: rgba(255, 255, 255, 0.98);
+      border-radius: 30px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+      animation: fadeIn 1.5s ease-in-out;
+    }
+    .gallery-title {
+      font-family: var(--font-script);
+      color: var(--primary-color);
+      font-size: clamp(2.2em, 6vw, 4em);
+      text-align: center;
+      margin-bottom: 60px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+      position: relative;
+    }
+    .gallery-title:after {
+      content: "";
+      position: absolute;
+      bottom: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
+    }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 40px;
+      padding: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .gallery-item {
+      position: relative;
+      transition: all 0.4s ease;
+      transform-origin: center;
+      aspect-ratio: 1;
+    }
+    .gallery-frame {
+      box-sizing: border-box;
+      background: white;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+      border: 3px solid rgba(255, 107, 129, 0.1);
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      transition: border 0.4s ease, box-shadow 0.4s ease, transform 0.4s ease;
+      overflow: hidden;
+    }
+    .gallery-image {
+      width: 100%;
+      height: calc(100% - 60px);
+      object-fit: cover;
+      border-radius: 8px;
+      transition: all 0.4s ease;
+      cursor: pointer;
+    }
+    .gallery-caption {
+      font-family: var(--font-sans);
+      color: #000;
+      font-size: clamp(0.9em, 3vw, 1em);
+      text-align: center;
+      margin-top: 15px;
+      padding: 0 10px;
+      line-height: 1.4;
+      opacity: 1;
+      transform: translateY(0);
+      transition: all 0.3s ease;
+    }
+    .gallery-item:hover {
+      transform: translateY(-5px);
+    }
+    .gallery-item:hover .gallery-frame {
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+      border: 3px solid var(--primary-color);
+    }
+    .gallery-item:hover .gallery-image {
+      transform: scale(1.05);
+    }
+    .gallery-item:hover .gallery-caption {
+      color: var(--primary-color);
+      transform: translateY(-2px);
+    }
+    .gallery-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      padding: max(var(--safe-area-inset-top), 20px)
+        max(var(--safe-area-inset-right), 20px)
+        max(var(--safe-area-inset-bottom), 20px)
+        max(var(--safe-area-inset-left), 20px);
+    }
+    .gallery-modal-content {
+      max-width: 90%;
+      max-height: 90vh;
+      position: relative;
+    }
+    .gallery-modal-image {
+      max-width: 100%;
+      max-height: 90vh;
+      object-fit: contain;
+      border-radius: 8px;
+    }
+    .gallery-modal-caption {
+      color: white;
+      text-align: center;
+      margin-top: 15px;
+      font-family: var(--font-sans);
+      font-size: clamp(1em, 3vw, 1.2em);
+    }
+    .close-gallery-modal {
+      position: absolute;
+      top: -40px;
+      right: -40px;
+      color: white;
+      font-size: 2em;
+      cursor: pointer;
+      padding: 10px;
+    }
+    .scroll-spinner {
+      display: block;
+      position: relative;
+      margin: 80px auto;
+      border-radius: 50%;
+      height: 96px;
+      width: 96px;
+      animation: rotate_3922 2.5s linear infinite;
+      background-color: #ff69b4;
+      background-image: linear-gradient(45deg, #ff69b4, #e6e6fa, #dda0dd, #9370db, #ff69b4);
+      /* Added large bottom spacing so user has to scroll further */
+      margin-bottom: 800px;
+    }
+    .scroll-spinner span {
+      position: absolute;
+      border-radius: 50%;
+      height: 100%;
+      width: 100%;
+      background-color: #ff69b4;
+      background-image: linear-gradient(45deg, #ff69b4, #e6e6fa, #dda0dd, #9370db, #ff69b4);
+    }
+    .scroll-spinner span:nth-of-type(1) {
+      filter: blur(5px);
+    }
+    .scroll-spinner span:nth-of-type(2) {
+      filter: blur(10px);
+    }
+    .scroll-spinner span:nth-of-type(3) {
+      filter: blur(25px);
+    }
+    .scroll-spinner span:nth-of-type(4) {
+      filter: blur(50px);
+    }
+    .scroll-spinner::after {
+      content: "";
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      right: 10px;
+      bottom: 10px;
+      background-color: #fff;
+      border: solid 5px #fff;
+      border-radius: 50%;
+    }
+    @keyframes rotate_3922 {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+    }
+    .spinner-instruction {
+      text-align: center;
+      /* Place it closer to the spinner, use the cursive font, make it white */
+      margin-top: -30px;
+      font-size: 1.2rem;
+      color: #fff;
+      font-weight: bold;
+      font-family: var(--font-script);
+    }
+    .container {
+      width: min(90%, 1000px);
+      background: rgba(255, 255, 255, 0.95);
+      padding: 60px;
+      border-radius: 20px;
+      text-align: center;
+      margin: 150px auto;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      position: relative;
+      z-index: 2;
+      animation: fadeIn 1.5s ease-in-out;
+    }
+    h1 {
+      font-family: var(--font-script);
+      color: var(--primary-color);
+      font-size: clamp(2.5em, 8vw, 5em);
+      margin-bottom: 50px;
+      animation: subtleBounce 2s infinite;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    .message {
+      font-size: clamp(1em, 4vw, 1.8em);
+      color: #000;
+      margin-bottom: 50px;
+      line-height: 1.6;
+      animation: slideIn 1s;
+    }
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      margin-bottom: 30px;
+      position: relative;
+      min-height: 120px;
+    }
+    /*
+      Base .button styles (shared among Yes, No, and Play buttons).
+      Retaining animations/hover effects, but we won't remove code. 
+      The "pixel" style remains in the base; we will override it for Yes/No below.
+    */
+    .button {
+      position: relative;
+      font-size: 1rem;
+      cursor: pointer;
+      font-weight: bold;
+      line-height: 1;
+      padding: 1px;
+      transform: translate(-4px, -4px);
+      outline: 2px solid transparent;
+      outline-offset: 5px;
+      border-radius: 9999px;
+      background-color: var(--pink-800);
+      color: #fff;
+      transition: all 0.2s ease-in;
+      text-align: center;
+      box-shadow:
+        0.5px 0.5px 0 0 var(--pink-800),
+        1px 1px 0 0 var(--pink-800),
+        1.5px 1.5px 0 0 var(--pink-800),
+        2px 2px 0 0 var(--pink-800),
+        2.5px 2.5px 0 0 var(--pink-800),
+        3px 3px 0 0 var(--pink-800),
+        0 0 0 2px var(--pink-50),
+        0.5px 0.5px 0 2px var(--pink-50),
+        1px 1px 0 2px var(--pink-50),
+        1.5px 1.5px 0 2px var(--pink-50),
+        2px 2px 0 2px var(--pink-50),
+        2.5px 2.5px 0 2px var(--pink-50),
+        3px 3px 0 2px var(--pink-50),
+        3.5px 3.5px 0 2px var(--pink-50),
+        4px 4px 0 2px var(--pink-50);
+      overflow: hidden;
+    }
+    .button.no-btn {
+      background-color: var(--gray-700);
+      box-shadow:
+        0.5px 0.5px 0 0 var(--gray-700),
+        1px 1px 0 0 var(--gray-700),
+        1.5px 1.5px 0 0 var(--gray-700),
+        2px 2px 0 0 var(--gray-700),
+        2.5px 2.5px 0 0 var(--gray-700),
+        3px 3px 0 0 var(--gray-700),
+        0 0 0 2px var(--pink-50),
+        0.5px 0.5px 0 2px var(--pink-50),
+        1px 1px 0 2px var(--pink-50),
+        1.5px 1.5px 0 2px var(--pink-50),
+        2px 2px 0 2px var(--pink-50),
+        2.5px 2.5px 0 2px var(--pink-50),
+        3px 3px 0 2px var(--pink-50),
+        3.5px 3.5px 0 2px var(--pink-50),
+        4px 4px 0 2px var(--pink-50);
+    }
+    .button.playing > div {
+      background-color: #fff !important;
+    }
+    /* Fix text color visibility when the button turns white */
+    .button.playing > div > span {
+      color: var(--pink-800) !important;
+    }
+    .button::before {
+      content: '';
+      display: block;
+      width: 0px;
+      height: 86%;
+      position: absolute;
+      top: 7%;
+      left: 0%;
+      opacity: 0;
+      background: #fff;
+      box-shadow: 0 0 50px 30px #fff;
+      transform: skewX(-20deg);
+      transition: all 0.2s ease-out;
+      pointer-events: none;
+    }
+    .button::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(120deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.5) 50%, rgba(255,255,255,0) 100%);
+      transform: skewX(-20deg) translateX(-100%);
+      opacity: 0;
+      pointer-events: none;
+    }
+    .button:hover {
+      transform: translate(0, 0);
+      box-shadow: 0 0 30px 5px rgba(255, 77, 141, 0.815);
+      background: var(--red-400);
+    }
+    .button:hover.no-btn {
+      background-color: #777 !important;
+    }
+    .button:hover::before {
+      animation: sh02 0.5s 0s linear forwards;
+    }
+    .button:hover::after {
+      opacity: 1;
+      animation: shine 1s forwards;
+    }
+    .button:active {
+      box-shadow: 0 0 0 2px var(--pink-50);
+    }
+    .button:focus-visible {
+      outline-color: var(--red-400);
+      outline-style: dashed;
+    }
+    .button > div {
+      position: relative;
+      pointer-events: none;
+      background-color: var(--red-400);
+      border: 2px solid rgba(255,255,255,0.3);
+      border-radius: 9999px;
+      overflow: hidden;
+    }
+    .button.no-btn > div {
+      background-color: var(--gray-700) !important;
+    }
+    .button > div::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 9999px;
+      opacity: 0.5;
+      background-image: radial-gradient(rgb(255 255 255 / 80%) 20%, transparent 20%),
+        radial-gradient(rgb(255 255 255 / 100%) 20%, transparent 20%);
+      background-position: 0 0, 4px 4px;
+      background-size: 8px 8px;
+      mix-blend-mode: hard-light;
+      animation: dots 0.5s infinite linear;
+      pointer-events: none;
+    }
+    .button > div > span {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.75rem 1.25rem;
+      gap: 0.25rem;
+      filter: drop-shadow(0 -1px 0 rgba(255, 255, 255, 0.25));
+      color: #fff;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      transition: transform 0.1s ease-in-out;
+    }
+    .button > div > span:active {
+      transform: translateY(2px);
+    }
+    .button > div > span::after {
+      content: '♥';
+      margin-left: 8px;
+      font-size: 16px;
+      transition: transform 0.1s ease-in-out;
+    }
+    .button.no-btn > div > span::after {
+      content: ':(';
+      margin-left: 8px;
+      font-size: 16px;
+    }
+    @keyframes dots {
+      0% {
+        background-position: 0 0, 4px 4px;
+      }
+      100% {
+        background-position: 8px 0, 12px 4px;
+      }
+    }
+    @keyframes sh02 {
+      from {
+        opacity: 0;
+        left: 0%;
+      }
+      50% {
+        opacity: 1;
+      }
+      to {
+        opacity: 0;
+        left: 100%;
+      }
+    }
+    @keyframes shine {
+      0% {
+        transform: skewX(-20deg) translateX(-100%);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.5;
+      }
+      50% {
+        transform: skewX(-20deg) translateX(0%);
+        opacity: 0.5;
+      }
+      90% {
+        opacity: 0.5;
+      }
+      100% {
+        transform: skewX(-20deg) translateX(100%);
+        opacity: 0;
+      }
+    }
     .music-player {
       width: 100%;
       text-align: center;
       margin: 40px 0;
     }
-
-    .play-song-btn {
-      padding: 10px 20px;
-      font-size: clamp(0.9em, 3vw, 1em);
-      border: none;
-      border-radius: 15px;
-      cursor: pointer;
-      background: rgba(255, 255, 255, 0.95);
-      color: #000000;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-      transition: all 0.3s ease;
-      font-family: var(--font-sans);
-    }
-
-    .play-song-btn:hover {
-      transform: scale(1.05);
-      background: linear-gradient(45deg, #ff6b81, #d6a4e7);
-      color: var(--secondary-color);
-    }
-
-    .play-song-btn.playing {
-      background: rgba(255, 107, 129, 0.95);
-      color: var(--secondary-color);
-    }
-
-    .play-song-btn.playing:hover {
-      background: linear-gradient(45deg, #d6a4e7, #ff6b81);
-    }
-
     .modal {
       display: none;
       position: fixed;
@@ -391,7 +617,6 @@
         max(var(--safe-area-inset-left), 20px);
       overflow-y: auto;
     }
-
     .modal-content {
       background: #fff;
       padding: 40px;
@@ -405,9 +630,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      scroll-margin-top: var(--safe-area-inset-top, 0);
     }
-
     .modal-photo-container {
       width: 100%;
       max-width: 400px;
@@ -420,12 +643,10 @@
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
       transition: all 0.3s ease;
     }
-
     .modal-photo-container:hover {
       border: 8px solid var(--primary-color);
       box-shadow: 0 0 20px 5px rgba(255, 107, 129, 0.5);
     }
-
     .modal-photo {
       width: 100%;
       height: 100%;
@@ -433,20 +654,17 @@
       object-position: center;
       transition: transform 0.3s ease;
     }
-
     .modal-photo-container:hover .modal-photo {
       transform: scale(1.05);
     }
-
     .modal-text {
       margin-top: 20px;
       max-width: 80%;
       font-family: var(--font-sans);
-      color: #000000;
+      color: #000;
       font-size: clamp(1em, 3vw, 1.2em);
       line-height: 1.5;
     }
-
     .close-modal {
       position: absolute;
       top: 15px;
@@ -457,76 +675,9 @@
       transition: color 0.3s;
       padding: 5px;
     }
-
     .close-modal:hover {
       color: var(--primary-color);
     }
-
-    .floating-elements {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 1;
-      overflow: hidden;
-    }
-
-    .floating-element {
-      position: absolute;
-      animation: float linear infinite;
-      opacity: 0.6;
-      font-size: 1.5em;
-      user-select: none;
-    }
-
-    .confetti-container {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 999;
-    }
-
-    .custom-cursor {
-      position: fixed;
-      color: var(--secondary-color);
-      font-size: 24px;
-      pointer-events: none;
-      z-index: 1002;
-      width: auto;
-      height: auto;
-      background: transparent !important;
-      border-radius: 0;
-      box-shadow: none;
-      text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
-      transition: transform 0.2s ease;
-    }
-
-    .custom-cursor.hover-yes {
-      transform: scale(1.5);
-    }
-
-    @keyframes float {
-      0% {
-        transform: translateY(-20px) rotate(0deg);
-        opacity: 0;
-      }
-      10% {
-        opacity: 0.6;
-      }
-      90% {
-        opacity: 0.6;
-      }
-      100% {
-        transform: translateY(105vh) rotate(360deg);
-        opacity: 0;
-      }
-    }
-
     @keyframes fadeIn {
       from {
         opacity: 0;
@@ -537,7 +688,6 @@
         transform: scale(1);
       }
     }
-
     @keyframes slideIn {
       from {
         opacity: 0;
@@ -548,7 +698,6 @@
         transform: translateY(0);
       }
     }
-
     @keyframes fadeInModal {
       from {
         opacity: 0;
@@ -559,7 +708,6 @@
         transform: scale(1);
       }
     }
-
     @keyframes subtleBounce {
       0%,
       100% {
@@ -569,35 +717,16 @@
         transform: translateY(-10px);
       }
     }
-
-    @keyframes bounce {
-      0%,
-      20%,
-      50%,
-      80%,
-      100% {
-        transform: translateY(0);
-      }
-      40% {
-        transform: translateY(-10px);
-      }
-      60% {
-        transform: translateY(-5px);
-      }
-    }
-
     @media (max-width: 1200px) {
       .gallery-grid {
         grid-template-columns: repeat(3, 1fr);
       }
     }
-
     @media (max-width: 992px) {
       .gallery-grid {
         grid-template-columns: repeat(2, 1fr);
       }
     }
-
     @media (max-width: 768px) {
       .time-counter {
         position: static !important;
@@ -610,172 +739,114 @@
         min-height: 120px !important;
         margin: 30px auto !important;
       }
-
       #dating-counter,
       #valentine-counter {
         left: auto !important;
         right: auto !important;
       }
-
       .gallery-section {
         margin: 100px auto;
         padding: 30px;
       }
-
       .gallery-grid {
         gap: 20px;
         padding: 10px;
       }
-
       .modal-photo-container {
         height: 180px;
       }
-
       .close-gallery-modal {
         top: -30px;
         right: -10px;
       }
-
       .container {
         padding: 30px;
         margin: 100px auto;
       }
-
       h1 {
         font-size: clamp(2.5em, 8vw, 3.5em);
         margin-bottom: 30px;
       }
-
       .message {
         font-size: clamp(1em, 4vw, 1.4em);
         margin-bottom: 30px;
       }
-
       .buttons {
         flex-direction: column;
         align-items: center;
         gap: 15px;
         min-height: 100px;
       }
-
-      .btn {
-        padding: 12px 30px;
-        font-size: clamp(1em, 4vw, 1.4em);
+      .button {
+        font-size: 0.9rem;
+      }
+      .button > div > span {
+        padding: 0.5rem 1rem;
       }
     }
-
     @media (max-width: 480px) {
       .gallery-grid {
         grid-template-columns: 1fr;
       }
-
       .gallery-item {
         aspect-ratio: 4/3;
       }
     }
-
     @media (pointer: coarse) {
-      .custom-cursor {
-        display: none;
-      }
-
-      .btn-no:active {
-        transform: none;
-      }
-
       .gallery-item:hover {
         transform: none;
       }
-
       .gallery-item:hover .gallery-frame {
         box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
         border: 3px solid rgba(255, 107, 129, 0.1);
       }
-
       .gallery-item:hover .gallery-image {
         transform: none;
       }
     }
 
     /* 
-      Spinner: now placed between gallery and main container,
-      with spacing above and below, so remove absolute centering.
+      ADDITIONAL OVERRIDES FOR YES/NO BUTTONS:
+      Remove the "awkward background border designs" 
+      so they don't have the pixel/box-shadow style.
+      Keep everything else (including "Play Our Song") unchanged.
     */
-    .scroll-spinner {
-      display: block;
-      position: relative;
-      margin: 80px auto; /* spacing above and below */
-      border-radius: 50%;
-      height: 96px;
-      width: 96px;
-      animation: rotate_3922 2.5s linear infinite;
-      background-color: #ff69b4;
-      background-image: linear-gradient(
-        45deg,
-        #ff69b4,
-        #e6e6fa,
-        #dda0dd,
-        #9370db,
-        #ff69b4
-      );
+    #yesButton,
+    #noButton {
+      box-shadow: none !important;
+      transform: none !important;
+      outline: none !important;
+      padding: 0.75rem 1.25rem !important;
     }
-
-    .scroll-spinner span {
-      position: absolute;
-      border-radius: 50%;
-      height: 100%;
-      width: 100%;
-      background-color: #ff69b4;
-      background-image: linear-gradient(
-        45deg,
-        #ff69b4,
-        #e6e6fa,
-        #dda0dd,
-        #9370db,
-        #ff69b4
-      );
+    #yesButton::before,
+    #yesButton::after,
+    #noButton::before,
+    #noButton::after {
+      content: none !important;
     }
-
-    .scroll-spinner span:nth-of-type(1) {
-      filter: blur(5px);
+    #yesButton:hover {
+      box-shadow: none !important;
+      background: var(--red-400) !important;
     }
-
-    .scroll-spinner span:nth-of-type(2) {
-      filter: blur(10px);
+    #noButton:hover {
+      box-shadow: none !important;
+      background: #777 !important;
     }
-
-    .scroll-spinner span:nth-of-type(3) {
-      filter: blur(25px);
+    #yesButton > div,
+    #noButton > div {
+      background-color: var(--pink-800) !important;
+      border: none !important;
     }
-
-    .scroll-spinner span:nth-of-type(4) {
-      filter: blur(50px);
+    #noButton.no-btn > div {
+      background-color: var(--gray-700) !important;
     }
-
-    .scroll-spinner::after {
-      content: "";
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      right: 10px;
-      bottom: 10px;
-      background-color: #fff;
-      border: solid 5px #ffffff;
-      border-radius: 50%;
-    }
-
-    @keyframes rotate_3922 {
-      from {
-        transform: rotate(0deg);
-      }
-      to {
-        transform: rotate(360deg);
-      }
+    #yesButton > div::before,
+    #noButton > div::before {
+      content: none !important;
     }
   </style>
 </head>
 <body>
-  <!-- Counter boxes -->
   <div class="time-counter" id="dating-counter">
     <span class="counter-label">Together Since</span>
     <div class="time-values">
@@ -790,96 +861,58 @@
       <span id="valentine-hours">0</span> Hours
     </div>
   </div>
-
-  <!-- Witty message -->
   <div class="funny-message" id="funnyMessage"></div>
-
   <div class="floating-elements" id="floatingElements"></div>
   <div class="confetti-container" id="confettiContainer"></div>
   <div class="custom-cursor" id="customCursor">❄️</div>
 
-  <!-- Gallery at top -->
   <section class="gallery-section">
     <h2 class="gallery-title">Our Journey Together</h2>
     <div class="gallery-grid">
       <div class="gallery-item">
         <div class="gallery-frame">
-          <img
-            src="images/first_date.jpg"
-            loading="lazy"
-            alt="First Date"
-            class="gallery-image"
-          />
+          <img src="images/first_date.jpg" loading="lazy" alt="First Date" class="gallery-image" />
           <p class="gallery-caption">First Date ❤️</p>
         </div>
       </div>
       <div class="gallery-item">
         <div class="gallery-frame">
-          <img
-            src="images/first_roadtrip.jpg"
-            loading="lazy"
-            alt="First Road Trip"
-            class="gallery-image"
-          />
+          <img src="images/first_roadtrip.jpg" loading="lazy" alt="First Road Trip" class="gallery-image" />
           <p class="gallery-caption">Road Trip 🚗</p>
         </div>
       </div>
       <div class="gallery-item">
         <div class="gallery-frame">
-          <img
-            src="images/first_pet.jpg"
-            loading="lazy"
-            alt="First Pet"
-            class="gallery-image"
-          />
+          <img src="images/first_pet.jpg" loading="lazy" alt="First Pet" class="gallery-image" />
           <p class="gallery-caption">Our Pet 🐾</p>
         </div>
       </div>
       <div class="gallery-item">
         <div class="gallery-frame">
-          <img
-            src="images/farmcart.JPG"
-            loading="lazy"
-            alt="Farm Market"
-            class="gallery-image"
-          />
+          <img src="images/farmcart.JPG" loading="lazy" alt="Farm Market" class="gallery-image" />
           <p class="gallery-caption">Farm Market 🚜</p>
         </div>
       </div>
       <div class="gallery-item">
         <div class="gallery-frame">
-          <img
-            src="images/stoneyriver.jpg"
-            loading="lazy"
-            alt="Stoney River"
-            class="gallery-image"
-          />
+          <img src="images/stoneyriver.jpg" loading="lazy" alt="Stoney River" class="gallery-image" />
           <p class="gallery-caption">Stoney River 🌊</p>
         </div>
       </div>
       <div class="gallery-item">
         <div class="gallery-frame">
-          <img
-            src="images/kiss.jpg"
-            loading="lazy"
-            alt="Muah Muah"
-            class="gallery-image"
-          />
+          <img src="images/kiss.jpg" loading="lazy" alt="Muah Muah" class="gallery-image" />
           <p class="gallery-caption">First Kiss 💋</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- The spinner placed between gallery and main container -->
+  <p class="spinner-instruction">Press👇🏻</p>
   <div class="scroll-spinner" id="scrollSpinner">
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
+    <span></span><span></span><span></span><span></span>
   </div>
 
-  <!-- Main text box at the bottom -->
   <div class="container">
     <h1>Will You Be My Valentine?</h1>
     <p class="message">
@@ -888,19 +921,22 @@
       Will you be my Valentine?
     </p>
     <div class="buttons">
-      <button id="yesButton" class="btn btn-yes">Yes!</button>
-      <button id="noButton" class="btn btn-no">No</button>
+      <button id="yesButton" class="button" aria-label="Yes">
+        <div><span>Yes</span></div>
+      </button>
+      <button id="noButton" class="button no-btn" aria-label="No">
+        <div><span>No</span></div>
+      </button>
     </div>
   </div>
 
   <div class="music-player" style="margin-bottom: 60px;">
-    <button id="playSongBtn" class="play-song-btn">
-      Play Our Song ♪
+    <button id="playSongBtn" class="button" aria-label="Play Our Song">
+      <div><span>Play Our Song ♪</span></div>
     </button>
     <audio id="ourSong" src="our-song.mp3"></audio>
   </div>
 
-  <!-- Gallery modal -->
   <div id="galleryModal" class="gallery-modal">
     <div class="gallery-modal-content">
       <span class="close-gallery-modal">&times;</span>
@@ -909,7 +945,6 @@
     </div>
   </div>
 
-  <!-- "Yes" modal -->
   <div
     id="modal"
     class="modal"
@@ -919,9 +954,7 @@
     aria-describedby="modalDescription"
   >
     <div class="modal-content">
-      <span class="close-modal" id="closeModal" aria-label="Close Modal"
-        >&times;</span
-      >
+      <span class="close-modal" id="closeModal" aria-label="Close Modal">&times;</span>
       <h2
         id="modalTitle"
         style="
@@ -936,16 +969,12 @@
         <img src="images/photo1.jpg" alt="Special Moment" class="modal-photo" />
       </div>
       <div class="modal-text" id="modalDescription">
-        <p>
-          I'm so happy you said yes! Looking forward to a wonderful Valentine's
-          Day together.
-        </p>
+        <p>I'm so happy you said yes! Looking forward to a wonderful Valentine's Day together.</p>
       </div>
     </div>
   </div>
 
   <script>
-    // Updated witty messages
     const wittyMessages = [
       "Intrigued yet?😉",
       "Consider it briefly.😏",
@@ -955,60 +984,57 @@
       "Action > Thinking.🔥",
       "Angels *and* I say go for it.😇",
       "Indulge a little. Live a little.😈",
-      "Sprinkles? Small yes to start.😏",
-      "'No' is boring. Let's skip that.🤫",
+      "Sprinkles?😏",
+      "'No' is boring.🤫",
       "Resistance is kinda cute.😉",
-      "Think 'DEFINITE'. Just commit.😜",
-      "That's gotta be the worst choice🙃",
-      "Just do it. No regrets later.😈",
-      "Regret-free zone starts now.😏",
+      "Think 'DEFINITE'.😜",
+      "Worst choice🙃",
+      "No regrets later.😈",
+      "Regret-free zone now.😏",
       "Ghost later, live now.😒",
-      "Good vibes guaranteed.🌟",
-      "But I made this for you...😢",
-      "You don't love me anymore or what?🥺",
+      "Good vibes.🌟",
+      "I made this for you...😢",
+      "You don't love me?🥺",
       "You trynna say something??😭"
     ];
 
     class NoButtonHandler {
-      constructor(button, messageElement) {
+      constructor(button, msg) {
         this.button = button;
-        this.messageElement = messageElement;
+        this.msg = msg;
         this.isMoving = false;
         this.messageTimeout = null;
         this.moveTimeout = null;
-        this.boundingPadding = 20;
-        this.setupEventListeners();
-      }
+        this.pad = 20;
 
-      setupEventListeners() {
         ["mouseover", "focus", "click", "touchstart"].forEach((evt) => {
           this.button.addEventListener(evt, (e) => {
             e.preventDefault();
-            this.moveButton();
+            this.move();
           });
         });
       }
 
-      moveButton() {
+      move() {
         if (this.isMoving || this.button.disabled) return;
         this.isMoving = true;
 
-        const rect = this.button.getBoundingClientRect();
-        // Ensure position is set from the start so the animation is smooth.
+        const r = this.button.getBoundingClientRect();
+
         if (this.button.style.position !== "fixed") {
           this.button.style.position = "fixed";
-          this.button.style.top = rect.top + "px";
-          this.button.style.left = rect.left + "px";
+          this.button.style.top = r.top + "px";
+          this.button.style.left = r.left + "px";
           this.button.style.margin = "0";
         }
 
-        // Keep or re-set transition.
         this.button.style.transition = "all 0.4s ease-out";
-        const newPos = this.getRandomPosition(rect);
-        this.button.style.left = newPos.x + "px";
-        this.button.style.top = newPos.y + "px";
 
-        this.showMessage(newPos, rect);
+        const n = this.newPos(r);
+        this.button.style.left = n.x + "px";
+        this.button.style.top = n.y + "px";
+
+        this.showMsg(n, r);
 
         clearTimeout(this.moveTimeout);
         this.moveTimeout = setTimeout(() => {
@@ -1016,59 +1042,46 @@
         }, 400);
       }
 
-      getRandomPosition(buttonRect) {
-        const viewportWidth = window.innerWidth;
-        const viewportHeight = window.innerHeight;
+      newPos(br) {
+        const vw = window.innerWidth;
+        const vh = window.innerHeight;
+        const sx = vw - br.width - this.pad;
+        const sy = vh - br.height - this.pad;
 
-        const safeX =
-          viewportWidth - buttonRect.width - this.boundingPadding;
-        const safeY =
-          viewportHeight - buttonRect.height - this.boundingPadding;
+        const cx = br.left;
+        const cy = br.top;
+        let nx, ny;
 
-        const currentX = buttonRect.left;
-        const currentY = buttonRect.top;
-
-        let newX, newY;
         do {
-          newX = Math.min(
-            Math.max(this.boundingPadding, Math.random() * safeX),
-            safeX
-          );
-          newY = Math.min(
-            Math.max(this.boundingPadding, Math.random() * safeY),
-            safeY
-          );
-        } while (
-          Math.abs(newX - currentX) < 100 &&
-          Math.abs(newY - currentY) < 100
-        );
+          nx = Math.min(Math.max(this.pad, Math.random() * sx), sx);
+          ny = Math.min(Math.max(this.pad, Math.random() * sy), sy);
+        } while (Math.abs(nx - cx) < 100 && Math.abs(ny - cy) < 100);
 
-        return { x: newX, y: newY };
+        return { x: nx, y: ny };
       }
 
-      showMessage(newPos, buttonRect) {
-        const randomMsg =
-          wittyMessages[Math.floor(Math.random() * wittyMessages.length)];
-        this.messageElement.textContent = randomMsg;
+      showMsg(np, br) {
+        const msgTxt = wittyMessages[Math.floor(Math.random() * wittyMessages.length)];
+        this.msg.textContent = msgTxt;
+        this.msg.style.transition = "top 0.4s, left 0.4s, opacity 0.3s";
 
-        this.messageElement.style.transition =
-          "top 0.4s ease-out, left 0.4s ease-out, opacity 0.3s";
-        let messageX = newPos.x + buttonRect.width / 2;
-        let messageY = newPos.y - 10;
+        let mx = np.x + br.width / 2;
+        let my = np.y - 10;
 
-        const vpWidth = window.innerWidth;
-        const vpHeight = window.innerHeight;
-        const offset = 20;
-        messageX = Math.max(offset, Math.min(messageX, vpWidth - offset));
-        messageY = Math.max(offset, Math.min(messageY, vpHeight - offset));
+        const w = window.innerWidth;
+        const h = window.innerHeight;
+        const off = 20;
 
-        this.messageElement.style.left = messageX + "px";
-        this.messageElement.style.top = messageY + "px";
-        this.messageElement.style.opacity = "1";
+        mx = Math.max(off, Math.min(mx, w - off));
+        my = Math.max(off, Math.min(my, h - off));
+
+        this.msg.style.left = mx + "px";
+        this.msg.style.top = my + "px";
+        this.msg.style.opacity = "1";
 
         clearTimeout(this.messageTimeout);
         this.messageTimeout = setTimeout(() => {
-          this.messageElement.style.opacity = "0";
+          this.msg.style.opacity = "0";
         }, 2000);
       }
 
@@ -1091,342 +1104,299 @@
     }
 
     class FloatingElementsManager {
-      constructor(container) {
-        this.container = container;
+      constructor(c) {
+        this.c = c;
         this.emojis = ["✨", "❤️"];
-        this.maxElements = 20;
-        this.createInterval = null;
+        this.max = 20;
+        this.int = null;
       }
 
-      createFloatingElement() {
-        const element = document.createElement("div");
-        element.className = "floating-element";
-        element.textContent =
-          this.emojis[Math.floor(Math.random() * this.emojis.length)];
-        element.style.left = `${Math.random() * 100}%`;
-        const size = Math.random() * 20 + 20;
-        element.style.fontSize = `${size}px`;
-        const duration = Math.random() * 5 + 5;
-        element.style.animationDuration = `${duration}s`;
-        this.container.appendChild(element);
-
+      createEl() {
+        const el = document.createElement("div");
+        el.className = "floating-element";
+        el.textContent = this.emojis[Math.floor(Math.random() * this.emojis.length)];
+        el.style.left = `${Math.random() * 100}%`;
+        const sz = Math.random() * 20 + 20;
+        el.style.fontSize = `${sz}px`;
+        const d = Math.random() * 5 + 5;
+        el.style.animationDuration = d + "s";
+        this.c.appendChild(el);
         setTimeout(() => {
-          if (element.parentNode === this.container) {
-            this.container.removeChild(element);
+          if (el.parentNode === this.c) {
+            this.c.removeChild(el);
           }
-        }, duration * 1000);
+        }, d * 1000);
       }
 
       start() {
-        for (let i = 0; i < this.maxElements / 2; i++) {
-          this.createFloatingElement();
+        for (let i = 0; i < this.max / 2; i++) {
+          this.createEl();
         }
-        this.createInterval = setInterval(() => {
-          if (this.container.childNodes.length < this.maxElements) {
-            this.createFloatingElement();
-          }
+        this.int = setInterval(() => {
+          if (this.c.childNodes.length < this.max) this.createEl();
         }, 1000);
       }
 
       stop() {
-        if (this.createInterval) {
-          clearInterval(this.createInterval);
-          this.createInterval = null;
-        }
-        this.container.innerHTML = "";
+        if (this.int) clearInterval(this.int);
+        this.c.innerHTML = "";
       }
     }
 
     class ConfettiManager {
-      constructor(container) {
-        this.container = container;
-        this.canvas = document.createElement("canvas");
-        this.canvas.style.width = "100%";
-        this.canvas.style.height = "100%";
-        this.canvas.style.display = "block";
-        this.canvas.style.pointerEvents = "none";
-        this.container.appendChild(this.canvas);
-        this.ctx = this.canvas.getContext("2d");
-        this.colors = [
-          "rgba(255, 107, 129, 0.8)",
-          "rgba(214, 164, 231, 0.8)",
-          "rgba(251, 194, 235, 0.8)",
-          "rgba(161, 140, 209, 0.8)",
-          "rgba(255, 159, 243, 0.8)",
-          "rgba(254, 202, 87, 0.8)",
-          "rgba(255, 193, 227, 0.8)",
-          "rgba(253, 228, 207, 0.8)"
+      constructor(co) {
+        this.co = co;
+        this.cv = document.createElement("canvas");
+        this.cv.style.width = "100%";
+        this.cv.style.height = "100%";
+        this.cv.style.display = "block";
+        this.cv.style.pointerEvents = "none";
+        this.co.appendChild(this.cv);
+        this.cx = this.cv.getContext("2d");
+        this.cs = [
+          "rgba(255,107,129,0.8)",
+          "rgba(214,164,231,0.8)",
+          "rgba(251,194,235,0.8)",
+          "rgba(161,140,209,0.8)",
+          "rgba(255,159,243,0.8)",
+          "rgba(254,202,87,0.8)",
+          "rgba(255,193,227,0.8)",
+          "rgba(253,228,207,0.8)"
         ];
-        this.particles = [];
-        this.maxParticles = 300;
-        this.gravity = 0.05;
-        this.drag = 0.0005;
-        this.animationFrameId = null;
-        this.resizeCanvas();
-        window.addEventListener("resize", () => this.resizeCanvas());
+        this.ps = [];
+        this.mp = 300;
+        this.g = 0.05;
+        this.d = 0.0005;
+        this.af = null;
+        this.resize();
+        window.addEventListener("resize", () => this.resize());
       }
 
-      resizeCanvas() {
-        this.canvas.width = this.container.clientWidth;
-        this.canvas.height = this.container.clientHeight;
+      resize() {
+        this.cv.width = this.co.clientWidth;
+        this.cv.height = this.co.clientHeight;
       }
 
-      updateAndDraw() {
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        for (let i = 0; i < this.particles.length; i++) {
-          const p = this.particles[i];
-          p.vy += this.gravity;
-          p.vx *= 1 - this.drag;
-          p.vy *= 1 - this.drag;
+      upd() {
+        this.cx.clearRect(0, 0, this.cv.width, this.cv.height);
+
+        for (let i = 0; i < this.ps.length; i++) {
+          let p = this.ps[i];
+          p.vy += this.g;
+          p.vx *= 1 - this.d;
+          p.vy *= 1 - this.d;
           p.x += p.vx;
           p.y += p.vy;
-          p.rotation += p.rotationSpeed;
-          this.drawParticle(p);
+          p.r += p.rs;
+          this.drawP(p);
+
           if (
             p.x < -100 ||
-            p.x > this.canvas.width + 100 ||
-            p.y > this.canvas.height + 100
+            p.x > this.cv.width + 100 ||
+            p.y > this.cv.height + 100
           ) {
-            this.particles.splice(i, 1);
+            this.ps.splice(i, 1);
             i--;
           }
         }
-        if (this.particles.length > 0) {
-          this.animationFrameId = requestAnimationFrame(() =>
-            this.updateAndDraw()
-          );
+
+        if (this.ps.length > 0) {
+          this.af = requestAnimationFrame(() => this.upd());
         } else {
-          this.animationFrameId = null;
+          this.af = null;
         }
       }
 
-      drawParticle(p) {
-        this.ctx.save();
-        this.ctx.translate(p.x, p.y);
-        this.ctx.rotate(p.rotation);
-        this.ctx.beginPath();
-        const size = p.size;
-        this.ctx.moveTo(0, 0);
-        this.ctx.bezierCurveTo(
-          -size / 2,
-          -size / 2,
-          -size,
-          size / 4,
-          0,
-          size
-        );
-        this.ctx.bezierCurveTo(
-          size,
-          size / 4,
-          size / 2,
-          -size / 2,
-          0,
-          0
-        );
-        this.ctx.closePath();
-        this.ctx.fillStyle = p.color;
-        this.ctx.fill();
-        this.ctx.restore();
+      drawP(p) {
+        this.cx.save();
+        this.cx.translate(p.x, p.y);
+        this.cx.rotate(p.r);
+        this.cx.beginPath();
+        const s = p.sz;
+        this.cx.moveTo(0, 0);
+        this.cx.bezierCurveTo(-s / 2, -s / 2, -s, s / 4, 0, s);
+        this.cx.bezierCurveTo(s, s / 4, s / 2, -s / 2, 0, 0);
+        this.cx.closePath();
+        this.cx.fillStyle = p.cl;
+        this.cx.fill();
+        this.cx.restore();
       }
 
-      createBurst(cx, cy, count, isMobile = false) {
+      burst(cx, cy, count, m = false) {
         for (let i = 0; i < count; i++) {
-          if (this.particles.length >= this.maxParticles) break;
-          const angle = Math.random() * 2 * Math.PI;
-          const speed = Math.random() * 4 + 3;
-          const vx = Math.cos(angle) * speed;
-          const vy = Math.sin(angle) * speed;
-          const baseSize = isMobile ? 8 : 12;
-          const sizeRange = isMobile ? 10 : 16;
-          this.particles.push({
+          if (this.ps.length >= this.mp) break;
+          const a = Math.random() * 2 * Math.PI;
+          const sp = Math.random() * 4 + 3;
+          const vx = Math.cos(a) * sp;
+          const vy = Math.sin(a) * sp;
+          const bs = m ? 8 : 12;
+          const sr = m ? 10 : 16;
+          this.ps.push({
             x: cx,
             y: cy,
-            vx,
-            vy,
-            size: baseSize + Math.random() * sizeRange,
-            color: this.colors[Math.floor(Math.random() * this.colors.length)],
-            rotation: Math.random() * 2 * Math.PI,
-            rotationSpeed: (Math.random() - 0.5) * 0.1
+            vx: vx,
+            vy: vy,
+            sz: bs + Math.random() * sr,
+            cl: this.cs[Math.floor(Math.random() * this.cs.length)],
+            r: Math.random() * 2 * Math.PI,
+            rs: (Math.random() - 0.5) * 0.1
           });
         }
       }
 
-      launch(isMobile) {
-        const totalBursts = 5;
-        const count = isMobile ? 25 : 40;
-        const interval = isMobile ? 300 : 800;
-        for (let i = 0; i < totalBursts; i++) {
+      launch(m) {
+        const tb = 5;
+        const cnt = m ? 25 : 40;
+        const intv = m ? 300 : 800;
+
+        for (let i = 0; i < tb; i++) {
           setTimeout(() => {
-            const centerX =
-              this.canvas.width * 0.2 +
-              Math.random() * this.canvas.width * 0.6;
-            const centerY =
-              this.canvas.height * 0.2 +
-              Math.random() * this.canvas.height * 0.6;
-            this.createBurst(centerX, centerY, count, isMobile);
-            this.addSparkleEffect(centerX, centerY);
-            if (!this.animationFrameId) {
-              this.updateAndDraw();
-            }
-          }, i * interval);
+            const cx = this.cv.width * 0.2 + Math.random() * this.cv.width * 0.6;
+            const cy = this.cv.height * 0.2 + Math.random() * this.cv.height * 0.6;
+            this.burst(cx, cy, cnt, m);
+            this.spark(cx, cy);
+            if (!this.af) this.upd();
+          }, i * intv);
         }
       }
 
-      addSparkleEffect(x, y) {
+      spark(x, y) {
         for (let i = 0; i < 8; i++) {
-          if (this.particles.length >= this.maxParticles) break;
-          const angle = Math.random() * 2 * Math.PI;
-          const speed = 1 + Math.random() * 2;
-          const vx = Math.cos(angle) * speed;
-          const vy = Math.sin(angle) * speed;
-          this.particles.push({
+          if (this.ps.length >= this.mp) break;
+          const a = Math.random() * 2 * Math.PI;
+          const sp = 1 + Math.random() * 2;
+          const vx = Math.cos(a) * sp;
+          const vy = Math.sin(a) * sp;
+          this.ps.push({
             x,
             y,
             vx,
             vy,
-            size: 6 + Math.random() * 8,
-            color: "rgba(255, 255, 255, 0.9)",
-            rotation: Math.random() * 2 * Math.PI,
-            rotationSpeed: (Math.random() - 0.5) * 0.05
+            sz: 6 + Math.random() * 8,
+            cl: "rgba(255,255,255,0.9)",
+            r: Math.random() * 2 * Math.PI,
+            rs: (Math.random() - 0.5) * 0.05
           });
         }
       }
     }
 
     function updateDatingCounter() {
-      const startDate = new Date("2023-08-09");
-      const now = new Date();
-      const diffTime = now - startDate;
-      const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-      const diffHours = Math.floor(
-        (diffTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-      );
-      document.getElementById("dating-days").textContent = diffDays;
-      document.getElementById("dating-hours").textContent = diffHours;
+      const s = new Date("2023-08-09");
+      const n = new Date();
+      const d = n - s;
+      const dd = Math.floor(d / (1000 * 60 * 60 * 24));
+      const hh = Math.floor((d % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      document.getElementById("dating-days").textContent = dd;
+      document.getElementById("dating-hours").textContent = hh;
     }
 
     function updateValentineCounter() {
-      const now = new Date();
-      let valentineYear = now.getFullYear();
-      const valentineDate = new Date(valentineYear, 1, 14);
-
-      if (now > valentineDate) {
-        valentineYear += 1;
-      }
-
-      const nextValentine = new Date(valentineYear, 1, 14);
-      const diffTime = nextValentine - now;
-
-      const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-      const diffHours = Math.floor(
-        (diffTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-      );
-
-      document.getElementById("valentine-days").textContent = diffDays;
-      document.getElementById("valentine-hours").textContent = diffHours;
+      const n = new Date();
+      let y = n.getFullYear();
+      const vd = new Date(y, 1, 14);
+      if (n > vd) y += 1;
+      const nv = new Date(y, 1, 14);
+      const d = nv - n;
+      const dd = Math.floor(d / (1000 * 60 * 60 * 24));
+      const hh = Math.floor((d % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      document.getElementById("valentine-days").textContent = dd;
+      document.getElementById("valentine-hours").textContent = hh;
     }
 
-    // Spinner click: scroll to main container.
     function setupScrollSpinner() {
-      const scrollSpinner = document.getElementById("scrollSpinner");
-      const mainContainer = document.querySelector(".container");
-
-      if (scrollSpinner && mainContainer) {
-        scrollSpinner.addEventListener("click", () => {
-          mainContainer.scrollIntoView({ behavior: "smooth" });
+      const sp = document.getElementById("scrollSpinner");
+      const mc = document.querySelector(".container");
+      if (sp && mc) {
+        sp.addEventListener("click", () => {
+          mc.scrollIntoView({ behavior: "smooth" });
         });
       }
     }
 
     function setupGalleryModal() {
-      const galleryModal = document.getElementById("galleryModal");
-      const modalImage = galleryModal.querySelector(".gallery-modal-image");
-      const modalCaption = galleryModal.querySelector(".gallery-modal-caption");
-      const closeButton = galleryModal.querySelector(".close-gallery-modal");
-      const buttons = document.querySelectorAll(".btn");
-      const musicPlayer = document.querySelector(".music-player");
-      const counters = document.querySelectorAll(".time-counter");
+      const gm = document.getElementById("galleryModal");
+      const mi = gm.querySelector(".gallery-modal-image");
+      const mc = gm.querySelector(".gallery-modal-caption");
+      const cb = gm.querySelector(".close-gallery-modal");
+      const btns = document.querySelectorAll(".button");
+      const mp = document.querySelector(".music-player");
+      const cnt = document.querySelectorAll(".time-counter");
 
-      document.querySelectorAll(".gallery-item").forEach((item) => {
-        const img = item.querySelector(".gallery-image");
-        const caption = item.querySelector(".gallery-caption");
-
+      document.querySelectorAll(".gallery-item").forEach((it) => {
+        const img = it.querySelector(".gallery-image");
+        const cap = it.querySelector(".gallery-caption");
         img.addEventListener("click", () => {
-          modalImage.src = img.src;
-          modalImage.alt = img.alt;
-          modalCaption.textContent = caption.textContent;
-          galleryModal.style.display = "flex";
-
-          // Hide buttons, music player, and counters
-          buttons.forEach((btn) => (btn.style.display = "none"));
-          if (musicPlayer) musicPlayer.style.display = "none";
-          counters.forEach((counter) => (counter.style.display = "none"));
+          mi.src = img.src;
+          mi.alt = img.alt;
+          mc.textContent = cap.textContent;
+          gm.style.display = "flex";
+          btns.forEach((b) => (b.style.display = "none"));
+          if (mp) mp.style.display = "none";
+          cnt.forEach((c) => (c.style.display = "none"));
         });
       });
 
-      closeButton.addEventListener("click", () => {
-        galleryModal.style.display = "none";
-        // Show buttons, music player, and counters
-        buttons.forEach((btn) => (btn.style.display = "inline-block"));
-        if (musicPlayer) musicPlayer.style.display = "block";
-        counters.forEach((counter) => (counter.style.display = "block"));
+      cb.addEventListener("click", () => {
+        gm.style.display = "none";
+        btns.forEach((b) => (b.style.display = "inline-block"));
+        if (mp) mp.style.display = "block";
+        cnt.forEach((c) => (c.style.display = "block"));
       });
 
       window.addEventListener("click", (e) => {
-        if (e.target === galleryModal) {
-          galleryModal.style.display = "none";
-          buttons.forEach((btn) => (btn.style.display = "inline-block"));
-          if (musicPlayer) musicPlayer.style.display = "block";
-          counters.forEach((counter) => (counter.style.display = "block"));
+        if (e.target === gm) {
+          gm.style.display = "none";
+          btns.forEach((b) => (b.style.display = "inline-block"));
+          if (mp) mp.style.display = "block";
+          cnt.forEach((c) => (c.style.display = "block"));
         }
       });
 
       window.addEventListener("keydown", (e) => {
-        if (e.key === "Escape" && galleryModal.style.display === "flex") {
-          galleryModal.style.display = "none";
-          buttons.forEach((btn) => (btn.style.display = "inline-block"));
-          if (musicPlayer) musicPlayer.style.display = "block";
-          counters.forEach((counter) => (counter.style.display = "block"));
+        if (e.key === "Escape" && gm.style.display === "flex") {
+          gm.style.display = "none";
+          btns.forEach((b) => (b.style.display = "inline-block"));
+          if (mp) mp.style.display = "block";
+          cnt.forEach((c) => (c.style.display = "block"));
         }
       });
     }
 
     function setupMusicPlayer() {
-      const playButton = document.getElementById("playSongBtn");
+      const pb = document.getElementById("playSongBtn");
       const audio = document.getElementById("ourSong");
-      let isPlaying = false;
+      let playing = false;
 
-      playButton.addEventListener("click", () => {
-        if (isPlaying) {
+      pb.addEventListener("click", () => {
+        if (playing) {
           audio.pause();
-          playButton.textContent = "Play Our Song ♪";
-          playButton.classList.remove("playing");
+          pb.querySelector("span").textContent = "Play Our Song ♪";
+          pb.classList.remove("playing");
         } else {
           audio
             .play()
-            .catch((error) => {
-              console.error("Error playing audio:", error);
-            });
-          playButton.textContent = "Pause Our Song ♪";
-          playButton.classList.add("playing");
+            .catch((e) => console.log(e));
+          pb.querySelector("span").textContent = "Pause Our Song ♪";
+          pb.classList.add("playing");
         }
-        isPlaying = !isPlaying;
+        playing = !playing;
       });
 
       audio.addEventListener("ended", () => {
-        isPlaying = false;
-        playButton.textContent = "Play Our Song ♪";
-        playButton.classList.remove("playing");
+        playing = false;
+        pb.querySelector("span").textContent = "Play Our Song ♪";
+        pb.classList.remove("playing");
       });
     }
 
     document.addEventListener("DOMContentLoaded", () => {
-      const floatingElements = new FloatingElementsManager(
+      const fl = new FloatingElementsManager(
         document.getElementById("floatingElements")
       );
-      floatingElements.start();
+      fl.start();
 
-      const noButtonHandler = new NoButtonHandler(
+      const noBtnH = new NoButtonHandler(
         document.getElementById("noButton"),
         document.getElementById("funnyMessage")
       );
@@ -1435,95 +1405,89 @@
         document.getElementById("confettiContainer")
       );
 
-      const modal = document.getElementById("modal");
-      const modalContent = modal.querySelector(".modal-content");
-      const yesButton = document.getElementById("yesButton");
-      const closeModal = document.getElementById("closeModal");
-      let isYesPressed = false;
+      const mo = document.getElementById("modal");
+      const moC = mo.querySelector(".modal-content");
+      const yb = document.getElementById("yesButton");
+      const cMo = document.getElementById("closeModal");
+      let pressed = false;
 
       function showModal() {
-        modal.style.display = "flex";
-        modalContent.scrollIntoView({ behavior: "smooth", block: "center" });
+        mo.style.display = "flex";
+        moC.scrollIntoView({ behavior: "smooth", block: "center" });
       }
 
-      yesButton.addEventListener("click", () => {
+      yb.addEventListener("click", () => {
         showModal();
-        const isMobile = window.matchMedia("(max-width: 768px)").matches;
-        confetti.launch(isMobile);
-
-        if (!isYesPressed) {
-          isYesPressed = true;
-          noButtonHandler.disable();
-          yesButton.disabled = true;
+        const isMob = window.matchMedia("(max-width: 768px)").matches;
+        confetti.launch(isMob);
+        if (!pressed) {
+          pressed = true;
+          noBtnH.disable();
+          yb.disabled = true;
         }
-        modalContent.focus();
+        moC.focus();
       });
 
-      closeModal.addEventListener("click", () => {
-        modal.style.display = "none";
-        if (isYesPressed) {
-          isYesPressed = false;
-          noButtonHandler.enable();
-          yesButton.disabled = false;
+      cMo.addEventListener("click", () => {
+        mo.style.display = "none";
+        if (pressed) {
+          pressed = false;
+          noBtnH.enable();
+          yb.disabled = false;
         }
-        yesButton.focus();
+        yb.focus();
       });
 
       window.addEventListener("click", (e) => {
-        if (e.target === modal) {
-          modal.style.display = "none";
-          if (isYesPressed) {
-            isYesPressed = false;
-            noButtonHandler.enable();
-            yesButton.disabled = false;
+        if (e.target === mo) {
+          mo.style.display = "none";
+          if (pressed) {
+            pressed = false;
+            noBtnH.enable();
+            yb.disabled = false;
           }
-          yesButton.focus();
+          yb.focus();
         }
       });
 
       window.addEventListener("keydown", (e) => {
-        if (e.key === "Escape" && modal.style.display === "flex") {
-          modal.style.display = "none";
-          if (isYesPressed) {
-            isYesPressed = false;
-            noButtonHandler.enable();
-            yesButton.disabled = false;
+        if (e.key === "Escape" && mo.style.display === "flex") {
+          mo.style.display = "none";
+          if (pressed) {
+            pressed = false;
+            noBtnH.enable();
+            yb.disabled = false;
           }
-          yesButton.focus();
+          yb.focus();
         }
       });
 
-      // Custom cursor for non-touch devices
       if (!window.matchMedia("(pointer: coarse)").matches) {
         document.addEventListener("mousemove", (e) => {
-          const cursor = document.getElementById("customCursor");
-          if (cursor) {
-            cursor.style.left = `${e.clientX}px`;
-            cursor.style.top = `${e.clientY}px`;
+          const c = document.getElementById("customCursor");
+          if (c) {
+            c.style.left = e.clientX + "px";
+            c.style.top = e.clientY + "px";
           }
         });
 
-        yesButton.addEventListener("mouseenter", () => {
-          const cursor = document.getElementById("customCursor");
-          if (cursor) {
-            cursor.classList.add("hover-yes");
+        yb.addEventListener("mouseenter", () => {
+          const c = document.getElementById("customCursor");
+          if (c) {
+            c.classList.add("hover-yes");
           }
         });
-
-        yesButton.addEventListener("mouseleave", () => {
-          const cursor = document.getElementById("customCursor");
-          if (cursor) {
-            cursor.classList.remove("hover-yes");
+        yb.addEventListener("mouseleave", () => {
+          const c = document.getElementById("customCursor");
+          if (c) {
+            c.classList.remove("hover-yes");
           }
         });
       }
 
-      // Spinner, gallery, music player setups
       setupScrollSpinner();
       setupGalleryModal();
       setupMusicPlayer();
-
-      // Counter updates
       updateDatingCounter();
       updateValentineCounter();
 
