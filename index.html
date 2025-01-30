@@ -2,7 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+  />
   <title>Be My Valentine?</title>
   <link
     href="https://fonts.googleapis.com/css2?family=Parisienne&family=Poppins:wght@400;700&display=swap"
@@ -38,7 +41,8 @@
       color: #000000;
       background: var(--background-gradient);
       min-height: 100vh;
-      padding: var(--safe-area-inset-top) var(--safe-area-inset-right) var(--safe-area-inset-bottom) var(--safe-area-inset-left);
+      padding: var(--safe-area-inset-top) var(--safe-area-inset-right)
+        var(--safe-area-inset-bottom) var(--safe-area-inset-left);
       overflow-x: hidden;
     }
 
@@ -48,7 +52,10 @@
       }
     }
 
-    /* Both counters share symmetrical design and text centered. */
+    /* 
+      Updated to keep the label and days/hours in a single row.
+      We also remove explicit width so it can shrink or grow.
+    */
     .time-counter {
       position: fixed;
       top: max(var(--safe-area-inset-top), 20px);
@@ -57,30 +64,30 @@
       border-radius: 15px;
       box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
       z-index: 1001;
-      text-align: center;
-      line-height: 1.4; 
-      width: 200px;
-      min-height: 120px; 
+      line-height: 1.4;
+      display: flex;                 /* force same line for label & values */
+      align-items: center;
+      gap: 15px;
+      min-height: 120px;            /* keep consistent height */
+      text-align: center;           /* center text if it wraps */
     }
 
     .time-counter span:not(.counter-label) {
       font-family: var(--font-sans);
       color: #000000;
       font-size: clamp(1em, 3vw, 1.2em);
-      display: block; /* ensure each line can center properly */
+      display: block;
     }
 
-    /* 3. The cursive titles bigger for better visual hierarchy. */
     .counter-label {
-      display: block;
+      display: inline-block; /* keep it side by side with time-values */
       font-family: var(--font-script);
-      font-size: clamp(1.5em, 5vw, 2em); /* bigger cursive label */
+      font-size: clamp(1.5em, 5vw, 2em);
       color: var(--primary-color);
-      margin-bottom: 8px;
+      margin-bottom: 0; /* remove vertical gap */
       text-align: center;
     }
 
-    /* Identical positioning on larger screens for symmetrical corners */
     #dating-counter {
       right: max(var(--safe-area-inset-right), 20px);
     }
@@ -88,14 +95,13 @@
       left: max(var(--safe-area-inset-left), 20px);
     }
 
-    /* New shared container for days/hours layout in both counters */
     .time-values {
       display: flex;
       gap: 10px;
       justify-content: center;
     }
 
-    /* Original class not removed to keep code length. */
+    /* Old reference, but we keep the class name. */
     .valentine-time {
       display: flex;
       gap: 10px;
@@ -158,7 +164,6 @@
       z-index: 3;
     }
 
-    /* Added transition to fix initial choppy movement */
     .btn-no {
       background: linear-gradient(45deg, #808080, #A9A9A9);
       color: var(--secondary-color);
@@ -186,50 +191,6 @@
       pointer-events: none;
       transform: translate(-50%, -100%);
       transition: top 0.4s ease-out, left 0.4s ease-out, opacity 0.3s;
-    }
-
-    .scroll-indicator {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      color: #ffffff;
-      font-family: var(--font-script);
-      font-size: clamp(1.2em, 4vw, 1.5em);
-      opacity: 1;
-      animation: bounce 3s infinite; /* less frequent bounce */
-      margin: 20px auto 0 auto;
-      text-align: center;
-      position: relative;
-    }
-
-    .scroll-indicator::after {
-      content: "";
-      position: absolute;
-      width: 110px; /* slightly smaller than before */
-      height: 110px;
-      border-radius: 50%;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
-      box-shadow: 0 0 15px 5px rgba(255,255,255,0.3), 0 0 30px 10px rgba(128,128,128,0.2) inset;
-      animation: ringPulse 3s ease-in-out infinite; 
-      z-index: -1;
-    }
-
-    @keyframes ringPulse {
-      0%,100% {
-        transform: translate(-50%, -50%) scale(1);
-        opacity: 1;
-      }
-      50% {
-        transform: translate(-50%, -50%) scale(1.2);
-        opacity: 0.8;
-      }
-    }
-
-    .scroll-indicator span {
-      margin-top: 5px;
     }
 
     .gallery-section {
@@ -279,7 +240,6 @@
       aspect-ratio: 1;
     }
 
-    /* Updated to avoid sudden "jump" by using consistent 3px border with color fade */
     .gallery-frame {
       box-sizing: border-box;
       background: white;
@@ -321,7 +281,7 @@
     }
     .gallery-item:hover .gallery-frame {
       box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
-      border: 3px solid var(--primary-color); /* just changes color now */
+      border: 3px solid var(--primary-color);
     }
     .gallery-item:hover .gallery-image {
       transform: scale(1.05);
@@ -342,7 +302,10 @@
       z-index: 1000;
       justify-content: center;
       align-items: center;
-      padding: max(var(--safe-area-inset-top), 20px) max(var(--safe-area-inset-right), 20px) max(var(--safe-area-inset-bottom), 20px) max(var(--safe-area-inset-left), 20px);
+      padding: max(var(--safe-area-inset-top), 20px)
+        max(var(--safe-area-inset-right), 20px)
+        max(var(--safe-area-inset-bottom), 20px)
+        max(var(--safe-area-inset-left), 20px);
     }
 
     .gallery-modal-content {
@@ -421,12 +384,15 @@
       justify-content: center;
       align-items: flex-start;
       z-index: 1000;
-      padding: max(var(--safe-area-inset-top), 20px) max(var(--safe-area-inset-right), 20px) max(var(--safe-area-inset-bottom), 20px) max(var(--safe-area-inset-left), 20px);
+      padding: max(var(--safe-area-inset-top), 20px)
+        max(var(--safe-area-inset-right), 20px)
+        max(var(--safe-area-inset-bottom), 20px)
+        max(var(--safe-area-inset-left), 20px);
       overflow-y: auto;
     }
 
     .modal-content {
-      background: #fff; 
+      background: #fff;
       padding: 40px;
       border-radius: 15px;
       text-align: center;
@@ -441,7 +407,6 @@
       scroll-margin-top: var(--safe-area-inset-top, 0);
     }
 
-    /* Reduced borders here from 5px -> 3px, 12px -> 8px on hover */
     .modal-photo-container {
       width: 100%;
       max-width: 400px;
@@ -595,7 +560,8 @@
     }
 
     @keyframes subtleBounce {
-      0%, 100% {
+      0%,
+      100% {
         transform: translateY(0);
       }
       50% {
@@ -604,7 +570,11 @@
     }
 
     @keyframes bounce {
-      0%, 20%, 50%, 80%, 100% {
+      0%,
+      20%,
+      50%,
+      80%,
+      100% {
         transform: translateY(0);
       }
       40% {
@@ -612,6 +582,101 @@
       }
       60% {
         transform: translateY(-5px);
+      }
+    }
+
+    /* 
+      The new spinner is now placed between gallery and container,
+      with extra spacing above/below. We remove absolute positioning
+      so it appears in normal flow. 
+    */
+    .scroll-spinner-wrapper {
+      display: flex;
+      justify-content: center;
+      margin: 80px 0; /* spacing above and below */
+    }
+
+    .scroll-spinner {
+      position: relative; /* no longer absolute */
+      border-radius: 50%;
+      height: 96px;
+      width: 96px;
+      animation: rotate_3922 2.5s linear infinite;
+      background-color: #FF69B4;
+      background-image: linear-gradient(
+        45deg,
+        #FF69B4,
+        #E6E6FA,
+        #DDA0DD,
+        #9370DB,
+        #FF69B4
+      );
+    }
+
+    .scroll-spinner span {
+      position: absolute;
+      border-radius: 50%;
+      height: 100%;
+      width: 100%;
+      background-color: #FF69B4;
+      background-image: linear-gradient(
+        45deg,
+        #FF69B4,
+        #E6E6FA,
+        #DDA0DD,
+        #9370DB,
+        #FF69B4
+      );
+    }
+
+    .scroll-spinner span:nth-of-type(1) {
+      filter: blur(5px);
+    }
+
+    .scroll-spinner span:nth-of-type(2) {
+      filter: blur(10px);
+    }
+
+    .scroll-spinner span:nth-of-type(3) {
+      filter: blur(25px);
+    }
+
+    .scroll-spinner span:nth-of-type(4) {
+      filter: blur(50px);
+    }
+
+    .scroll-spinner::after {
+      content: "";
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      right: 10px;
+      bottom: 10px;
+      background-color: #fff;
+      border: solid 5px #ffffff;
+      border-radius: 50%;
+    }
+
+    /* "Scroll Down" message inside the spinner */
+    .scroll-spinner p.scroll-message {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: var(--font-sans);
+      font-size: clamp(0.8em, 2vw, 1em);
+      color: #fff;
+      text-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+      pointer-events: none;
+      white-space: nowrap;
+    }
+
+    @keyframes rotate_3922 {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
       }
     }
 
@@ -627,18 +692,19 @@
       }
     }
 
-    /* 2. For Mobile: more professional spacing for counters */
     @media (max-width: 768px) {
       .time-counter {
         position: static !important;
-        display: block !important;
+        display: flex !important; /* keep label and values in one line */
+        justify-content: center;
+        align-items: center;
         font-size: 0.9em;
         padding: 8px 15px;
         border-radius: 20px !important;
         box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2) !important;
-        width: 200px !important;
+        width: auto !important;
         min-height: 120px !important;
-        margin: 30px auto !important; /* improved spacing */
+        margin: 30px auto !important;
       }
 
       #dating-counter,
@@ -732,7 +798,6 @@
   <!-- Counter boxes -->
   <div class="time-counter" id="dating-counter">
     <span class="counter-label">Together Since</span>
-    <!-- Now symmetrical: both counters have days and hours -->
     <div class="time-values">
       <span id="dating-days">0</span> Days
       <span id="dating-hours">0</span> Hours
@@ -759,47 +824,82 @@
     <div class="gallery-grid">
       <div class="gallery-item">
         <div class="gallery-frame">
-          <img src="images/first_date.jpg" loading="lazy" alt="First Date" class="gallery-image" />
+          <img
+            src="images/first_date.jpg"
+            loading="lazy"
+            alt="First Date"
+            class="gallery-image"
+          />
           <p class="gallery-caption">First Date ❤️</p>
         </div>
       </div>
       <div class="gallery-item">
         <div class="gallery-frame">
-          <img src="images/first_roadtrip.jpg" loading="lazy" alt="First Road Trip" class="gallery-image" />
+          <img
+            src="images/first_roadtrip.jpg"
+            loading="lazy"
+            alt="First Road Trip"
+            class="gallery-image"
+          />
           <p class="gallery-caption">Road Trip 🚗</p>
         </div>
       </div>
       <div class="gallery-item">
         <div class="gallery-frame">
-          <img src="images/first_pet.jpg" loading="lazy" alt="First Pet" class="gallery-image" />
+          <img
+            src="images/first_pet.jpg"
+            loading="lazy"
+            alt="First Pet"
+            class="gallery-image"
+          />
           <p class="gallery-caption">Our Pet 🐾</p>
         </div>
       </div>
       <div class="gallery-item">
         <div class="gallery-frame">
-          <img src="images/farmcart.JPG" loading="lazy" alt="Farm Market" class="gallery-image" />
+          <img
+            src="images/farmcart.JPG"
+            loading="lazy"
+            alt="Farm Market"
+            class="gallery-image"
+          />
           <p class="gallery-caption">Farm Market 🚜</p>
         </div>
       </div>
       <div class="gallery-item">
         <div class="gallery-frame">
-          <img src="images/stoneyriver.jpg" loading="lazy" alt="Stoney River" class="gallery-image" />
+          <img
+            src="images/stoneyriver.jpg"
+            loading="lazy"
+            alt="Stoney River"
+            class="gallery-image"
+          />
           <p class="gallery-caption">Stoney River 🌊</p>
         </div>
       </div>
       <div class="gallery-item">
         <div class="gallery-frame">
-          <img src="images/kiss.jpg" loading="lazy" alt="Muah Muah" class="gallery-image" />
+          <img
+            src="images/kiss.jpg"
+            loading="lazy"
+            alt="Muah Muah"
+            class="gallery-image"
+          />
           <p class="gallery-caption">First Kiss 💋</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Scroll indicator -->
-  <div class="scroll-indicator" id="scrollIndicator">
-    <span>Scroll down</span>
-    <span>👇</span>
+  <!-- The spinner placed between gallery and main container -->
+  <div class="scroll-spinner-wrapper">
+    <div class="scroll-spinner" id="scrollSpinner">
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <p class="scroll-message">Scroll Down</p>
+    </div>
   </div>
 
   <!-- Main text box at the bottom -->
@@ -833,41 +933,62 @@
   </div>
 
   <!-- "Yes" modal -->
-  <div id="modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-describedby="modalDescription">
+  <div
+    id="modal"
+    class="modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="modalTitle"
+    aria-describedby="modalDescription"
+  >
     <div class="modal-content">
-      <span class="close-modal" id="closeModal" aria-label="Close Modal">&times;</span>
-      <h2 id="modalTitle" style="font-family: var(--font-script); color: var(--primary-color); font-size: clamp(2.5em, 8vw, 5em);">Yay! ❤️</h2>
+      <span class="close-modal" id="closeModal" aria-label="Close Modal"
+        >&times;</span
+      >
+      <h2
+        id="modalTitle"
+        style="
+          font-family: var(--font-script);
+          color: var(--primary-color);
+          font-size: clamp(2.5em, 8vw, 5em);
+        "
+      >
+        Yay! ❤️
+      </h2>
       <div class="modal-photo-container">
         <img src="images/photo1.jpg" alt="Special Moment" class="modal-photo" />
       </div>
       <div class="modal-text" id="modalDescription">
-        <p>I'm so happy you said yes! Looking forward to a wonderful Valentine's Day together.</p>
+        <p>
+          I'm so happy you said yes! Looking forward to a wonderful Valentine's
+          Day together.
+        </p>
       </div>
     </div>
   </div>
 
   <script>
     const wittyMessages = [
-      "Still loading brains?🐌",
-      "Agree? Pretty please?😉",
-      "Plot twist, obviously!🙄",
-      "*Record scratch* Seriously?🤨",
-      "Trapped in awkwardness😬",
-      "Thinking OVER. Maybe just👍",
-      "Angels are suggesting😇",
-      "Hmm, consequences for me?🥺",
-      "Sprinkles? Fine. No sprinkles😒",
-      "'No' muted - for your own good🤫",
-      "Resisting? Bless your heart😇",
-      "Think DEFINITE thoughts🧘‍♀️",
-      "Best decision for you🌟",
-      "Just do it, if you want🤷‍♀️",
-      "Future Regret? Probably not😅",
-      "Ghost? I'll just pout😞",
-      "Think positive!🌻",
-      "Sweet enough? Please🥺",
-      "Prepare for fun🎉",
-      "Sign or don't🤷‍♂️"
+      "Are you kidding me? 😜",
+      "Don't be shy! 😏",
+      "I knew you'd say yes! 😉",
+      "Nice try! 😄",
+      "You can't escape! 😆",
+      "Still thinking? 😅",
+      "Come on, say yes! 😇",
+      "No way! 😂",
+      "How about a yes? 😘",
+      "Trying to say no? 😝",
+      "Can't say no to you! 🥰",
+      "Seriously? 🤔",
+      "Better say yes! 💕",
+      "Yes is the way! 🎉",
+      "No can wait! 😎",
+      "Don't leave me hanging! 😢",
+      "Think positive! 🌟",
+      "You're too sweet! 🍬",
+      "What's stopping you? 🚀",
+      "Let's make it official! 📝"
     ];
 
     class NoButtonHandler {
@@ -903,7 +1024,6 @@
           this.button.style.margin = "0";
         }
 
-        // Keep or re-set transition (but we also have it in CSS now).
         this.button.style.transition = "all 0.4s ease-out";
         const newPos = this.getRandomPosition(rect);
         this.button.style.left = newPos.x + "px";
@@ -949,11 +1069,11 @@
         const randomMsg = wittyMessages[Math.floor(Math.random() * wittyMessages.length)];
         this.messageElement.textContent = randomMsg;
 
-        this.messageElement.style.transition = "top 0.4s ease-out, left 0.4s ease-out, opacity 0.3s";
+        this.messageElement.style.transition =
+          "top 0.4s ease-out, left 0.4s ease-out, opacity 0.3s";
         let messageX = newPos.x + buttonRect.width / 2;
         let messageY = newPos.y - 10;
 
-        // 4. Ensure message doesn't go off screen:
         const vpWidth = window.innerWidth;
         const vpHeight = window.innerHeight;
         const offset = 20;
@@ -999,7 +1119,9 @@
       createFloatingElement() {
         const element = document.createElement("div");
         element.className = "floating-element";
-        element.textContent = this.emojis[Math.floor(Math.random() * this.emojis.length)];
+        element.textContent = this.emojis[
+          Math.floor(Math.random() * this.emojis.length)
+        ];
         element.style.left = `${Math.random() * 100}%`;
         const size = Math.random() * 20 + 20;
         element.style.fontSize = `${size}px`;
@@ -1073,8 +1195,8 @@
         for (let i = 0; i < this.particles.length; i++) {
           const p = this.particles[i];
           p.vy += this.gravity;
-          p.vx *= (1 - this.drag);
-          p.vy *= (1 - this.drag);
+          p.vx *= 1 - this.drag;
+          p.vy *= 1 - this.drag;
           p.x += p.vx;
           p.y += p.vy;
           p.rotation += p.rotationSpeed;
@@ -1089,7 +1211,9 @@
           }
         }
         if (this.particles.length > 0) {
-          this.animationFrameId = requestAnimationFrame(() => this.updateAndDraw());
+          this.animationFrameId = requestAnimationFrame(() =>
+            this.updateAndDraw()
+          );
         } else {
           this.animationFrameId = null;
         }
@@ -1127,7 +1251,7 @@
             size: baseSize + Math.random() * sizeRange,
             color: this.colors[Math.floor(Math.random() * this.colors.length)],
             rotation: Math.random() * 2 * Math.PI,
-            rotationSpeed: (Math.random() - 0.5) * 0.1,
+            rotationSpeed: (Math.random() - 0.5) * 0.1
           });
         }
       }
@@ -1135,11 +1259,15 @@
       launch(isMobile) {
         const totalBursts = 5;
         const count = isMobile ? 25 : 40;
-        const interval = isMobile ? 300 : 800; 
+        const interval = isMobile ? 300 : 800;
         for (let i = 0; i < totalBursts; i++) {
           setTimeout(() => {
-            const centerX = this.canvas.width * 0.2 + Math.random() * this.canvas.width * 0.6;
-            const centerY = this.canvas.height * 0.2 + Math.random() * this.canvas.height * 0.6;
+            const centerX =
+              this.canvas.width * 0.2 +
+              Math.random() * this.canvas.width * 0.6;
+            const centerY =
+              this.canvas.height * 0.2 +
+              Math.random() * this.canvas.height * 0.6;
             this.createBurst(centerX, centerY, count, isMobile);
             this.addSparkleEffect(centerX, centerY);
             if (!this.animationFrameId) {
@@ -1164,21 +1292,22 @@
             size: 6 + Math.random() * 8,
             color: "rgba(255, 255, 255, 0.9)",
             rotation: Math.random() * 2 * Math.PI,
-            rotationSpeed: (Math.random() - 0.5) * 0.05,
+            rotationSpeed: (Math.random() - 0.5) * 0.05
           });
         }
       }
     }
 
-    // Complete rewrite for symmetrical counters (both show days and hours).
     function updateDatingCounter() {
-      const startDate = new Date('2023-08-09');
+      const startDate = new Date("2023-08-09");
       const now = new Date();
       const diffTime = now - startDate;
       const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-      const diffHours = Math.floor((diffTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      document.getElementById('dating-days').textContent = diffDays;
-      document.getElementById('dating-hours').textContent = diffHours;
+      const diffHours = Math.floor(
+        (diffTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+      );
+      document.getElementById("dating-days").textContent = diffDays;
+      document.getElementById("dating-hours").textContent = diffHours;
     }
 
     function updateValentineCounter() {
@@ -1194,106 +1323,109 @@
       const diffTime = nextValentine - now;
 
       const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-      const diffHours = Math.floor((diffTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const diffHours = Math.floor(
+        (diffTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+      );
 
-      document.getElementById('valentine-days').textContent = diffDays;
-      document.getElementById('valentine-hours').textContent = diffHours;
+      document.getElementById("valentine-days").textContent = diffDays;
+      document.getElementById("valentine-hours").textContent = diffHours;
+    }
+
+    // Sets up click event for the spinner (halo) to scroll to main container.
+    function setupScrollSpinner() {
+      const scrollSpinner = document.getElementById("scrollSpinner");
+      const mainContainer = document.querySelector(".container");
+
+      if (scrollSpinner && mainContainer) {
+        scrollSpinner.addEventListener("click", () => {
+          mainContainer.scrollIntoView({ behavior: "smooth" });
+        });
+      }
     }
 
     function setupGalleryModal() {
-      const galleryModal = document.getElementById('galleryModal');
-      const modalImage = galleryModal.querySelector('.gallery-modal-image');
-      const modalCaption = galleryModal.querySelector('.gallery-modal-caption');
-      const closeButton = galleryModal.querySelector('.close-gallery-modal');
-      const buttons = document.querySelectorAll('.btn');
-      const musicPlayer = document.querySelector('.music-player');
-      const counters = document.querySelectorAll('.time-counter');
+      const galleryModal = document.getElementById("galleryModal");
+      const modalImage = galleryModal.querySelector(".gallery-modal-image");
+      const modalCaption = galleryModal.querySelector(".gallery-modal-caption");
+      const closeButton = galleryModal.querySelector(".close-gallery-modal");
+      const buttons = document.querySelectorAll(".btn");
+      const musicPlayer = document.querySelector(".music-player");
+      const counters = document.querySelectorAll(".time-counter");
 
-      document.querySelectorAll('.gallery-item').forEach(item => {
-        const img = item.querySelector('.gallery-image');
-        const caption = item.querySelector('.gallery-caption');
+      document.querySelectorAll(".gallery-item").forEach((item) => {
+        const img = item.querySelector(".gallery-image");
+        const caption = item.querySelector(".gallery-caption");
 
-        img.addEventListener('click', () => {
+        img.addEventListener("click", () => {
           modalImage.src = img.src;
           modalImage.alt = img.alt;
           modalCaption.textContent = caption.textContent;
-          galleryModal.style.display = 'flex';
+          galleryModal.style.display = "flex";
 
           // Hide buttons, music player, and counters
-          buttons.forEach(btn => btn.style.display = 'none');
-          if (musicPlayer) musicPlayer.style.display = 'none';
-          counters.forEach(counter => counter.style.display = 'none');
+          buttons.forEach((btn) => (btn.style.display = "none"));
+          if (musicPlayer) musicPlayer.style.display = "none";
+          counters.forEach((counter) => (counter.style.display = "none"));
         });
       });
 
-      closeButton.addEventListener('click', () => {
-        galleryModal.style.display = 'none';
+      closeButton.addEventListener("click", () => {
+        galleryModal.style.display = "none";
         // Show buttons, music player, and counters
-        buttons.forEach(btn => btn.style.display = 'inline-block');
-        if (musicPlayer) musicPlayer.style.display = 'block';
-        counters.forEach(counter => counter.style.display = 'block');
+        buttons.forEach((btn) => (btn.style.display = "inline-block"));
+        if (musicPlayer) musicPlayer.style.display = "block";
+        counters.forEach((counter) => (counter.style.display = "block"));
       });
 
-      window.addEventListener('click', (e) => {
+      window.addEventListener("click", (e) => {
         if (e.target === galleryModal) {
-          galleryModal.style.display = 'none';
+          galleryModal.style.display = "none";
           // Show buttons, music player, and counters
-          buttons.forEach(btn => btn.style.display = 'inline-block');
-          if (musicPlayer) musicPlayer.style.display = 'block';
-          counters.forEach(counter => counter.style.display = 'block');
+          buttons.forEach((btn) => (btn.style.display = "inline-block"));
+          if (musicPlayer) musicPlayer.style.display = "block";
+          counters.forEach((counter) => (counter.style.display = "block"));
         }
       });
 
-      window.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && galleryModal.style.display === 'flex') {
-          galleryModal.style.display = 'none';
+      window.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && galleryModal.style.display === "flex") {
+          galleryModal.style.display = "none";
           // Show buttons, music player, and counters
-          buttons.forEach(btn => btn.style.display = 'inline-block');
-          if (musicPlayer) musicPlayer.style.display = 'block';
-          counters.forEach(counter => counter.style.display = 'block');
+          buttons.forEach((btn) => (btn.style.display = "inline-block"));
+          if (musicPlayer) musicPlayer.style.display = "block";
+          counters.forEach((counter) => (counter.style.display = "block"));
         }
       });
     }
 
     function setupMusicPlayer() {
-      const playButton = document.getElementById('playSongBtn');
-      const audio = document.getElementById('ourSong');
+      const playButton = document.getElementById("playSongBtn");
+      const audio = document.getElementById("ourSong");
       let isPlaying = false;
 
-      playButton.addEventListener('click', () => {
+      playButton.addEventListener("click", () => {
         if (isPlaying) {
           audio.pause();
-          playButton.textContent = 'Play Our Song ♪';
-          playButton.classList.remove('playing');
+          playButton.textContent = "Play Our Song ♪";
+          playButton.classList.remove("playing");
         } else {
-          audio.play().catch(error => {
-            console.error('Error playing audio:', error);
+          audio.play().catch((error) => {
+            console.error("Error playing audio:", error);
           });
-          playButton.textContent = 'Pause Our Song ♪';
-          playButton.classList.add('playing');
+          playButton.textContent = "Pause Our Song ♪";
+          playButton.classList.add("playing");
         }
         isPlaying = !isPlaying;
       });
 
-      audio.addEventListener('ended', () => {
+      audio.addEventListener("ended", () => {
         isPlaying = false;
-        playButton.textContent = 'Play Our Song ♪';
-        playButton.classList.remove('playing');
+        playButton.textContent = "Play Our Song ♪";
+        playButton.classList.remove("playing");
       });
     }
 
-    function setupScrollIndicator() {
-      const scrollIndicator = document.getElementById('scrollIndicator');
-      const mainContainer = document.querySelector('.container');
-
-      if (scrollIndicator && mainContainer) {
-        scrollIndicator.addEventListener('click', () => {
-          mainContainer.scrollIntoView({ behavior: 'smooth' });
-        });
-      }
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener("DOMContentLoaded", () => {
       const floatingElements = new FloatingElementsManager(
         document.getElementById("floatingElements")
       );
@@ -1309,19 +1441,19 @@
       );
 
       const modal = document.getElementById("modal");
-      const modalContent = modal.querySelector('.modal-content');
+      const modalContent = modal.querySelector(".modal-content");
       const yesButton = document.getElementById("yesButton");
       const closeModal = document.getElementById("closeModal");
       let isYesPressed = false;
 
       function showModal() {
         modal.style.display = "flex";
-        modalContent.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        modalContent.scrollIntoView({ behavior: "smooth", block: "center" });
       }
 
       yesButton.addEventListener("click", () => {
         showModal();
-        const isMobile = window.matchMedia('(max-width: 768px)').matches;
+        const isMobile = window.matchMedia("(max-width: 768px)").matches;
         confetti.launch(isMobile);
 
         if (!isYesPressed) {
@@ -1367,7 +1499,7 @@
       });
 
       // Custom cursor for non-touch devices
-      if (!window.matchMedia('(pointer: coarse)').matches) {
+      if (!window.matchMedia("(pointer: coarse)").matches) {
         document.addEventListener("mousemove", (e) => {
           const cursor = document.getElementById("customCursor");
           if (cursor) {
@@ -1391,13 +1523,15 @@
         });
       }
 
+      // Spinner, gallery, music player setups
+      setupScrollSpinner();
       setupGalleryModal();
       setupMusicPlayer();
-      setupScrollIndicator();
 
+      // Counter updates
       updateDatingCounter();
       updateValentineCounter();
-      
+
       setInterval(() => {
         updateDatingCounter();
         updateValentineCounter();
