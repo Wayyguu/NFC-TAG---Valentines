@@ -80,7 +80,7 @@
       text-align: center;
     }
 
-    /* Place them at corners on desktop */
+    /* Identical positioning on larger screens for symmetrical corners */
     #dating-counter {
       right: max(var(--safe-area-inset-right), 20px);
     }
@@ -88,6 +88,14 @@
       left: max(var(--safe-area-inset-left), 20px);
     }
 
+    /* New shared container for days/hours layout in both counters */
+    .time-values {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    /* Original class not removed to keep code length. */
     .valentine-time {
       display: flex;
       gap: 10px;
@@ -150,10 +158,12 @@
       z-index: 3;
     }
 
+    /* Added transition to fix initial choppy movement */
     .btn-no {
       background: linear-gradient(45deg, #808080, #A9A9A9);
       color: var(--secondary-color);
       z-index: 4;
+      transition: all 0.4s ease-out;
     }
 
     .btn:hover:not(:disabled) {
@@ -193,10 +203,6 @@
       position: relative;
     }
 
-    /* 
-      1. Make ring movement less frequent (3s) 
-         Slightly smaller ring, still bigger than text/emoji. 
-    */
     .scroll-indicator::after {
       content: "";
       position: absolute;
@@ -273,16 +279,18 @@
       aspect-ratio: 1;
     }
 
+    /* Updated to avoid sudden "jump" by using consistent 3px border with color fade */
     .gallery-frame {
+      box-sizing: border-box;
       background: white;
       padding: 20px;
       border-radius: 15px;
       box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-      border: 1px solid rgba(255, 107, 129, 0.1);
+      border: 3px solid rgba(255, 107, 129, 0.1);
       height: 100%;
       display: flex;
       flex-direction: column;
-      transition: all 0.4s ease;
+      transition: border 0.4s ease, box-shadow 0.4s ease, transform 0.4s ease;
       overflow: hidden;
     }
 
@@ -308,13 +316,12 @@
       transition: all 0.3s ease;
     }
 
-    /* 2. ONLY WHEN HOVERING: border is thicker, using var(--primary-color) */
     .gallery-item:hover {
       transform: translateY(-5px);
     }
     .gallery-item:hover .gallery-frame {
       box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
-      border: 3px solid var(--primary-color); /* thicker border on hover */
+      border: 3px solid var(--primary-color); /* just changes color now */
     }
     .gallery-item:hover .gallery-image {
       transform: scale(1.05);
@@ -434,6 +441,7 @@
       scroll-margin-top: var(--safe-area-inset-top, 0);
     }
 
+    /* Reduced borders here from 5px -> 3px, 12px -> 8px on hover */
     .modal-photo-container {
       width: 100%;
       max-width: 400px;
@@ -442,13 +450,13 @@
       border-radius: 15px;
       overflow: hidden;
       position: relative;
-      border: 5px solid var(--primary-color);
+      border: 3px solid var(--primary-color);
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
       transition: all 0.3s ease;
     }
 
     .modal-photo-container:hover {
-      border: 12px solid var(--primary-color);
+      border: 8px solid var(--primary-color);
       box-shadow: 0 0 20px 5px rgba(255, 107, 129, 0.5);
     }
 
@@ -711,7 +719,7 @@
 
       .gallery-item:hover .gallery-frame {
         box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-        border: 1px solid rgba(255, 107, 129, 0.1);
+        border: 3px solid rgba(255, 107, 129, 0.1);
       }
 
       .gallery-item:hover .gallery-image {
@@ -724,11 +732,15 @@
   <!-- Counter boxes -->
   <div class="time-counter" id="dating-counter">
     <span class="counter-label">Together Since</span>
-    <span id="dating-days">0</span> Days
+    <!-- Now symmetrical: both counters have days and hours -->
+    <div class="time-values">
+      <span id="dating-days">0</span> Days
+      <span id="dating-hours">0</span> Hours
+    </div>
   </div>
   <div class="time-counter" id="valentine-counter">
     <span class="counter-label">Until Valentine's</span>
-    <div class="valentine-time">
+    <div class="time-values">
       <span id="valentine-days">0</span> Days
       <span id="valentine-hours">0</span> Hours
     </div>
@@ -883,6 +895,7 @@
         this.isMoving = true;
 
         const rect = this.button.getBoundingClientRect();
+        // Ensure position is set from the start so the animation is smooth.
         if (this.button.style.position !== "fixed") {
           this.button.style.position = "fixed";
           this.button.style.top = rect.top + "px";
@@ -890,6 +903,7 @@
           this.button.style.margin = "0";
         }
 
+        // Keep or re-set transition (but we also have it in CSS now).
         this.button.style.transition = "all 0.4s ease-out";
         const newPos = this.getRandomPosition(rect);
         this.button.style.left = newPos.x + "px";
@@ -1156,25 +1170,28 @@
       }
     }
 
+    // Complete rewrite for symmetrical counters (both show days and hours).
     function updateDatingCounter() {
       const startDate = new Date('2023-08-09');
-      const today = new Date();
-      const diffTime = today - startDate;
+      const now = new Date();
+      const diffTime = now - startDate;
       const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+      const diffHours = Math.floor((diffTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
       document.getElementById('dating-days').textContent = diffDays;
+      document.getElementById('dating-hours').textContent = diffHours;
     }
 
     function updateValentineCounter() {
-      const today = new Date();
-      let valentineYear = today.getFullYear();
+      const now = new Date();
+      let valentineYear = now.getFullYear();
       const valentineDate = new Date(valentineYear, 1, 14);
 
-      if (today > valentineDate) {
+      if (now > valentineDate) {
         valentineYear += 1;
       }
 
       const nextValentine = new Date(valentineYear, 1, 14);
-      const diffTime = nextValentine - today;
+      const diffTime = nextValentine - now;
 
       const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
       const diffHours = Math.floor((diffTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
