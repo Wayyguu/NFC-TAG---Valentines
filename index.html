@@ -22,7 +22,7 @@
       --safe-area-inset-bottom: env(safe-area-inset-bottom, 20px);
       --safe-area-inset-left: env(safe-area-inset-left, 20px);
 
-      /* Slightly adjusted colors to add more pinkish hue */
+      /* Adjusted colors for a more cohesive look */
       --pink-50: #ffd6e9;
       --pink-800: #9d174d;
       --red-400: #ff4d8d;
@@ -60,6 +60,7 @@
       }
     }
 
+    /* Time Counters */
     .time-counter {
       position: fixed;
       top: max(var(--safe-area-inset-top), 20px);
@@ -104,6 +105,7 @@
       left: max(var(--safe-area-inset-left), 20px);
     }
 
+    /* Funny Message */
     .funny-message {
       position: fixed;
       background-color: white;
@@ -121,6 +123,7 @@
       transition: top var(--transition-ease), left var(--transition-ease), opacity 0.3s;
     }
 
+    /* Floating Elements */
     .floating-elements {
       position: fixed;
       top: 0;
@@ -157,6 +160,7 @@
       }
     }
 
+    /* Confetti Container */
     .confetti-container {
       position: fixed;
       top: 0;
@@ -167,6 +171,7 @@
       z-index: 999;
     }
 
+    /* Custom Cursor */
     .custom-cursor {
       position: fixed;
       color: var(--secondary-color);
@@ -190,6 +195,7 @@
       }
     }
 
+    /* Gallery Section */
     .gallery-section {
       width: min(90%, 1000px);
       margin: 150px auto;
@@ -355,6 +361,7 @@
       transform: translateY(-2px);
     }
 
+    /* Gallery Modal */
     .gallery-modal {
       display: none;
       position: fixed;
@@ -403,6 +410,7 @@
       padding: 10px;
     }
 
+    /* Main Container */
     .container {
       width: min(90%, 1000px);
       background: rgba(255, 255, 255, 0.95);
@@ -433,6 +441,7 @@
       animation: slideIn 1s;
     }
 
+    /* Buttons Container */
     .buttons {
       display: flex;
       justify-content: center;
@@ -442,6 +451,7 @@
       min-height: 120px;
     }
 
+    /* Base Button Styles */
     .button {
       position: relative;
       font-size: 1rem;
@@ -449,12 +459,11 @@
       font-weight: bold;
       line-height: 1;
       padding: 1px;
-      transform: translate(-4px, -4px);
       outline: 2px solid transparent;
       outline-offset: 5px;
       border-radius: 9999px;
-      background-color: var(--pink-800);
-      color: #fff;
+      background-color: transparent; /* Removed to prevent conflict */
+      color: transparent; /* Hide text color, handled by inner span */
       transition: all 0.2s ease-in;
       text-align: center;
       min-width: 180px;
@@ -477,8 +486,8 @@
       overflow: hidden;
     }
 
+    /* "No" Button Specific Styles */
     .button.no-btn {
-      background-color: var(--gray-700);
       box-shadow:
         0.5px 0.5px 0 0 var(--gray-700),
         1px 1px 0 0 var(--gray-700),
@@ -497,6 +506,7 @@
         4px 4px 0 2px var(--pink-50);
     }
 
+    /* Playing State for "Play Our Song" Button */
     .button.playing > div {
       background-color: #fff !important;
       color: var(--pink-800);
@@ -506,6 +516,7 @@
       color: var(--pink-800) !important;
     }
 
+    /* Button Pseudo-elements */
     .button::before {
       content: "";
       display: block;
@@ -540,14 +551,13 @@
       pointer-events: none;
     }
 
+    /* Hover Effects */
     .button:hover {
-      transform: translate(0, 0);
       box-shadow: 0 0 30px 5px rgba(255, 77, 141, 0.815);
-      background: var(--red-400);
     }
 
     .button:hover.no-btn {
-      background-color: #777 !important;
+      box-shadow: 0 0 30px 5px rgba(119, 119, 119, 0.815);
     }
 
     .button:hover::before {
@@ -568,19 +578,27 @@
       outline-style: dashed;
     }
 
+    /* Button Inner Div */
     .button > div {
       position: relative;
       pointer-events: none;
-      background-color: var(--red-400);
+      background-color: var(--red-400); /* Set background here */
       border: 2px solid rgba(255, 255, 255, 0.3);
       border-radius: 9999px;
       overflow: hidden;
+      transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .button.no-btn > div {
       background-color: var(--gray-700) !important;
     }
 
+    /* Dotted Background Pattern */
     .button > div::before {
       content: "";
       position: absolute;
@@ -596,6 +614,7 @@
       pointer-events: none;
     }
 
+    /* Button Text and Icons */
     .button > div > span {
       position: relative;
       display: flex;
@@ -627,6 +646,7 @@
       font-size: 16px;
     }
 
+    /* Keyframes for Animations */
     @keyframes dots {
       0% {
         background-position: 0 0, 4px 4px;
@@ -671,12 +691,14 @@
       }
     }
 
+    /* Music Player */
     .music-player {
       width: 100%;
       text-align: center;
       margin: 40px 0;
     }
 
+    /* Modal Styles */
     .modal {
       display: none;
       position: fixed;
@@ -764,6 +786,7 @@
       color: var(--primary-color);
     }
 
+    /* Animations */
     @keyframes fadeIn {
       from {
         opacity: 0;
@@ -821,6 +844,7 @@
       animation: subtleBounceBtn 3s infinite;
     }
 
+    /* Responsive Styles */
     @media (max-width: 1200px) {
       .gallery-grid {
         grid-template-columns: repeat(3, 1fr);
@@ -932,6 +956,7 @@
   </style>
 </head>
 <body>
+  <!-- Time Counters -->
   <div class="time-counter" id="dating-counter">
     <span class="counter-label">Together Since</span>
     <div class="time-values">
@@ -948,11 +973,13 @@
     </div>
   </div>
 
+  <!-- Other Elements -->
   <div class="funny-message" id="funnyMessage"></div>
   <div class="floating-elements" id="floatingElements"></div>
   <div class="confetti-container" id="confettiContainer"></div>
   <div class="custom-cursor" id="customCursor">❄️</div>
 
+  <!-- Gallery Section -->
   <section class="gallery-section">
     <h2 class="gallery-title">Our Journey Together</h2>
     <div class="gallery-grid">
@@ -1001,13 +1028,14 @@
     </div>
   </section>
 
-  <!-- Press down button with subtle bounce -->
+  <!-- Scroll Down Button with Subtle Bounce -->
   <div style="text-align:center; margin-bottom:150px;">
     <button id="scrollDownBtn" class="button scroll-down-subtle-bounce" aria-label="Scroll Down">
       <div><span>Scroll Down</span></div>
     </button>
   </div>
 
+  <!-- Main Container with Yes/No Buttons -->
   <div class="container">
     <h1>Will You Be My Valentine?</h1>
     <p class="message">
@@ -1016,22 +1044,32 @@
       Will you be my Valentine?
     </p>
     <div class="buttons">
+      <!-- Yes Button -->
       <button id="yesButton" class="button" aria-label="Yes">
-        <div><span>Yes</span></div>
+        <div>
+          <span>Yes</span>
+        </div>
       </button>
+      <!-- No Button -->
       <button id="noButton" class="button no-btn" aria-label="No">
-        <div><span>No</span></div>
+        <div>
+          <span>No</span>
+        </div>
       </button>
     </div>
   </div>
 
+  <!-- Music Player Section -->
   <div class="music-player" style="margin-bottom: 60px;">
     <button id="playSongBtn" class="button" aria-label="Play Our Song">
-      <div><span>Play Our Song ♪</span></div>
+      <div>
+        <span>Play Our Song ♪</span>
+      </div>
     </button>
     <audio id="ourSong" src="our-song.mp3"></audio>
   </div>
 
+  <!-- Gallery Modal -->
   <div id="galleryModal" class="gallery-modal">
     <div class="gallery-modal-content">
       <span class="close-gallery-modal">&times;</span>
@@ -1040,6 +1078,7 @@
     </div>
   </div>
 
+  <!-- Success Modal -->
   <div
     id="modal"
     class="modal"
@@ -1070,6 +1109,7 @@
   </div>
 
   <script>
+    // Witty Messages for "No" Button
     const wittyMessages = [
       "Intrigued yet?😉",
       "Consider it briefly.😏",
@@ -1093,6 +1133,7 @@
       "You trynna say something??😭"
     ];
 
+    // Handler for "No" Button Movement
     class NoButtonHandler {
       constructor(button, msg) {
         this.button = button;
@@ -1102,6 +1143,7 @@
         this.moveTimeout = null;
         this.pad = 20;
 
+        // Event listeners to trigger movement on various interactions
         ["mouseover", "focus", "click", "touchstart"].forEach(evt => {
           this.button.addEventListener(evt, (e) => {
             e.preventDefault();
@@ -1203,6 +1245,7 @@
       }
     }
 
+    // Manager for Floating Elements
     class FloatingElementsManager {
       constructor(c) {
         this.c = c;
@@ -1246,6 +1289,7 @@
       }
     }
 
+    // Manager for Confetti Effects
     class ConfettiManager {
       constructor(co) {
         this.co = co;
@@ -1393,6 +1437,7 @@
       }
     }
 
+    // Update Dating Counter
     function updateDatingCounter() {
       const s = new Date("2023-08-09");
       const n = new Date();
@@ -1405,11 +1450,12 @@
       document.getElementById("dating-hours").textContent = hh;
     }
 
+    // Update Valentine Counter
     function updateValentineCounter() {
       const n = new Date();
       let y = n.getFullYear();
 
-      const vd = new Date(y, 1, 14);
+      const vd = new Date(y, 1, 14); // February 14th (Months are 0-indexed)
       if (n > vd) y += 1;
 
       const nv = new Date(y, 1, 14);
@@ -1422,6 +1468,7 @@
       document.getElementById("valentine-hours").textContent = hh;
     }
 
+    // Setup Gallery Modal
     function setupGalleryModal() {
       const gm = document.getElementById("galleryModal");
       const mi = gm.querySelector(".gallery-modal-image");
@@ -1473,6 +1520,7 @@
       });
     }
 
+    // Setup Music Player
     function setupMusicPlayer() {
       const pb = document.getElementById("playSongBtn");
       const audio = document.getElementById("ourSong");
@@ -1498,28 +1546,35 @@
       });
     }
 
+    // Document Ready Function
     document.addEventListener("DOMContentLoaded", () => {
+      // Initialize Floating Elements
       const fl = new FloatingElementsManager(document.getElementById("floatingElements"));
       fl.start();
 
+      // Initialize No Button Handler
       const noBtnH = new NoButtonHandler(
         document.getElementById("noButton"),
         document.getElementById("funnyMessage")
       );
 
+      // Initialize Confetti Manager
       const confetti = new ConfettiManager(document.getElementById("confettiContainer"));
 
+      // Modal Elements
       const mo = document.getElementById("modal");
       const moC = mo.querySelector(".modal-content");
       const yb = document.getElementById("yesButton");
       const cMo = document.getElementById("closeModal");
       let pressed = false;
 
+      // Function to Show Modal
       function showModal() {
         mo.style.display = "flex";
         moC.scrollIntoView({ behavior: "smooth", block: "center" });
       }
 
+      // "Yes" Button Click Event
       yb.addEventListener("click", () => {
         showModal();
         const isMob = window.matchMedia("(max-width: 768px)").matches;
@@ -1534,6 +1589,7 @@
         cMo.focus();
       });
 
+      // Close Modal Event
       cMo.addEventListener("click", () => {
         mo.style.display = "none";
         if (pressed) {
@@ -1544,6 +1600,7 @@
         yb.focus();
       });
 
+      // Click Outside Modal to Close
       window.addEventListener("click", (e) => {
         if (e.target === mo) {
           mo.style.display = "none";
@@ -1556,6 +1613,7 @@
         }
       });
 
+      // Escape Key to Close Modal
       window.addEventListener("keydown", (e) => {
         if (e.key === "Escape" && mo.style.display === "flex") {
           mo.style.display = "none";
@@ -1568,7 +1626,7 @@
         }
       });
 
-      // Custom cursor for non-touch devices
+      // Custom Cursor for Non-Touch Devices
       if (!window.matchMedia("(pointer: coarse)").matches) {
         document.addEventListener("mousemove", (e) => {
           const c = document.getElementById("customCursor");
@@ -1578,6 +1636,7 @@
           }
         });
 
+        // "Yes" Button Hover Effects
         yb.addEventListener("mouseenter", () => {
           const c = document.getElementById("customCursor");
           if (c) {
@@ -1593,7 +1652,7 @@
         });
       }
 
-      // Press down button logic
+      // Scroll Down Button Logic
       const scrollDownBtn = document.getElementById("scrollDownBtn");
       if (scrollDownBtn) {
         scrollDownBtn.addEventListener("click", () => {
@@ -1601,15 +1660,17 @@
         });
       }
 
+      // Initialize Modals and Music Player
       setupGalleryModal();
       setupMusicPlayer();
 
+      // Initialize Counters
       updateDatingCounter();
       updateValentineCounter();
       setInterval(() => {
         updateDatingCounter();
         updateValentineCounter();
-      }, 1000 * 60 * 5);
+      }, 1000 * 60 * 5); // Update every 5 minutes
     });
   </script>
 </body>
