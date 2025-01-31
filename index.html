@@ -13,18 +13,29 @@
       --primary-color: #ff6b81;
       --secondary-color: #ffffff;
       --background-gradient: radial-gradient(circle at top left, #f9c6d5, #d6a4e7, #a18cd1, #fbc2eb);
+
       --font-sans: "Poppins", sans-serif;
       --font-script: "Parisienne", cursive;
+
       --safe-area-inset-top: env(safe-area-inset-top, 20px);
       --safe-area-inset-right: env(safe-area-inset-right, 20px);
       --safe-area-inset-bottom: env(safe-area-inset-bottom, 20px);
       --safe-area-inset-left: env(safe-area-inset-left, 20px);
 
       /* Slightly adjusted colors to add more pinkish hue */
-      --pink-50: #ffd6e9; /* Used for the halo ring, now more pink */
+      --pink-50: #ffd6e9;
       --pink-800: #9d174d;
       --red-400: #ff4d8d;
       --gray-700: #555;
+
+      /* Common transitions & shadows */
+      --transition-ease: 0.4s ease-out;
+      --transition-default: all 0.4s ease;
+      --box-shadow-card: 0 5px 20px rgba(0, 0, 0, 0.1);
+      --box-shadow-hover: 0 15px 40px rgba(0, 0, 0, 0.2);
+      --box-shadow-counter: 0 5px 15px rgba(0, 0, 0, 0.1);
+      --box-shadow-larger: 0 15px 35px rgba(0, 0, 0, 0.15);
+      --box-shadow-medium: 0 10px 25px rgba(0, 0, 0, 0.2);
     }
 
     * {
@@ -55,7 +66,7 @@
       background: rgba(255, 255, 255, 0.95);
       padding: 15px 25px;
       border-radius: 15px;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      box-shadow: var(--box-shadow-counter);
       z-index: 1001;
       text-align: center;
       line-height: 1.4;
@@ -107,7 +118,7 @@
       max-width: 90%;
       pointer-events: none;
       transform: translate(-50%, -100%);
-      transition: top 0.4s ease-out, left 0.4s ease-out, opacity 0.3s;
+      transition: top var(--transition-ease), left var(--transition-ease), opacity 0.3s;
     }
 
     .floating-elements {
@@ -162,8 +173,6 @@
       font-size: 24px;
       pointer-events: none;
       z-index: 1002;
-      width: auto;
-      height: auto;
       background: transparent;
       border-radius: 0;
       box-shadow: none;
@@ -187,7 +196,7 @@
       padding: 60px;
       background: rgba(255, 255, 255, 0.98);
       border-radius: 30px;
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+      box-shadow: var(--box-shadow-larger);
       animation: fadeIn 1.5s ease-in-out;
     }
 
@@ -232,16 +241,10 @@
       aspect-ratio: 1;
       overflow: hidden;
       border-radius: 30px;
-      /* Minimal default shadow to maintain depth */
-      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-      transition: all 0.4s ease;
+      box-shadow: var(--box-shadow-card);
+      transition: var(--transition-default);
     }
 
-    /*
-      We only want the rotating, blurry gradient border on hover.
-      So let's default .gallery-item::before to opacity: 0.
-      Then show it on hover.
-    */
     .gallery-item::before {
       content: "";
       position: absolute;
@@ -258,12 +261,12 @@
       left: 0;
       z-index: 1;
       animation: rotBGimg 8s cubic-bezier(0.8, 0.2, 0.2, 0.8) infinite;
-      transition: opacity 0.4s;
-      opacity: 0; /* hidden by default */
+      transition: opacity var(--transition-ease);
+      opacity: 0;
     }
 
     .gallery-item:hover::before {
-      opacity: 1; /* becomes visible on hover */
+      opacity: 1;
     }
 
     @keyframes rotBGimg {
@@ -323,7 +326,7 @@
       height: calc(100% - 60px);
       object-fit: cover;
       border-radius: 8px;
-      transition: all 0.4s ease;
+      transition: var(--transition-default);
       cursor: pointer;
     }
 
@@ -335,13 +338,12 @@
       margin-top: 15px;
       padding: 0 10px;
       line-height: 1.4;
-      opacity: 1;
       transition: all 0.3s ease;
     }
 
     .gallery-item:hover {
       transform: translateY(-5px);
-      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+      box-shadow: var(--box-shadow-hover);
     }
 
     .gallery-item:hover .gallery-image {
@@ -401,78 +403,6 @@
       padding: 10px;
     }
 
-    .scroll-spinner {
-      display: block;
-      position: relative;
-      margin: 80px auto 600px;
-      border-radius: 50%;
-      height: 96px;
-      width: 96px;
-      animation: rotate_3922 2.5s linear infinite;
-      background-color: #ff69b4;
-      background-image: linear-gradient(45deg, #ff69b4, #e6e6fa, #dda0dd, #9370db, #ff69b4);
-    }
-
-    .scroll-spinner span {
-      position: absolute;
-      border-radius: 50%;
-      height: 100%;
-      width: 100%;
-      background-color: #ff69b4;
-      background-image: linear-gradient(45deg, #ff69b4, #e6e6fa, #dda0dd, #9370db, #ff69b4);
-    }
-
-    .scroll-spinner span:nth-of-type(1) {
-      filter: blur(5px);
-    }
-
-    .scroll-spinner span:nth-of-type(2) {
-      filter: blur(10px);
-    }
-
-    .scroll-spinner span:nth-of-type(3) {
-      filter: blur(25px);
-    }
-
-    .scroll-spinner span:nth-of-type(4) {
-      filter: blur(50px);
-    }
-
-    .scroll-spinner::after {
-      content: "";
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      right: 10px;
-      bottom: 10px;
-      background-color: #fff;
-      border: solid 5px #fff;
-      border-radius: 50%;
-    }
-
-    @keyframes rotate_3922 {
-      from {
-        transform: rotate(0deg);
-      }
-      to {
-        transform: rotate(360deg);
-      }
-    }
-
-    /*
-      Increase the font size for the press message 
-      to be more prominent as requested
-    */
-    .spinner-instruction {
-      font-family: var(--font-script);
-      color: #fff;
-      text-align: center;
-      margin-top: -30px;
-      margin-bottom: 20px;
-      font-size: 1.5rem; /* increased from 1.2rem */
-      font-weight: normal;
-    }
-
     .container {
       width: min(90%, 1000px);
       background: rgba(255, 255, 255, 0.95);
@@ -480,7 +410,7 @@
       border-radius: 20px;
       text-align: center;
       margin: 150px auto;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      box-shadow: var(--box-shadow-medium);
       position: relative;
       z-index: 2;
       animation: fadeIn 1.5s ease-in-out;
@@ -512,16 +442,6 @@
       min-height: 120px;
     }
 
-    .buttons .button {
-      font-size: 1.2rem;
-    }
-
-    /*
-      Button styling changes:
-      1. Use a pink halo ring with more pink
-      2. Maintain same shape and sizing for yes/no as the song button
-      3. Add a min-width so short text doesn't appear smaller
-    */
     .button {
       position: relative;
       font-size: 1rem;
@@ -537,9 +457,8 @@
       color: #fff;
       transition: all 0.2s ease-in;
       text-align: center;
-      /* Ensure consistent size for short text: */
       min-width: 180px;
-      box-shadow: 
+      box-shadow:
         0.5px 0.5px 0 0 var(--pink-800),
         1px 1px 0 0 var(--pink-800),
         1.5px 1.5px 0 0 var(--pink-800),
@@ -888,6 +807,20 @@
       }
     }
 
+    @keyframes subtleBounceBtn {
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-5px);
+      }
+    }
+
+    .scroll-down-subtle-bounce {
+      animation: subtleBounceBtn 3s infinite;
+    }
+
     @media (max-width: 1200px) {
       .gallery-grid {
         grid-template-columns: repeat(3, 1fr);
@@ -907,7 +840,7 @@
         font-size: 0.9em;
         padding: 8px 15px;
         border-radius: 20px !important;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2) !important;
+        box-shadow: var(--box-shadow-medium) !important;
         width: 200px !important;
         min-height: 120px !important;
         margin: 30px auto !important;
@@ -962,7 +895,7 @@
 
       .button {
         font-size: 0.9rem;
-        min-width: 140px; /* Slightly smaller for smaller screens */
+        min-width: 140px;
       }
 
       .button > div > span {
@@ -983,7 +916,7 @@
     @media (pointer: coarse) {
       .gallery-item:hover {
         transform: none;
-        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        box-shadow: var(--box-shadow-card);
       }
       .gallery-item:hover .gallery-image {
         transform: none;
@@ -1068,9 +1001,11 @@
     </div>
   </section>
 
-  <p class="spinner-instruction">Press👇🏻</p>
-  <div class="scroll-spinner" id="scrollSpinner">
-    <span></span><span></span><span></span><span></span>
+  <!-- Press down button with subtle bounce -->
+  <div style="text-align:center; margin-bottom:150px;">
+    <button id="scrollDownBtn" class="button scroll-down-subtle-bounce" aria-label="Scroll Down">
+      <div><span>Scroll Down</span></div>
+    </button>
   </div>
 
   <div class="container">
@@ -1487,16 +1422,6 @@
       document.getElementById("valentine-hours").textContent = hh;
     }
 
-    function setupScrollSpinner() {
-      const sp = document.getElementById("scrollSpinner");
-      const mc = document.querySelector(".container");
-      if (sp && mc) {
-        sp.addEventListener("click", () => {
-          mc.scrollIntoView({ behavior: "smooth" });
-        });
-      }
-    }
-
     function setupGalleryModal() {
       const gm = document.getElementById("galleryModal");
       const mi = gm.querySelector(".gallery-modal-image");
@@ -1643,6 +1568,7 @@
         }
       });
 
+      // Custom cursor for non-touch devices
       if (!window.matchMedia("(pointer: coarse)").matches) {
         document.addEventListener("mousemove", (e) => {
           const c = document.getElementById("customCursor");
@@ -1667,7 +1593,14 @@
         });
       }
 
-      setupScrollSpinner();
+      // Press down button logic
+      const scrollDownBtn = document.getElementById("scrollDownBtn");
+      if (scrollDownBtn) {
+        scrollDownBtn.addEventListener("click", () => {
+          document.querySelector(".container").scrollIntoView({ behavior: "smooth" });
+        });
+      }
+
       setupGalleryModal();
       setupMusicPlayer();
 
