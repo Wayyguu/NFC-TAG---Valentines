@@ -62,6 +62,12 @@
         4px 4px 0 2px #ccc;
     }
 
+    /* Shiny heart style for the yay modal heading */
+    .shiny-heart {
+      color: #ff69b4;
+      text-shadow: 0 0 10px rgba(255, 105, 180, 0.8);
+    }
+
     * {
       margin: 0;
       padding: 0;
@@ -165,6 +171,27 @@
       .time-counter:hover {
         transform: none !important;
         box-shadow: 8px 8px 0 #000 !important;
+      }
+    }
+
+    /* Proper spacing and sizing adjustments for mobile counter cards */
+    @media (max-width: 768px) {
+      .time-counter {
+        position: static !important;
+        display: block !important;
+        width: 90% !important;
+        height: auto !important;
+        padding: 1rem !important;
+        border: 3px solid #000 !important;
+        border-radius: 2px !important;
+        box-shadow: 8px 8px 0 #000 !important;
+        margin: 30px auto !important;
+        margin-bottom: 20px !important;
+      }
+      #dating-counter,
+      #valentine-counter {
+        left: auto !important;
+        right: auto !important;
       }
     }
 
@@ -542,7 +569,7 @@
       pointer-events: none;
     }
     .button::after {
-      content: "";
+      content: "<3";
       position: absolute;
       top: 0;
       left: 0;
@@ -552,6 +579,17 @@
       transform: skewX(-20deg) translateX(-100%);
       opacity: 0;
       pointer-events: none;
+    }
+    /* Override for specific buttons: Scroll Down and Play Our Song */
+    #scrollDownBtn > div > span::after {
+      content: "↓";
+      margin-left: 8px;
+      font-size: 1rem;
+    }
+    #playSongBtn > div > span::after {
+      content: "♫";
+      margin-left: 8px;
+      font-size: 1rem;
     }
     /* Hover Effects */
     .button:hover {
@@ -648,14 +686,9 @@
       transform: translateY(2px);
     }
     /* Use emoticons/symbols instead of emojis in buttons.
-       Replace the default heart "♥" with the emoticon "<3".
+       The default pseudo-element content for buttons is overridden for scroll down and play our song buttons.
+       (Yes and No buttons will still use the default "<3" for positive and ":(" for negative.)
     */
-    .button > div > span::after {
-      content: "<3";
-      margin-left: 8px;
-      font-size: 1rem;
-      transition: transform 0.1s ease-in-out;
-    }
     .button.no-btn > div > span::after {
       content: ":(";
       margin-left: 8px;
@@ -851,22 +884,6 @@
       }
     }
     @media (max-width: 768px) {
-      .time-counter {
-        position: static !important;
-        display: block !important;
-        width: 90% !important;
-        height: auto !important;
-        padding: 1rem !important;
-        border: 3px solid #000 !important;
-        border-radius: 2px !important;
-        box-shadow: 8px 8px 0 #000 !important;
-        margin: 30px auto !important;
-      }
-      #dating-counter,
-      #valentine-counter {
-        left: auto !important;
-        right: auto !important;
-      }
       .gallery-section {
         margin: 100px auto;
         padding: 30px;
@@ -1069,7 +1086,7 @@
   <div class="music-player" style="margin-bottom: 60px;">
     <button id="playSongBtn" class="button" aria-label="Play Our Song">
       <div>
-        <span>Play Our Song ♪</span>
+        <span>Play Our Song</span>
       </div>
     </button>
     <audio id="ourSong" src="our-song.mp3"></audio>
@@ -1088,9 +1105,8 @@
   <div id="modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-describedby="modalDescription">
     <div class="modal-content">
       <span class="close-modal" id="closeModal" aria-label="Close Modal">&times;</span>
-      <!-- Changed font logic: Use Space Grotesk for the heading -->
       <h2 id="modalTitle" style="font-family: var(--font-sg); color: var(--primary-color); font-size: clamp(2.5em, 8vw, 5em);">
-        Yay! <3
+        Yay! <span class="shiny-heart">💖</span>
       </h2>
       <!-- Once "Yes" is clicked, we'll add .gallery-style to match gallery look -->
       <div class="modal-photo-container">
@@ -1521,11 +1537,11 @@
       playBtn.addEventListener("click", () => {
         if (playing) {
           audio.pause();
-          playBtn.querySelector("span").textContent = "Play Our Song ♪";
+          playBtn.querySelector("span").textContent = "Play Our Song";
           playBtn.classList.remove("playing");
         } else {
           audio.play().catch((e) => console.log(e));
-          playBtn.querySelector("span").textContent = "Pause Our Song ♪";
+          playBtn.querySelector("span").textContent = "Pause Our Song";
           playBtn.classList.add("playing");
         }
         playing = !playing;
@@ -1533,7 +1549,7 @@
 
       audio.addEventListener("ended", () => {
         playing = false;
-        playBtn.querySelector("span").textContent = "Play Our Song ♪";
+        playBtn.querySelector("span").textContent = "Play Our Song";
         playBtn.classList.remove("playing");
       });
     }
