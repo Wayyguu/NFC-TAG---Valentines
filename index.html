@@ -1,1779 +1,1752 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Be My Valentine?</title>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Parisienne&family=Poppins:wght@400;700&display=swap"
-      rel="stylesheet"
-    />
-    <style>
-        :root {
-            --primary-color: #ff6b81;
-            --secondary-color: #ffffff;
-            --background-gradient: radial-gradient(circle at top left, #f9c6d5, #d6a4e7, #a18cd1, #fbc2eb);
-
-            --font-sans: "Poppins", sans-serif;
-            --font-script: "Parisienne", cursive;
-
-            /* Safe area variables for notched screens (iPhones) */
-            --safe-area-inset-top: env(safe-area-inset-top, 20px);
-            --safe-area-inset-right: env(safe-area-inset-right, 20px);
-            --safe-area-inset-bottom: env(safe-area-inset-bottom, 20px);
-            --safe-area-inset-left: env(safe-area-inset-left, 20px);
-
-            /* Colors, transitions, shadows */
-            --pink-50: #ffd6e9;
-            --pink-800: #9d174d;
-            --red-400: #ff4d8d;
-            --gray-700: #555;
-
-            --transition-ease: 0.4s ease-out;
-            --transition-default: all 0.4s ease;
-            --box-shadow-card: 0 5px 20px rgba(0, 0, 0, 0.1);
-            --box-shadow-hover: 0 15px 40px rgba(0, 0, 0, 0.2);
-            --box-shadow-counter: 0 5px 15px rgba(0, 0, 0, 0.1);
-            --box-shadow-larger: 0 15px 35px rgba(0, 0, 0, 0.15);
-            --box-shadow-medium: 0 10px 25px rgba(0, 0, 0, 0.2);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: var(--font-sans);
-            color: #000;
-            background: var(--background-gradient);
-            min-height: 100vh;
-            padding: var(--safe-area-inset-top) var(--safe-area-inset-right)
-                var(--safe-area-inset-bottom) var(--safe-area-inset-left);
-            overflow-x: hidden;
-            position: relative; /* For absolute positioning of cards */
-        }
-
-        @media (pointer: fine) {
-            body {
-                cursor: none;
-            }
-        }
-
-        /* Reusable “card” styling from the example */
-        .card {
-            position: absolute; /* Positioned in corners */
-            width: 200px;
-            height: 120px;
-            padding: 1rem;
-            background: #ffffff;
-            border: 3px solid #000;
-            border-radius: 2px;
-            box-shadow: 8px 8px 0 #000;
-            transition: all 0.2s ease;
-            cursor: pointer;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-        }
-        .card:hover {
-            transform: translate(-4px, -4px);
-            box-shadow: 12px 12px 0 #000;
-        }
-        .card:active {
-            transform: translate(2px, 2px);
-            box-shadow: 6px 6px 0 #000;
-        }
-
-        /* The little heart icon in the top-right corner of a card */
-        .heart-icon {
-            position: absolute;
-            top: 0.5rem;
-            right: 0.5rem;
-            width: 24px;
-            height: 24px;
-            color: #ff3366;
-        }
-
-        /* The “pop-dots” effect in the bottom-left corner of a card */
-        .pop-dots {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            bottom: -5px;
-            left: -5px;
-            background-image: radial-gradient(#000 1px, transparent 1px);
-            background-size: 5px 5px;
-            opacity: 0.3;
-        }
-
-        /* Specific positioning for the counter cards */
-        #dating-card {
-            top: 20px;
-            left: 20px;
-        }
-        #valentine-card {
-            top: 20px;
-            right: 20px;
-        }
-
-        /* Counter text inside the card */
-        .counter-label {
-            color: var(--primary-color);
-            font-size: 1.2rem;
-            font-weight: bold;
-            margin-bottom: 0.3rem;
-        }
-        .time-values {
-            display: flex;
-            gap: 4px;
-            align-items: baseline;
-            font-size: 1rem;
-        }
-        .time-values span {
-            font-weight: normal;
-        }
-
-        /* Funny Message */
-        .funny-message {
-            position: fixed;
-            background-color: white;
-            color: var(--primary-color);
-            padding: 15px 30px;
-            border-radius: 10px;
-            font-size: clamp(1em, 3vw, 1.2em);
-            z-index: 1000;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-            opacity: 0;
-            text-align: center;
-            max-width: 90%;
-            pointer-events: none;
-            transform: translate(-50%, -100%);
-            transition: top var(--transition-ease), left var(--transition-ease), opacity 0.3s;
-        }
-
-        /* Floating Elements */
-        .floating-elements {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-            overflow: hidden;
-        }
-
-        .floating-element {
-            position: absolute;
-            animation: float linear infinite;
-            opacity: 0.6;
-            font-size: 1.5em;
-            user-select: none;
-        }
-
-        @keyframes float {
-            0% {
-                transform: translateY(-20px) rotate(0deg);
-                opacity: 0;
-            }
-            10% {
-                opacity: 0.6;
-            }
-            90% {
-                opacity: 0.6;
-            }
-            100% {
-                transform: translateY(105vh) rotate(360deg);
-                opacity: 0;
-            }
-        }
-
-        /* Confetti Container */
-        .confetti-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 999;
-        }
-
-        /* Custom Cursor */
-        .custom-cursor {
-            position: fixed;
-            color: var(--secondary-color);
-            font-size: 24px;
-            pointer-events: none;
-            z-index: 1002;
-            background: transparent;
-            border-radius: 0;
-            box-shadow: none;
-            text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
-            transition: transform 0.2s ease;
-        }
-
-        .custom-cursor.hover-yes {
-            transform: scale(1.5);
-        }
-
-        @media (pointer: coarse) {
-            .custom-cursor {
-                display: none;
-            }
-        }
-
-        /* Gallery Section */
-        .gallery-section {
-            width: min(90%, 1000px);
-            margin: 150px auto;
-            padding: 60px;
-            background: rgba(255, 255, 255, 0.98);
-            border-radius: 30px;
-            box-shadow: var(--box-shadow-larger);
-            animation: fadeIn 1.5s ease-in-out;
-        }
-
-        .gallery-title {
-            font-family: var(--font-script);
-            color: var(--primary-color);
-            font-size: clamp(2.2em, 6vw, 4em);
-            text-align: center;
-            margin-bottom: 60px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-            position: relative;
-        }
-
-        .gallery-title:after {
-            content: "";
-            position: absolute;
-            bottom: -15px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100px;
-            height: 3px;
-            background: linear-gradient(
-                90deg,
-                transparent,
-                var(--primary-color),
-                transparent
-            );
-        }
-
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 40px;
-            padding: 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .gallery-item {
-            position: relative;
-            transform-origin: center;
-            aspect-ratio: 1;
-            overflow: hidden;
-            border-radius: 30px;
-            box-shadow: var(--box-shadow-card);
-            transition: var(--transition-default);
-        }
-
-        .gallery-item::before {
-            content: "";
-            position: absolute;
-            width: 200px;
-            height: 130%;
-            background-image: linear-gradient(
-                180deg,
-                rgba(99, 102, 241, 0.8),
-                rgba(168, 85, 247, 0.8),
-                rgba(236, 72, 153, 0.8)
-            );
-            filter: blur(20px);
-            top: 0;
-            left: 0;
-            z-index: 1;
-            animation: rotBGimg 8s cubic-bezier(0.8, 0.2, 0.2, 0.8) infinite;
-            transition: opacity var(--transition-ease);
-            opacity: 0;
-        }
-
-        .gallery-item:hover::before {
-            opacity: 1;
-        }
-
-        @keyframes rotBGimg {
-            0% {
-                transform: rotate(0deg) scale(1);
-            }
-            50% {
-                transform: rotate(180deg) scale(1.2);
-            }
-            100% {
-                transform: rotate(360deg) scale(1);
-            }
-        }
-
-        .gallery-item::after {
-            content: "";
-            position: absolute;
-            inset: 5px;
-            border-radius: 25px;
-            background: #ffffff;
-            backdrop-filter: blur(10px);
-            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
-            z-index: 2;
-        }
-
-        .gallery-frame {
-            position: relative;
-            z-index: 3;
-            width: 100%;
-            height: 100%;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            box-sizing: border-box;
-            border-radius: 15px;
-        }
-
-        .glass-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(
-                135deg,
-                rgba(255, 255, 255, 0.1) 0%,
-                rgba(255, 255, 255, 0.05) 50%,
-                rgba(255, 255, 255, 0) 100%
-            );
-            border-radius: 30px;
-            pointer-events: none;
-            z-index: 2;
-        }
-
-        .gallery-image {
-            width: 100%;
-            height: calc(100% - 60px);
-            object-fit: cover;
-            border-radius: 8px;
-            transition: var(--transition-default);
-            cursor: pointer;
-        }
-
-        .gallery-caption {
-            font-family: var(--font-sans);
-            color: #000;
-            font-size: clamp(1.2em, 4vw, 1.5em);
-            text-align: center;
-            margin-top: 15px;
-            padding: 0 10px;
-            line-height: 1.4;
-            transition: all 0.3s ease;
-        }
-
-        .gallery-item:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--box-shadow-hover);
-        }
-
-        .gallery-item:hover .gallery-image {
-            transform: scale(1.05);
-        }
-
-        .gallery-item:hover .gallery-caption {
-            color: var(--primary-color);
-            transform: translateY(-2px);
-        }
-
-        /* Gallery Modal */
-        .gallery-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-            padding: max(var(--safe-area-inset-top), 20px)
-                max(var(--safe-area-inset-right), 20px)
-                max(var(--safe-area-inset-bottom), 20px)
-                max(var(--safe-area-inset-left), 20px);
-        }
-
-        .gallery-modal-content {
-            max-width: 90%;
-            max-height: 90vh;
-            position: relative;
-        }
-
-        .gallery-modal-image {
-            max-width: 100%;
-            max-height: 90vh;
-            object-fit: contain;
-            border-radius: 8px;
-        }
-
-        .gallery-modal-caption {
-            color: white;
-            text-align: center;
-            margin-top: 15px;
-            font-family: var(--font-sans);
-            font-size: clamp(1.2em, 3vw, 1.5em);
-        }
-
-        .close-gallery-modal {
-            position: absolute;
-            top: -40px;
-            right: -40px;
-            color: white;
-            font-size: 2em;
-            cursor: pointer;
-            padding: 10px;
-        }
-
-        /* Main Container */
-        .container {
-            width: min(90%, 1000px);
-            background: rgba(255, 255, 255, 0.95);
-            padding: 60px;
-            border-radius: 20px;
-            text-align: center;
-            margin: 150px auto;
-            box-shadow: var(--box-shadow-medium);
-            position: relative;
-            z-index: 2;
-            animation: fadeIn 1.5s ease-in-out;
-        }
-
-        h1 {
-            font-family: var(--font-script);
-            color: var(--primary-color);
-            font-size: clamp(2.5em, 8vw, 5em);
-            margin-bottom: 50px;
-            animation: subtleBounce 2s infinite;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .message {
-            font-size: clamp(1.2em, 4vw, 2em);
-            color: #000;
-            margin-bottom: 50px;
-            line-height: 1.6;
-            animation: slideIn 1s;
-        }
-
-        /* Buttons Container */
-        .buttons {
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            margin-bottom: 30px;
-            position: relative;
-            min-height: 120px;
-        }
-
-        /* Base Button Styles */
-        .button {
-            position: relative;
-            font-size: 1.5rem;
-            cursor: pointer;
-            font-weight: bold;
-            line-height: 1;
-            padding: 1px;
-            outline: 2px solid transparent;
-            outline-offset: 5px;
-            border-radius: 9999px;
-            background-color: transparent; /* handle background within inner div */
-            color: transparent; /* text color handled by the inner span */
-            transition: all 0.2s ease-in;
-            text-align: center;
-            min-width: 200px;
-            box-shadow:
-                0.5px 0.5px 0 0 var(--pink-800),
-                1px 1px 0 0 var(--pink-800),
-                1.5px 1.5px 0 0 var(--pink-800),
-                2px 2px 0 0 var(--pink-800),
-                2.5px 2.5px 0 0 var(--pink-800),
-                3px 3px 0 0 var(--pink-800),
-                0 0 0 2px var(--pink-50),
-                0.5px 0.5px 0 2px var(--pink-50),
-                1px 1px 0 2px var(--pink-50),
-                1.5px 1.5px 0 2px var(--pink-50),
-                2px 2px 0 2px var(--pink-50),
-                2.5px 2.5px 0 2px var(--pink-50),
-                3px 3px 0 2px var(--pink-50),
-                3.5px 3.5px 0 2px var(--pink-50),
-                4px 4px 0 2px var(--pink-50);
-            overflow: hidden;
-        }
-
-        /* "No" Button Specific Styles */
-        .button.no-btn {
-            box-shadow:
-                0.5px 0.5px 0 0 var(--gray-700),
-                1px 1px 0 0 var(--gray-700),
-                1.5px 1.5px 0 0 var(--gray-700),
-                2px 2px 0 0 var(--gray-700),
-                2.5px 2.5px 0 0 var(--gray-700),
-                3px 3px 0 0 var(--gray-700),
-                0 0 0 2px var(--pink-50),
-                0.5px 0.5px 0 2px var(--pink-50),
-                1px 1px 0 2px var(--pink-50),
-                1.5px 1.5px 0 2px var(--pink-50),
-                2px 2px 0 2px var(--pink-50),
-                2.5px 2.5px 0 2px var(--pink-50),
-                3px 3px 0 2px var(--pink-50),
-                3.5px 3.5px 0 2px var(--pink-50),
-                4px 4px 0 2px var(--pink-50);
-        }
-
-        /* Playing State for "Play Our Song" Button */
-        .button.playing > div {
-            background-color: #fff !important;
-            color: var(--pink-800);
-        }
-
-        .button.playing > div > span {
-            color: var(--pink-800) !important;
-        }
-
-        /* Button Pseudo-elements */
-        .button::before {
-            content: "";
-            display: block;
-            width: 0px;
-            height: 86%;
-            position: absolute;
-            top: 7%;
-            left: 0%;
-            opacity: 0;
-            background: #fff;
-            box-shadow: 0 0 50px 30px #fff;
-            transform: skewX(-20deg);
-            transition: all 0.2s ease-out;
-            pointer-events: none;
-        }
-
-        .button::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(
-                120deg,
-                rgba(255, 255, 255, 0) 0%,
-                rgba(255, 255, 255, 0.5) 50%,
-                rgba(255, 255, 255, 0) 100%
-            );
-            transform: skewX(-20deg) translateX(-100%);
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        /* Hover Effects */
-        .button:hover {
-            box-shadow: 0 0 30px 5px rgba(255, 77, 141, 0.815);
-        }
-
-        .button:hover.no-btn {
-            box-shadow: 0 0 30px 5px rgba(119, 119, 119, 0.815);
-        }
-
-        .button:hover::before {
-            animation: sh02 0.5s 0s linear forwards;
-        }
-
-        .button:hover::after {
-            opacity: 1;
-            animation: shine 1s forwards;
-        }
-
-        .button:active {
-            box-shadow: 0 0 0 2px var(--pink-50);
-        }
-
-        .button:focus-visible {
-            outline-color: var(--red-400);
-            outline-style: dashed;
-        }
-
-        /* Button Inner Div */
-        .button > div {
-            position: relative;
-            pointer-events: none;
-            background-color: var(--red-400); /* background set here */
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-radius: 9999px;
-            overflow: hidden;
-            transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .button.no-btn > div {
-            background-color: var(--gray-700) !important;
-        }
-
-        /* Dotted Background Pattern */
-        .button > div::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            border-radius: 9999px;
-            opacity: 0.5;
-            background-image: radial-gradient(rgb(255 255 255 / 80%) 20%, transparent 20%),
-                radial-gradient(rgb(255 255 255 / 100%) 20%, transparent 20%);
-            background-position: 0 0, 4px 4px;
-            background-size: 8px 8px;
-            mix-blend-mode: hard-light;
-            animation: dots 0.5s infinite linear;
-            pointer-events: none;
-        }
-
-        /* Button Text and Icons */
-        .button > div > span {
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0.75rem 1.25rem;
-            gap: 0.25rem;
-            filter: drop-shadow(0 -1px 0 rgba(255, 255, 255, 0.25));
-            color: #fff;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            transition: transform 0.1s ease-in-out;
-            font-size: 1.2rem;
-        }
-
-        .button > div > span:active {
-            transform: translateY(2px);
-        }
-
-        .button > div > span::after {
-            content: "♥";
-            margin-left: 8px;
-            font-size: 1rem;
-            transition: transform 0.1s ease-in-out;
-        }
-
-        .button.no-btn > div > span::after {
-            content: ":(";
-            margin-left: 8px;
-            font-size: 1rem;
-        }
-
-        /* Keyframes for Animations */
-        @keyframes dots {
-            0% {
-                background-position: 0 0, 4px 4px;
-            }
-            100% {
-                background-position: 8px 0, 12px 4px;
-            }
-        }
-
-        @keyframes sh02 {
-            from {
-                opacity: 0;
-                left: 0%;
-            }
-            50% {
-                opacity: 1;
-            }
-            to {
-                opacity: 0;
-                left: 100%;
-            }
-        }
-
-        @keyframes shine {
-            0% {
-                transform: skewX(-20deg) translateX(-100%);
-                opacity: 0;
-            }
-            10% {
-                opacity: 0.5;
-            }
-            50% {
-                transform: skewX(-20deg) translateX(0%);
-                opacity: 0.5;
-            }
-            90% {
-                opacity: 0.5;
-            }
-            100% {
-                transform: skewX(-20deg) translateX(100%);
-                opacity: 0;
-            }
-        }
-
-        /* Music Player */
-        .music-player {
-            width: 100%;
-            text-align: center;
-            margin: 40px 0;
-        }
-
-        /* Modal Styles */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            justify-content: center;
-            align-items: flex-start;
-            z-index: 1000;
-            padding: max(var(--safe-area-inset-top), 20px)
-                max(var(--safe-area-inset-right), 20px)
-                max(var(--safe-area-inset-bottom), 20px)
-                max(var(--safe-area-inset-left), 20px);
-            overflow-y: auto;
-        }
-
-        .modal-content {
-            background: #fff;
-            padding: 40px;
-            border-radius: 15px;
-            text-align: center;
-            position: relative;
-            animation: fadeInModal 0.5s;
-            max-width: 90%;
-            width: 500px;
-            margin: auto;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .modal-photo-container {
-            width: 100%;
-            max-width: 400px;
-            height: 300px;
-            margin: 20px 0;
-            border: 3px solid var(--primary-color);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s ease;
-            border-radius: 15px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .modal-photo-container:hover {
-            border: 8px solid var(--primary-color);
-            box-shadow: 0 0 20px 5px rgba(255, 107, 129, 0.5);
-        }
-
-        .modal-photo {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center;
-            transition: transform 0.3s ease;
-        }
-
-        .modal-photo-container:hover .modal-photo {
-            transform: scale(1.05);
-        }
-
-        .modal-text {
-            margin-top: 20px;
-            max-width: 80%;
-            font-family: var(--font-sans);
-            color: #000;
-            font-size: clamp(1.2em, 3vw, 1.5em);
-            line-height: 1.5;
-        }
-
-        .close-modal {
-            position: absolute;
-            top: 15px;
-            right: 20px;
-            font-size: 1.5em;
-            cursor: pointer;
-            color: #aaa;
-            transition: color 0.3s;
-            padding: 5px;
-        }
-
-        .close-modal:hover {
-            color: var(--primary-color);
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: scale(0.95);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeInModal {
-            from {
-                opacity: 0;
-                transform: scale(0.9);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
-        @keyframes subtleBounce {
-            0%,
-            100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-10px);
-            }
-        }
-
-        @keyframes subtleBounceBtn {
-            0%,
-            100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-5px);
-            }
-        }
-
-        .scroll-down-subtle-bounce {
-            animation: subtleBounceBtn 3s infinite;
-        }
-
-        /* Additional Spacing Under "Scroll Down" to force more scrolling */
-        .scroll-down-container {
-            text-align: center;
-            margin-bottom: 600px; /* Increased spacing */
-        }
-
-        /* Responsive Styles */
-        @media (max-width: 1200px) {
-            .gallery-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
-
-        @media (max-width: 992px) {
-            .gallery-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (max-width: 768px) {
-            .card {
-                width: 180px;
-                height: 100px;
-                padding: 0.8rem;
-            }
-
-            .time-values {
-                font-size: 0.9rem;
-            }
-
-            #dating-card,
-            #valentine-card {
-                width: 160px;
-                height: 80px;
-                padding: 0.8rem;
-            }
-
-            .gallery-section {
-                margin: 100px auto;
-                padding: 30px;
-            }
-
-            .gallery-grid {
-                gap: 20px;
-                padding: 10px;
-            }
-
-            .modal-photo-container {
-                height: 180px;
-            }
-
-            .close-gallery-modal {
-                top: -30px;
-                right: -10px;
-            }
-
-            .container {
-                padding: 30px;
-                margin: 100px auto;
-            }
-
-            h1 {
-                font-size: clamp(2.5em, 8vw, 3.5em);
-                margin-bottom: 30px;
-            }
-
-            .message {
-                font-size: clamp(1.2em, 4vw, 1.5em);
-                margin-bottom: 30px;
-            }
-
-            .buttons {
-                flex-direction: column;
-                align-items: center;
-                gap: 15px;
-                min-height: 100px;
-            }
-
-            .button {
-                font-size: 1.2rem;
-                min-width: 140px;
-            }
-
-            .button > div > span {
-                padding: 0.5rem 1rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .gallery-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .gallery-item {
-                aspect-ratio: 4/3;
-            }
-
-            .card {
-                width: 90%;
-                height: auto;
-                padding: 1rem;
-            }
-
-            #dating-card,
-            #valentine-card {
-                width: 90%;
-                height: auto;
-                padding: 1rem;
-                top: 10px;
-                left: 5%;
-                right: 5%;
-            }
-        }
-
-        @media (pointer: coarse) {
-            .gallery-item:hover {
-                transform: none;
-                box-shadow: var(--box-shadow-card);
-            }
-            .gallery-item:hover .gallery-image {
-                transform: none;
-            }
-            .gallery-item:hover .gallery-caption {
-                color: #000;
-                transform: none;
-            }
-            .gallery-item:hover::before {
-                opacity: 0;
-            }
-        }
-
-        /* Remove glowing effect on "No" button once triggered */
-        .disable-no-hover:hover {
-            box-shadow: none !important;
-        }
-
-        /* Match the gallery style for the success modal photo once "Yes" is triggered */
-        .gallery-style {
-            border-radius: 30px !important;
-            box-shadow: var(--box-shadow-card) !important;
-            transition: var(--transition-default) !important;
-            border: none !important;
-            overflow: hidden !important;
-            position: relative !important;
-        }
-        .gallery-style:hover {
-            transform: translateY(-5px) !important;
-            box-shadow: var(--box-shadow-hover) !important;
-            border: none !important;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Be My Valentine?</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Parisienne&family=Poppins:wght@400;700&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    :root {
+      --primary-color: #ff6b81;
+      --secondary-color: #ffffff;
+      --background-gradient: radial-gradient(circle at top left, #f9c6d5, #d6a4e7, #a18cd1, #fbc2eb);
+
+      --font-sans: "Poppins", sans-serif;
+      --font-script: "Parisienne", cursive;
+
+      --safe-area-inset-top: env(safe-area-inset-top, 20px);
+      --safe-area-inset-right: env(safe-area-inset-right, 20px);
+      --safe-area-inset-bottom: env(safe-area-inset-bottom, 20px);
+      --safe-area-inset-left: env(safe-area-inset-left, 20px);
+
+      /* Adjusted colors for a more cohesive look */
+      --pink-50: #ffd6e9;
+      --pink-800: #9d174d;
+      --red-400: #ff4d8d;
+      --gray-700: #555;
+
+      /* Common transitions & shadows */
+      --transition-ease: 0.4s ease-out;
+      --transition-default: all 0.4s ease;
+      --box-shadow-card: 0 5px 20px rgba(0, 0, 0, 0.1);
+      --box-shadow-hover: 0 15px 40px rgba(0, 0, 0, 0.2);
+      --box-shadow-counter: 0 5px 15px rgba(0, 0, 0, 0.1);
+      --box-shadow-larger: 0 15px 35px rgba(0, 0, 0, 0.15);
+      --box-shadow-medium: 0 10px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      color: #000;
+      background: var(--background-gradient);
+      min-height: 100vh;
+      padding: var(--safe-area-inset-top) var(--safe-area-inset-right)
+        var(--safe-area-inset-bottom) var(--safe-area-inset-left);
+      overflow-x: hidden;
+    }
+
+    @media (pointer: fine) {
+      body {
+        cursor: none;
+      }
+    }
+
+    /* Time Counters */
+    .time-counter {
+      position: fixed;
+      top: max(var(--safe-area-inset-top), 20px);
+      background: rgba(255, 255, 255, 0.95);
+      padding: 15px 25px;
+      border-radius: 15px;
+      box-shadow: var(--box-shadow-counter);
+      z-index: 1001;
+      text-align: center;
+      line-height: 1.4;
+      width: 200px;
+      min-height: 120px;
+    }
+
+    .counter-label {
+      display: block;
+      font-family: var(--font-script);
+      font-size: clamp(1.5em, 5vw, 2em);
+      color: var(--primary-color);
+      margin-bottom: 8px;
+      text-align: center;
+    }
+
+    .time-values {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .time-counter span:not(.counter-label) {
+      font-family: var(--font-sans);
+      color: #000;
+      font-size: clamp(1em, 3vw, 1.2em);
+      display: block;
+    }
+
+    #dating-counter {
+      right: max(var(--safe-area-inset-right), 20px);
+    }
+
+    #valentine-counter {
+      left: max(var(--safe-area-inset-left), 20px);
+    }
+
+    /* Funny Message */
+    .funny-message {
+      position: fixed;
+      background-color: white;
+      color: var(--primary-color);
+      padding: 15px 30px;
+      border-radius: 10px;
+      font-size: clamp(1em, 3vw, 1.2em);
+      z-index: 1000;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      opacity: 0;
+      text-align: center;
+      max-width: 90%;
+      pointer-events: none;
+      transform: translate(-50%, -100%);
+      transition: top var(--transition-ease), left var(--transition-ease), opacity 0.3s;
+    }
+
+    /* Floating Elements */
+    .floating-elements {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    .floating-element {
+      position: absolute;
+      animation: float linear infinite;
+      opacity: 0.6;
+      font-size: 1.5em;
+      user-select: none;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(-20px) rotate(0deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.6;
+      }
+      90% {
+        opacity: 0.6;
+      }
+      100% {
+        transform: translateY(105vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    /* Confetti Container */
+    .confetti-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    /* Custom Cursor */
+    .custom-cursor {
+      position: fixed;
+      color: var(--secondary-color);
+      font-size: 24px;
+      pointer-events: none;
+      z-index: 1002;
+      background: transparent;
+      border-radius: 0;
+      box-shadow: none;
+      text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+      transition: transform 0.2s ease;
+    }
+
+    .custom-cursor.hover-yes {
+      transform: scale(1.5);
+    }
+
+    @media (pointer: coarse) {
+      .custom-cursor {
+        display: none;
+      }
+    }
+
+    /* Gallery Section */
+    .gallery-section {
+      width: min(90%, 1000px);
+      margin: 150px auto;
+      padding: 60px;
+      background: rgba(255, 255, 255, 0.98);
+      border-radius: 30px;
+      box-shadow: var(--box-shadow-larger);
+      animation: fadeIn 1.5s ease-in-out;
+    }
+
+    .gallery-title {
+      font-family: var(--font-script);
+      color: var(--primary-color);
+      font-size: clamp(2.2em, 6vw, 4em);
+      text-align: center;
+      margin-bottom: 60px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+      position: relative;
+    }
+
+    .gallery-title:after {
+      content: "";
+      position: absolute;
+      bottom: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 3px;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        var(--primary-color),
+        transparent
+      );
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 40px;
+      padding: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .gallery-item {
+      position: relative;
+      transform-origin: center;
+      aspect-ratio: 1;
+      overflow: hidden;
+      border-radius: 30px;
+      box-shadow: var(--box-shadow-card);
+      transition: var(--transition-default);
+    }
+
+    .gallery-item::before {
+      content: "";
+      position: absolute;
+      width: 200px;
+      height: 130%;
+      background-image: linear-gradient(
+        180deg,
+        rgba(99, 102, 241, 0.8),
+        rgba(168, 85, 247, 0.8),
+        rgba(236, 72, 153, 0.8)
+      );
+      filter: blur(20px);
+      top: 0;
+      left: 0;
+      z-index: 1;
+      animation: rotBGimg 8s cubic-bezier(0.8, 0.2, 0.2, 0.8) infinite;
+      transition: opacity var(--transition-ease);
+      opacity: 0;
+    }
+
+    .gallery-item:hover::before {
+      opacity: 1;
+    }
+
+    @keyframes rotBGimg {
+      0% {
+        transform: rotate(0deg) scale(1);
+      }
+      50% {
+        transform: rotate(180deg) scale(1.2);
+      }
+      100% {
+        transform: rotate(360deg) scale(1);
+      }
+    }
+
+    .gallery-item::after {
+      content: "";
+      position: absolute;
+      inset: 5px;
+      border-radius: 25px;
+      background: #ffffff;
+      backdrop-filter: blur(10px);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+      z-index: 2;
+    }
+
+    .gallery-frame {
+      position: relative;
+      z-index: 3;
+      width: 100%;
+      height: 100%;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      box-sizing: border-box;
+      border-radius: 15px;
+    }
+
+    .glass-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.1) 0%,
+        rgba(255, 255, 255, 0.05) 50%,
+        rgba(255, 255, 255, 0) 100%
+      );
+      border-radius: 30px;
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .gallery-image {
+      width: 100%;
+      height: calc(100% - 60px);
+      object-fit: cover;
+      border-radius: 8px;
+      transition: var(--transition-default);
+      cursor: pointer;
+    }
+
+    .gallery-caption {
+      font-family: var(--font-sans);
+      color: #000;
+      font-size: clamp(1.2em, 4vw, 1.5em);
+      text-align: center;
+      margin-top: 15px;
+      padding: 0 10px;
+      line-height: 1.4;
+      transition: all 0.3s ease;
+    }
+
+    .gallery-item:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--box-shadow-hover);
+    }
+
+    .gallery-item:hover .gallery-image {
+      transform: scale(1.05);
+    }
+
+    .gallery-item:hover .gallery-caption {
+      color: var(--primary-color);
+      transform: translateY(-2px);
+    }
+
+    /* Gallery Modal */
+    .gallery-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      padding: max(var(--safe-area-inset-top), 20px)
+        max(var(--safe-area-inset-right), 20px)
+        max(var(--safe-area-inset-bottom), 20px)
+        max(var(--safe-area-inset-left), 20px);
+    }
+
+    .gallery-modal-content {
+      max-width: 90%;
+      max-height: 90vh;
+      position: relative;
+    }
+
+    .gallery-modal-image {
+      max-width: 100%;
+      max-height: 90vh;
+      object-fit: contain;
+      border-radius: 8px;
+    }
+
+    .gallery-modal-caption {
+      color: white;
+      text-align: center;
+      margin-top: 15px;
+      font-family: var(--font-sans);
+      font-size: clamp(1.2em, 3vw, 1.5em);
+    }
+
+    .close-gallery-modal {
+      position: absolute;
+      top: -40px;
+      right: -40px;
+      color: white;
+      font-size: 2em;
+      cursor: pointer;
+      padding: 10px;
+    }
+
+    /* Main Container */
+    .container {
+      width: min(90%, 1000px);
+      background: rgba(255, 255, 255, 0.95);
+      padding: 60px;
+      border-radius: 20px;
+      text-align: center;
+      margin: 150px auto;
+      box-shadow: var(--box-shadow-medium);
+      position: relative;
+      z-index: 2;
+      animation: fadeIn 1.5s ease-in-out;
+    }
+
+    h1 {
+      font-family: var(--font-script);
+      color: var(--primary-color);
+      font-size: clamp(2.5em, 8vw, 5em);
+      margin-bottom: 50px;
+      animation: subtleBounce 2s infinite;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .message {
+      font-size: clamp(1.2em, 4vw, 2em);
+      color: #000;
+      margin-bottom: 50px;
+      line-height: 1.6;
+      animation: slideIn 1s;
+    }
+
+    /* Buttons Container */
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      margin-bottom: 30px;
+      position: relative;
+      min-height: 120px;
+    }
+
+    /* Base Button Styles */
+    .button {
+      position: relative;
+      font-size: 1.5rem;
+      cursor: pointer;
+      font-weight: bold;
+      line-height: 1;
+      padding: 1px;
+      outline: 2px solid transparent;
+      outline-offset: 5px;
+      border-radius: 9999px;
+      background-color: transparent; /* Removed to prevent conflict */
+      color: transparent; /* Hide text color, handled by inner span */
+      transition: all 0.2s ease-in;
+      text-align: center;
+      min-width: 200px;
+      box-shadow:
+        0.5px 0.5px 0 0 var(--pink-800),
+        1px 1px 0 0 var(--pink-800),
+        1.5px 1.5px 0 0 var(--pink-800),
+        2px 2px 0 0 var(--pink-800),
+        2.5px 2.5px 0 0 var(--pink-800),
+        3px 3px 0 0 var(--pink-800),
+        0 0 0 2px var(--pink-50),
+        0.5px 0.5px 0 2px var(--pink-50),
+        1px 1px 0 2px var(--pink-50),
+        1.5px 1.5px 0 2px var(--pink-50),
+        2px 2px 0 2px var(--pink-50),
+        2.5px 2.5px 0 2px var(--pink-50),
+        3px 3px 0 2px var(--pink-50),
+        3.5px 3.5px 0 2px var(--pink-50),
+        4px 4px 0 2px var(--pink-50);
+      overflow: hidden;
+    }
+
+    /* "No" Button Specific Styles */
+    .button.no-btn {
+      box-shadow:
+        0.5px 0.5px 0 0 var(--gray-700),
+        1px 1px 0 0 var(--gray-700),
+        1.5px 1.5px 0 0 var(--gray-700),
+        2px 2px 0 0 var(--gray-700),
+        2.5px 2.5px 0 0 var(--gray-700),
+        3px 3px 0 0 var(--gray-700),
+        0 0 0 2px var(--pink-50),
+        0.5px 0.5px 0 2px var(--pink-50),
+        1px 1px 0 2px var(--pink-50),
+        1.5px 1.5px 0 2px var(--pink-50),
+        2px 2px 0 2px var(--pink-50),
+        2.5px 2.5px 0 2px var(--pink-50),
+        3px 3px 0 2px var(--pink-50),
+        3.5px 3.5px 0 2px var(--pink-50),
+        4px 4px 0 2px var(--pink-50);
+    }
+
+    /* Playing State for "Play Our Song" Button */
+    .button.playing > div {
+      background-color: #fff !important;
+      color: var(--pink-800);
+    }
+
+    .button.playing > div > span {
+      color: var(--pink-800) !important;
+    }
+
+    /* Button Pseudo-elements */
+    .button::before {
+      content: "";
+      display: block;
+      width: 0px;
+      height: 86%;
+      position: absolute;
+      top: 7%;
+      left: 0%;
+      opacity: 0;
+      background: #fff;
+      box-shadow: 0 0 50px 30px #fff;
+      transform: skewX(-20deg);
+      transition: all 0.2s ease-out;
+      pointer-events: none;
+    }
+
+    .button::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        120deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.5) 50%,
+        rgba(255, 255, 255, 0) 100%
+      );
+      transform: skewX(-20deg) translateX(-100%);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* Hover Effects */
+    .button:hover {
+      box-shadow: 0 0 30px 5px rgba(255, 77, 141, 0.815);
+    }
+
+    .button:hover.no-btn {
+      box-shadow: 0 0 30px 5px rgba(119, 119, 119, 0.815);
+    }
+
+    .button:hover::before {
+      animation: sh02 0.5s 0s linear forwards;
+    }
+
+    .button:hover::after {
+      opacity: 1;
+      animation: shine 1s forwards;
+    }
+
+    .button:active {
+      box-shadow: 0 0 0 2px var(--pink-50);
+    }
+
+    .button:focus-visible {
+      outline-color: var(--red-400);
+      outline-style: dashed;
+    }
+
+    /* Button Inner Div */
+    .button > div {
+      position: relative;
+      pointer-events: none;
+      background-color: var(--red-400); /* Set background here */
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 9999px;
+      overflow: hidden;
+      transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .button.no-btn > div {
+      background-color: var(--gray-700) !important;
+    }
+
+    /* Dotted Background Pattern */
+    .button > div::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 9999px;
+      opacity: 0.5;
+      background-image: radial-gradient(rgb(255 255 255 / 80%) 20%, transparent 20%),
+        radial-gradient(rgb(255 255 255 / 100%) 20%, transparent 20%);
+      background-position: 0 0, 4px 4px;
+      background-size: 8px 8px;
+      mix-blend-mode: hard-light;
+      animation: dots 0.5s infinite linear;
+      pointer-events: none;
+    }
+
+    /* Button Text and Icons */
+    .button > div > span {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.75rem 1.25rem;
+      gap: 0.25rem;
+      filter: drop-shadow(0 -1px 0 rgba(255, 255, 255, 0.25));
+      color: #fff;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      transition: transform 0.1s ease-in-out;
+      font-size: 1.2rem;
+    }
+
+    .button > div > span:active {
+      transform: translateY(2px);
+    }
+
+    .button > div > span::after {
+      content: "♥";
+      margin-left: 8px;
+      font-size: 1rem;
+      transition: transform 0.1s ease-in-out;
+    }
+
+    .button.no-btn > div > span::after {
+      content: ":(";
+      margin-left: 8px;
+      font-size: 1rem;
+    }
+
+    /* Keyframes for Animations */
+    @keyframes dots {
+      0% {
+        background-position: 0 0, 4px 4px;
+      }
+      100% {
+        background-position: 8px 0, 12px 4px;
+      }
+    }
+
+    @keyframes sh02 {
+      from {
+        opacity: 0;
+        left: 0%;
+      }
+      50% {
+        opacity: 1;
+      }
+      to {
+        opacity: 0;
+        left: 100%;
+      }
+    }
+
+    @keyframes shine {
+      0% {
+        transform: skewX(-20deg) translateX(-100%);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.5;
+      }
+      50% {
+        transform: skewX(-20deg) translateX(0%);
+        opacity: 0.5;
+      }
+      90% {
+        opacity: 0.5;
+      }
+      100% {
+        transform: skewX(-20deg) translateX(100%);
+        opacity: 0;
+      }
+    }
+
+    /* Music Player */
+    .music-player {
+      width: 100%;
+      text-align: center;
+      margin: 40px 0;
+    }
+
+    /* Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      justify-content: center;
+      align-items: flex-start;
+      z-index: 1000;
+      padding: max(var(--safe-area-inset-top), 20px)
+        max(var(--safe-area-inset-right), 20px)
+        max(var(--safe-area-inset-bottom), 20px)
+        max(var(--safe-area-inset-left), 20px);
+      overflow-y: auto;
+    }
+
+    .modal-content {
+      background: #fff;
+      padding: 40px;
+      border-radius: 15px;
+      text-align: center;
+      position: relative;
+      animation: fadeInModal 0.5s;
+      max-width: 90%;
+      width: 500px;
+      margin: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Applying gallery-style class to modal-photo-container to match gallery-item styling */
+    .gallery-style {
+      border-radius: 30px !important;
+      box-shadow: var(--box-shadow-card) !important;
+      transition: var(--transition-default) !important;
+      border: none !important;
+      overflow: hidden !important;
+      position: relative !important;
+    }
+
+    .gallery-style::before {
+      content: "";
+      position: absolute;
+      width: 200px;
+      height: 130%;
+      background-image: linear-gradient(
+        180deg,
+        rgba(99, 102, 241, 0.8),
+        rgba(168, 85, 247, 0.8),
+        rgba(236, 72, 153, 0.8)
+      );
+      filter: blur(20px);
+      top: 0;
+      left: 0;
+      z-index: 1;
+      animation: rotBGimg 8s cubic-bezier(0.8, 0.2, 0.2, 0.8) infinite;
+      transition: opacity var(--transition-ease);
+      opacity: 0;
+    }
+
+    .gallery-style:hover::before {
+      opacity: 1;
+    }
+
+    .gallery-style::after {
+      content: "";
+      position: absolute;
+      inset: 5px;
+      border-radius: 25px;
+      background: #ffffff;
+      backdrop-filter: blur(10px);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+      z-index: 2;
+    }
+
+    .gallery-style:hover {
+      transform: translateY(-5px) !important;
+      box-shadow: var(--box-shadow-hover) !important;
+      border: none !important;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInModal {
+      from {
+        opacity: 0;
+        transform: scale(0.9);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes subtleBounce {
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+
+    @keyframes subtleBounceBtn {
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-5px);
+      }
+    }
+
+    .scroll-down-subtle-bounce {
+      animation: subtleBounceBtn 3s infinite;
+    }
+
+    /* Additional Spacing Under "Scroll Down" Button 
+       to force more scrolling, per request */
+    /* Changed from 150px to 600px */
+    .scroll-down-container {
+      text-align: center;
+      margin-bottom: 600px; /* Greatly increased spacing */
+    }
+
+    /* Responsive Styles */
+    @media (max-width: 1200px) {
+      .gallery-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (max-width: 992px) {
+      .gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .time-counter {
+        position: static !important;
+        display: block !important;
+        font-size: 0.9em;
+        padding: 8px 15px;
+        border-radius: 20px !important;
+        box-shadow: var(--box-shadow-medium) !important;
+        width: 200px !important;
+        min-height: 120px !important;
+        margin: 30px auto !important;
+      }
+
+      #dating-counter,
+      #valentine-counter {
+        left: auto !important;
+        right: auto !important;
+      }
+
+      .gallery-section {
+        margin: 100px auto;
+        padding: 30px;
+      }
+
+      .gallery-grid {
+        gap: 20px;
+        padding: 10px;
+      }
+
+      .modal-photo-container {
+        height: 180px;
+      }
+
+      .close-gallery-modal {
+        top: -30px;
+        right: -10px;
+      }
+
+      .container {
+        padding: 30px;
+        margin: 100px auto;
+      }
+
+      h1 {
+        font-size: clamp(2.5em, 8vw, 3.5em);
+        margin-bottom: 30px;
+      }
+
+      .message {
+        font-size: clamp(1.2em, 4vw, 1.5em);
+        margin-bottom: 30px;
+      }
+
+      .buttons {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+        min-height: 100px;
+      }
+
+      .button {
+        font-size: 1.2rem;
+        min-width: 140px;
+      }
+
+      .button > div > span {
+        padding: 0.5rem 1rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .gallery-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .gallery-item {
+        aspect-ratio: 4/3;
+      }
+    }
+
+    @media (pointer: coarse) {
+      .gallery-item:hover {
+        transform: none;
+        box-shadow: var(--box-shadow-card);
+      }
+      .gallery-item:hover .gallery-image {
+        transform: none;
+      }
+      .gallery-item:hover .gallery-caption {
+        color: #000;
+        transform: none;
+      }
+      .gallery-item:hover::before {
+        opacity: 0;
+      }
+    }
+
+    /* NEW: Remove glowing effect on "No" button once triggered */
+    .disable-no-hover:hover {
+      box-shadow: none !important;
+    }
+
+    /* NEW: Matching the gallery style for the success modal photo
+       (applied once "Yes" is triggered). This ensures identical border,
+       hover effect, transform, & box shadows as .gallery-item. */
+    .gallery-style {
+      border-radius: 30px !important;
+      box-shadow: var(--box-shadow-card) !important;
+      transition: var(--transition-default) !important;
+      border: none !important;
+      overflow: hidden !important;
+      position: relative !important;
+    }
+
+    .gallery-style::before {
+      content: "";
+      position: absolute;
+      width: 200px;
+      height: 130%;
+      background-image: linear-gradient(
+        180deg,
+        rgba(99, 102, 241, 0.8),
+        rgba(168, 85, 247, 0.8),
+        rgba(236, 72, 153, 0.8)
+      );
+      filter: blur(20px);
+      top: 0;
+      left: 0;
+      z-index: 1;
+      animation: rotBGimg 8s cubic-bezier(0.8, 0.2, 0.2, 0.8) infinite;
+      transition: opacity var(--transition-ease);
+      opacity: 0;
+    }
+
+    .gallery-style:hover::before {
+      opacity: 1;
+    }
+
+    .gallery-style::after {
+      content: "";
+      position: absolute;
+      inset: 5px;
+      border-radius: 25px;
+      background: #ffffff;
+      backdrop-filter: blur(10px);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+      z-index: 2;
+    }
+
+    .gallery-style:hover {
+      transform: translateY(-5px) !important;
+      box-shadow: var(--box-shadow-hover) !important;
+      border: none !important;
+    }
+  </style>
 </head>
 <body>
-    <!-- Card for “Together Since” (top-left corner) -->
-    <div class="card" id="dating-card">
-        <!-- Decorative heart & pop-dots -->
-        <svg class="heart-icon" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 
-                     2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 
-                     3.41.81 4.5 2.09C13.09 3.81 
-                     14.76 3 16.5 3 19.58 3 22 5.42 
-                     22 8.5c0 3.78-3.4 6.86-8.55 
-                     11.54L12 21.35z"/>
-        </svg>
-        <div class="pop-dots"></div>
+  <!-- Time Counters -->
+  <div class="time-counter" id="dating-counter">
+    <span class="counter-label">Together Since</span>
+    <div class="time-values">
+      <span id="dating-days">0</span> Days
+      <span id="dating-hours">0</span> Hours
+    </div>
+  </div>
 
-        <!-- Counter text inside the card -->
-        <span class="counter-label">Together Since</span>
-        <div class="time-values">
-            <span id="dating-days">0</span> Days
-            <span id="dating-hours">0</span> Hours
+  <div class="time-counter" id="valentine-counter">
+    <span class="counter-label">Until Valentine's</span>
+    <div class="time-values">
+      <span id="valentine-days">0</span> Days
+      <span id="valentine-hours">0</span> Hours
+    </div>
+  </div>
+
+  <!-- Other Elements -->
+  <div class="funny-message" id="funnyMessage"></div>
+  <div class="floating-elements" id="floatingElements"></div>
+  <div class="confetti-container" id="confettiContainer"></div>
+  <div class="custom-cursor" id="customCursor">❄️</div>
+
+  <!-- Gallery Section -->
+  <section class="gallery-section">
+    <h2 class="gallery-title">Our Journey Together</h2>
+    <div class="gallery-grid">
+      <div class="gallery-item">
+        <div class="glass-overlay"></div>
+        <div class="gallery-frame">
+          <img src="images/first_date.jpg" loading="lazy" alt="First Date" class="gallery-image" />
+          <p class="gallery-caption">First Date ❤️</p>
         </div>
-    </div>
-
-    <!-- Card for “Until Valentine’s” (top-right corner) -->
-    <div class="card" id="valentine-card">
-        <!-- Decorative heart & pop-dots -->
-        <svg class="heart-icon" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 
-                     2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 
-                     3.41.81 4.5 2.09C13.09 3.81 
-                     14.76 3 16.5 3 19.58 3 22 5.42 
-                     22 8.5c0 3.78-3.4 6.86-8.55 
-                     11.54L12 21.35z"/>
-        </svg>
-        <div class="pop-dots"></div>
-
-        <!-- Counter text inside the card -->
-        <span class="counter-label">Until Valentine's</span>
-        <div class="time-values">
-            <span id="valentine-days">0</span> Days
-            <span id="valentine-hours">0</span> Hours
+      </div>
+      <div class="gallery-item">
+        <div class="glass-overlay"></div>
+        <div class="gallery-frame">
+          <img src="images/first_roadtrip.jpg" loading="lazy" alt="First Road Trip" class="gallery-image" />
+          <p class="gallery-caption">Road Trip 🚗</p>
         </div>
-    </div>
-
-    <!-- Funny Message -->
-    <div class="funny-message" id="funnyMessage"></div>
-
-    <!-- Floating Elements -->
-    <div class="floating-elements" id="floatingElements"></div>
-
-    <!-- Confetti -->
-    <div class="confetti-container" id="confettiContainer"></div>
-
-    <!-- Custom Cursor -->
-    <div class="custom-cursor" id="customCursor">❄️</div>
-
-    <!-- Gallery Section -->
-    <section class="gallery-section">
-        <h2 class="gallery-title">Our Journey Together</h2>
-        <div class="gallery-grid">
-            <div class="gallery-item">
-                <div class="glass-overlay"></div>
-                <div class="gallery-frame">
-                    <img src="images/first_date.jpg" loading="lazy" alt="First Date" class="gallery-image" />
-                    <p class="gallery-caption">First Date ❤️</p>
-                </div>
-            </div>
-            <div class="gallery-item">
-                <div class="glass-overlay"></div>
-                <div class="gallery-frame">
-                    <img src="images/first_roadtrip.jpg" loading="lazy" alt="First Road Trip" class="gallery-image" />
-                    <p class="gallery-caption">Road Trip 🚗</p>
-                </div>
-            </div>
-            <div class="gallery-item">
-                <div class="glass-overlay"></div>
-                <div class="gallery-frame">
-                    <img src="images/first_pet.jpg" loading="lazy" alt="First Pet" class="gallery-image" />
-                    <p class="gallery-caption">Our Pet 🐾</p>
-                </div>
-            </div>
-            <div class="gallery-item">
-                <div class="glass-overlay"></div>
-                <div class="gallery-frame">
-                    <img src="images/farmcart.JPG" loading="lazy" alt="Farm Market" class="gallery-image" />
-                    <p class="gallery-caption">Farm Market 🚜</p>
-                </div>
-            </div>
-            <div class="gallery-item">
-                <div class="glass-overlay"></div>
-                <div class="gallery-frame">
-                    <img src="images/stoneyriver.jpg" loading="lazy" alt="Stoney River" class="gallery-image" />
-                    <p class="gallery-caption">Stoney River 🌊</p>
-                </div>
-            </div>
-            <div class="gallery-item">
-                <div class="glass-overlay"></div>
-                <div class="gallery-frame">
-                    <img src="images/kiss.jpg" loading="lazy" alt="Muah Muah" class="gallery-image" />
-                    <p class="gallery-caption">First Kiss 💋</p>
-                </div>
-            </div>
+      </div>
+      <div class="gallery-item">
+        <div class="glass-overlay"></div>
+        <div class="gallery-frame">
+          <img src="images/first_pet.jpg" loading="lazy" alt="First Pet" class="gallery-image" />
+          <p class="gallery-caption">Our Pet 🐾</p>
         </div>
-    </section>
-
-    <!-- Scroll Down Button with Subtle Bounce -->
-    <div class="scroll-down-container">
-        <button id="scrollDownBtn" class="button scroll-down-subtle-bounce" aria-label="Scroll Down">
-            <div><span>Scroll Down</span></div>
-        </button>
-    </div>
-
-    <!-- Main Container with Yes/No Buttons -->
-    <div class="container">
-        <h1>Will You Be My Valentine?</h1>
-        <p class="message">
-            From the moment we met, you've brought so much joy and love into my life.
-            Every day with you is a new adventure, and I can't imagine my life without you.
-            Will you be my Valentine?
-        </p>
-        <div class="buttons">
-            <!-- Yes Button -->
-            <button id="yesButton" class="button" aria-label="Yes">
-                <div>
-                    <span>Yes</span>
-                </div>
-            </button>
-            <!-- No Button -->
-            <button id="noButton" class="button no-btn" aria-label="No">
-                <div>
-                    <span>No</span>
-                </div>
-            </button>
+      </div>
+      <div class="gallery-item">
+        <div class="glass-overlay"></div>
+        <div class="gallery-frame">
+          <img src="images/farmcart.JPG" loading="lazy" alt="Farm Market" class="gallery-image" />
+          <p class="gallery-caption">Farm Market 🚜</p>
         </div>
-    </div>
-
-    <!-- Music Player Section -->
-    <div class="music-player">
-        <button id="playSongBtn" class="button" aria-label="Play Our Song">
-            <div>
-                <span>Play Our Song ♪</span>
-            </div>
-        </button>
-        <audio id="ourSong" src="our-song.mp3"></audio>
-    </div>
-
-    <!-- Gallery Modal -->
-    <div id="galleryModal" class="gallery-modal">
-        <div class="gallery-modal-content">
-            <span class="close-gallery-modal">&times;</span>
-            <img src="" alt="" class="gallery-modal-image" />
-            <p class="gallery-modal-caption"></p>
+      </div>
+      <div class="gallery-item">
+        <div class="glass-overlay"></div>
+        <div class="gallery-frame">
+          <img src="images/stoneyriver.jpg" loading="lazy" alt="Stoney River" class="gallery-image" />
+          <p class="gallery-caption">Stoney River 🌊</p>
         </div>
-    </div>
-
-    <!-- Success Modal -->
-    <div
-        id="modal"
-        class="modal"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="modalTitle"
-        aria-describedby="modalDescription"
-    >
-        <div class="modal-content">
-            <span class="close-modal" id="closeModal" aria-label="Close Modal">&times;</span>
-            <h2
-                id="modalTitle"
-                style="
-                    font-family: var(--font-script);
-                    color: var(--primary-color);
-                    font-size: clamp(2.5em, 8vw, 5em);
-                "
-            >
-                Yay! ❤️
-            </h2>
-            <!-- Once "Yes" is clicked, we'll add .gallery-style to match gallery look -->
-            <div class="modal-photo-container">
-                <img src="images/photo1.jpg" alt="Special Moment" class="modal-photo" />
-            </div>
-            <div class="modal-text" id="modalDescription">
-                <p>I'm so happy you said yes! Looking forward to a wonderful Valentine's Day together.</p>
-            </div>
+      </div>
+      <div class="gallery-item">
+        <div class="glass-overlay"></div>
+        <div class="gallery-frame">
+          <img src="images/kiss.jpg" loading="lazy" alt="Muah Muah" class="gallery-image" />
+          <p class="gallery-caption">First Kiss 💋</p>
         </div>
+      </div>
     </div>
+  </section>
 
-    <script>
-        // Witty Messages for "No" Button
-        const wittyMessages = [
-            "Intrigued yet?😉",
-            "Consider it briefly.😏",
-            "Plot twist: It's actually fun.😈",
-            "*Record scratch* Still unsure?🙄",
-            "Overthinking? Just feel it.😜",
-            "Action > Thinking.🔥",
-            "Angels *and* I say go for it.😇",
-            "Indulge a little. Live a little.😈",
-            "Sprinkles?😏",
-            "'No' is boring.🤫",
-            "Resistance is kinda cute.😉",
-            "Think 'DEFINITE'.😜",
-            "Worst choice🙃",
-            "No regrets later.😈",
-            "Regret-free zone now.😏",
-            "Ghost later, live now.😒",
-            "Good vibes.🌟",
-            "I made this for you...😢",
-            "You don't love me?🥺",
-            "You trynna say something??😭"
+  <!-- Scroll Down Button with Subtle Bounce -->
+  <!-- GREATLY increased margin-bottom to force more scrolling down -->
+  <div class="scroll-down-container" style="margin-bottom:600px;">
+    <button id="scrollDownBtn" class="button scroll-down-subtle-bounce" aria-label="Scroll Down">
+      <div><span>Scroll Down</span></div>
+    </button>
+  </div>
+
+  <!-- Main Container with Yes/No Buttons -->
+  <div class="container">
+    <h1>Will You Be My Valentine?</h1>
+    <p class="message">
+      From the moment we met, you've brought so much joy and love into my life.
+      Every day with you is a new adventure, and I can't imagine my life without you.
+      Will you be my Valentine?
+    </p>
+    <div class="buttons">
+      <!-- Yes Button -->
+      <button id="yesButton" class="button" aria-label="Yes">
+        <div>
+          <span>Yes</span>
+        </div>
+      </button>
+      <!-- No Button -->
+      <button id="noButton" class="button no-btn" aria-label="No">
+        <div>
+          <span>No</span>
+        </div>
+      </button>
+    </div>
+  </div>
+
+  <!-- Music Player Section -->
+  <div class="music-player" style="margin-bottom: 60px;">
+    <button id="playSongBtn" class="button" aria-label="Play Our Song">
+      <div>
+        <span>Play Our Song ♪</span>
+      </div>
+    </button>
+    <audio id="ourSong" src="our-song.mp3"></audio>
+  </div>
+
+  <!-- Gallery Modal -->
+  <div id="galleryModal" class="gallery-modal">
+    <div class="gallery-modal-content">
+      <span class="close-gallery-modal">&times;</span>
+      <img src="" alt="" class="gallery-modal-image" />
+      <p class="gallery-modal-caption"></p>
+    </div>
+  </div>
+
+  <!-- Success Modal -->
+  <div
+    id="modal"
+    class="modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="modalTitle"
+    aria-describedby="modalDescription"
+  >
+    <div class="modal-content">
+      <span class="close-modal" id="closeModal" aria-label="Close Modal">&times;</span>
+      <h2
+        id="modalTitle"
+        style="
+          font-family: var(--font-script);
+          color: var(--primary-color);
+          font-size: clamp(2.5em, 8vw, 5em);
+        "
+      >
+        Yay! ❤️
+      </h2>
+      <!-- Apply gallery-style class to match gallery-item styling -->
+      <div class="modal-photo-container gallery-style">
+        <img src="images/photo1.jpg" alt="Special Moment" class="modal-photo" />
+      </div>
+      <div class="modal-text" id="modalDescription">
+        <p>I'm so happy you said yes! Looking forward to a wonderful Valentine's Day together.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Witty Messages for "No" Button
+    const wittyMessages = [
+      "Intrigued yet?😉",
+      "Consider it briefly.😏",
+      "Plot twist: It's actually fun.😈",
+      "*Record scratch* Still unsure?🙄",
+      "Overthinking? Just feel it.😜",
+      "Action > Thinking.🔥",
+      "Angels *and* I say go for it.😇",
+      "Indulge a little. Live a little.😈",
+      "Sprinkles?😏",
+      "'No' is boring.🤫",
+      "Resistance is kinda cute.😉",
+      "Think 'DEFINITE'.😜",
+      "Worst choice🙃",
+      "No regrets later.😈",
+      "Regret-free zone now.😏",
+      "Ghost later, live now.😒",
+      "Good vibes.🌟",
+      "I made this for you...😢",
+      "You don't love me?🥺",
+      "You trynna say something??😭"
+    ];
+
+    // Handler for "No" Button Movement
+    class NoButtonHandler {
+      constructor(button, msg) {
+        this.button = button;
+        this.msg = msg;
+        this.isMoving = false;
+        this.messageTimeout = null;
+        this.moveTimeout = null;
+        this.pad = 20;
+
+        // Event listeners to trigger movement on various interactions
+        ["mouseover", "focus", "click", "touchstart"].forEach(evt => {
+          this.button.addEventListener(evt, (e) => {
+            e.preventDefault();
+            this.move();
+          });
+        });
+      }
+
+      move() {
+        if (this.isMoving || this.button.disabled) return;
+        this.isMoving = true;
+
+        const r = this.button.getBoundingClientRect();
+
+        if (this.button.style.position !== "fixed") {
+          this.button.style.position = "fixed";
+          this.button.style.top = r.top + "px";
+          this.button.style.left = r.left + "px";
+          this.button.style.margin = "0";
+        }
+
+        this.button.style.transition = "all 0.4s ease-out";
+        const n = this.newPos(r);
+
+        this.button.style.left = n.x + "px";
+        this.button.style.top = n.y + "px";
+        this.showMsg(n, r);
+
+        // Once triggered (moved), remove the glow effect by adding a class
+        this.button.classList.add("disable-no-hover");
+
+        clearTimeout(this.moveTimeout);
+        this.moveTimeout = setTimeout(() => {
+          this.isMoving = false;
+        }, 400);
+      }
+
+      newPos(br) {
+        const vw = window.innerWidth;
+        const vh = window.innerHeight;
+        const sx = vw - br.width - this.pad;
+        const sy = vh - br.height - this.pad;
+
+        const cx = br.left;
+        const cy = br.top;
+        let nx, ny;
+
+        do {
+          nx = Math.min(
+            Math.max(this.pad, Math.random() * sx),
+            sx
+          );
+          ny = Math.min(
+            Math.max(this.pad, Math.random() * sy),
+            sy
+          );
+        } while (Math.abs(nx - cx) < 100 && Math.abs(ny - cy) < 100);
+
+        return { x: nx, y: ny };
+      }
+
+      showMsg(np, br) {
+        const msgTxt = wittyMessages[Math.floor(Math.random() * wittyMessages.length)];
+        this.msg.textContent = msgTxt;
+        this.msg.style.transition = "top 0.4s, left 0.4s, opacity 0.3s";
+
+        let mx = np.x + br.width / 2;
+        let my = np.y - 10;
+        const w = window.innerWidth;
+        const h = window.innerHeight;
+        const off = 20;
+
+        mx = Math.max(off, Math.min(mx, w - off));
+        my = Math.max(off, Math.min(my, h - off));
+
+        this.msg.style.left = mx + "px";
+        this.msg.style.top = my + "px";
+        this.msg.style.opacity = "1";
+
+        clearTimeout(this.messageTimeout);
+        this.messageTimeout = setTimeout(() => {
+          this.msg.style.opacity = "0";
+        }, 2000);
+      }
+
+      enable() {
+        this.button.disabled = false;
+        this.button.style.opacity = "1";
+        this.button.style.cursor = "pointer";
+
+        if (this.button.style.position === "fixed") {
+          this.button.style.position = "static";
+          this.button.style.top = "auto";
+          this.button.style.left = "auto";
+        }
+
+        // Remove the class to re-enable glowing effect if needed
+        this.button.classList.remove("disable-no-hover");
+      }
+
+      disable() {
+        this.button.disabled = true;
+        this.button.style.opacity = "0.5";
+        this.button.style.cursor = "not-allowed";
+      }
+    }
+
+    // Manager for Floating Elements
+    class FloatingElementsManager {
+      constructor(c) {
+        this.c = c;
+        this.emojis = ["✨", "❤️"];
+        this.max = 20;
+        this.int = null;
+      }
+
+      createEl() {
+        const el = document.createElement("div");
+        el.className = "floating-element";
+        el.textContent = this.emojis[Math.floor(Math.random() * this.emojis.length)];
+        el.style.left = `${Math.random() * 100}%`;
+        const sz = Math.random() * 20 + 20;
+        el.style.fontSize = `${sz}px`;
+        const d = Math.random() * 5 + 5;
+        el.style.animationDuration = d + "s";
+        this.c.appendChild(el);
+
+        setTimeout(() => {
+          if (el.parentNode === this.c) {
+            this.c.removeChild(el);
+          }
+        }, d * 1000);
+      }
+
+      start() {
+        for (let i = 0; i < this.max / 2; i++) {
+          this.createEl();
+        }
+        this.int = setInterval(() => {
+          if (this.c.childNodes.length < this.max) {
+            this.createEl();
+          }
+        }, 1000);
+      }
+
+      stop() {
+        if (this.int) clearInterval(this.int);
+        this.c.innerHTML = "";
+      }
+    }
+
+    // Manager for Confetti Effects
+    class ConfettiManager {
+      constructor(co) {
+        this.co = co;
+        this.cv = document.createElement("canvas");
+        this.cv.style.width = "100%";
+        this.cv.style.height = "100%";
+        this.cv.style.display = "block";
+        this.cv.style.pointerEvents = "none";
+        this.co.appendChild(this.cv);
+        this.cx = this.cv.getContext("2d");
+
+        this.cs = [
+          "rgba(255,107,129,0.8)",
+          "rgba(214,164,231,0.8)",
+          "rgba(251,194,235,0.8)",
+          "rgba(161,140,209,0.8)",
+          "rgba(255,159,243,0.8)",
+          "rgba(254,202,87,0.8)",
+          "rgba(255,193,227,0.8)",
+          "rgba(253,228,207,0.8)"
         ];
 
-        class NoButtonHandler {
-            constructor(button, msg) {
-                this.button = button;
-                this.msg = msg;
-                this.isMoving = false;
-                this.messageTimeout = null;
-                this.moveTimeout = null;
-                this.pad = 20;
+        this.ps = [];
+        this.mp = 300;
+        this.g = 0.05;
+        this.d = 0.0005;
+        this.af = null;
 
-                ["mouseover", "focus", "click", "touchstart"].forEach(evt => {
-                    this.button.addEventListener(evt, (e) => {
-                        e.preventDefault();
-                        this.move();
-                    });
-                });
-            }
+        this.resize();
+        window.addEventListener("resize", () => this.resize());
+      }
 
-            move() {
-                if (this.isMoving || this.button.disabled) return;
-                this.isMoving = true;
+      resize() {
+        this.cv.width = this.co.clientWidth;
+        this.cv.height = this.co.clientHeight;
+      }
 
-                const r = this.button.getBoundingClientRect();
+      upd() {
+        this.cx.clearRect(0, 0, this.cv.width, this.cv.height);
 
-                // Convert to fixed positioning once "No" starts to run
-                if (this.button.style.position !== "fixed") {
-                    this.button.style.position = "fixed";
-                    this.button.style.top = r.top + "px";
-                    this.button.style.left = r.left + "px";
-                    this.button.style.margin = "0";
-                }
+        for (let i = 0; i < this.ps.length; i++) {
+          let p = this.ps[i];
+          p.vy += this.g;
+          p.vx *= 1 - this.d;
+          p.vy *= 1 - this.d;
 
-                this.button.style.transition = "all 0.4s ease-out";
-                const n = this.newPos(r);
+          p.x += p.vx;
+          p.y += p.vy;
 
-                this.button.style.left = n.x + "px";
-                this.button.style.top = n.y + "px";
-                this.showMsg(n, r);
+          p.r += p.rs;
 
-                // Once triggered, remove the glow effect
-                this.button.classList.add("disable-no-hover");
-
-                clearTimeout(this.moveTimeout);
-                this.moveTimeout = setTimeout(() => {
-                    this.isMoving = false;
-                }, 400);
-            }
-
-            newPos(br) {
-                const vw = window.innerWidth;
-                const vh = window.innerHeight;
-                const sx = vw - br.width - this.pad;
-                const sy = vh - br.height - this.pad;
-
-                const cx = br.left;
-                const cy = br.top;
-                let nx, ny;
-
-                do {
-                    nx = Math.min(
-                        Math.max(this.pad, Math.random() * sx),
-                        sx
-                    );
-                    ny = Math.min(
-                        Math.max(this.pad, Math.random() * sy),
-                        sy
-                    );
-                } while (Math.abs(nx - cx) < 100 && Math.abs(ny - cy) < 100);
-
-                return { x: nx, y: ny };
-            }
-
-            showMsg(np, br) {
-                const msgTxt = wittyMessages[Math.floor(Math.random() * wittyMessages.length)];
-                this.msg.textContent = msgTxt;
-                this.msg.style.transition = "top 0.4s, left 0.4s, opacity 0.3s";
-
-                let mx = np.x + br.width / 2;
-                let my = np.y - 10;
-                const w = window.innerWidth;
-                const h = window.innerHeight;
-                const off = 20;
-
-                mx = Math.max(off, Math.min(mx, w - off));
-                my = Math.max(off, Math.min(my, h - off));
-
-                this.msg.style.left = mx + "px";
-                this.msg.style.top = my + "px";
-                this.msg.style.opacity = "1";
-
-                clearTimeout(this.messageTimeout);
-                this.messageTimeout = setTimeout(() => {
-                    this.msg.style.opacity = "0";
-                }, 2000);
-            }
-
-            enable() {
-                this.button.disabled = false;
-                this.button.style.opacity = "1";
-                this.button.style.cursor = "pointer";
-
-                if (this.button.style.position === "fixed") {
-                    this.button.style.position = "absolute";
-                    this.button.style.top = "20px";
-                    this.button.style.left = "20px";
-                }
-
-                this.button.classList.remove("disable-no-hover");
-            }
-
-            disable() {
-                this.button.disabled = true;
-                this.button.style.opacity = "0.5";
-                this.button.style.cursor = "not-allowed";
-            }
+          this.drawP(p);
+          if (
+            p.x < -100 ||
+            p.x > this.cv.width + 100 ||
+            p.y > this.cv.height + 100
+          ) {
+            this.ps.splice(i, 1);
+            i--;
+          }
         }
 
-        class FloatingElementsManager {
-            constructor(c) {
-                this.c = c;
-                this.emojis = ["✨", "❤️"];
-                this.max = 20;
-                this.int = null;
-            }
-
-            createEl() {
-                const el = document.createElement("div");
-                el.className = "floating-element";
-                el.textContent = this.emojis[Math.floor(Math.random() * this.emojis.length)];
-                el.style.left = `${Math.random() * 100}%`;
-                const sz = Math.random() * 20 + 20;
-                el.style.fontSize = `${sz}px`;
-                const d = Math.random() * 5 + 5;
-                el.style.animationDuration = d + "s";
-                this.c.appendChild(el);
-
-                setTimeout(() => {
-                    if (el.parentNode === this.c) {
-                        this.c.removeChild(el);
-                    }
-                }, d * 1000);
-            }
-
-            start() {
-                for (let i = 0; i < this.max / 2; i++) {
-                    this.createEl();
-                }
-                this.int = setInterval(() => {
-                    if (this.c.childNodes.length < this.max) {
-                        this.createEl();
-                    }
-                }, 1000);
-            }
-
-            stop() {
-                if (this.int) clearInterval(this.int);
-                this.c.innerHTML = "";
-            }
+        if (this.ps.length > 0) {
+          this.af = requestAnimationFrame(() => this.upd());
+        } else {
+          this.af = null;
         }
+      }
 
-        class ConfettiManager {
-            constructor(co) {
-                this.co = co;
-                this.cv = document.createElement("canvas");
-                this.cv.style.width = "100%";
-                this.cv.style.height = "100%";
-                this.cv.style.display = "block";
-                this.cv.style.pointerEvents = "none";
-                this.co.appendChild(this.cv);
-                this.cx = this.cv.getContext("2d");
+      drawP(p) {
+        this.cx.save();
+        this.cx.translate(p.x, p.y);
+        this.cx.rotate(p.r);
+        this.cx.beginPath();
+        const s = p.sz;
+        this.cx.moveTo(0, 0);
+        this.cx.bezierCurveTo(-s / 2, -s / 2, -s, s / 4, 0, s);
+        this.cx.bezierCurveTo(s, s / 4, s / 2, -s / 2, 0, 0);
+        this.cx.closePath();
+        this.cx.fillStyle = p.cl;
+        this.cx.fill();
+        this.cx.restore();
+      }
 
-                this.cs = [
-                    "rgba(255,107,129,0.8)",
-                    "rgba(214,164,231,0.8)",
-                    "rgba(251,194,235,0.8)",
-                    "rgba(161,140,209,0.8)",
-                    "rgba(255,159,243,0.8)",
-                    "rgba(254,202,87,0.8)",
-                    "rgba(255,193,227,0.8)",
-                    "rgba(253,228,207,0.8)"
-                ];
+      burst(cx, cy, count, m = false) {
+        for (let i = 0; i < count; i++) {
+          if (this.ps.length >= this.mp) break;
+          const a = Math.random() * 2 * Math.PI;
+          const sp = Math.random() * 4 + 3;
+          const vx = Math.cos(a) * sp;
+          const vy = Math.sin(a) * sp;
+          const bs = m ? 8 : 12;
+          const sr = m ? 10 : 16;
 
-                this.ps = [];
-                this.mp = 300;
-                this.g = 0.05;
-                this.d = 0.0005;
-                this.af = null;
-
-                this.resize();
-                window.addEventListener("resize", () => this.resize());
-            }
-
-            resize() {
-                this.cv.width = this.co.clientWidth;
-                this.cv.height = this.co.clientHeight;
-            }
-
-            upd() {
-                this.cx.clearRect(0, 0, this.cv.width, this.cv.height);
-
-                for (let i = 0; i < this.ps.length; i++) {
-                    let p = this.ps[i];
-                    p.vy += this.g;
-                    p.vx *= 1 - this.d;
-                    p.vy *= 1 - this.d;
-
-                    p.x += p.vx;
-                    p.y += p.vy;
-
-                    p.r += p.rs;
-
-                    this.drawP(p);
-                    if (
-                        p.x < -100 ||
-                        p.x > this.cv.width + 100 ||
-                        p.y > this.cv.height + 100
-                    ) {
-                        this.ps.splice(i, 1);
-                        i--;
-                    }
-                }
-
-                if (this.ps.length > 0) {
-                    this.af = requestAnimationFrame(() => this.upd());
-                } else {
-                    this.af = null;
-                }
-            }
-
-            drawP(p) {
-                this.cx.save();
-                this.cx.translate(p.x, p.y);
-                this.cx.rotate(p.r);
-                this.cx.beginPath();
-                const s = p.sz;
-                this.cx.moveTo(0, 0);
-                this.cx.bezierCurveTo(-s / 2, -s / 2, -s, s / 4, 0, s);
-                this.cx.bezierCurveTo(s, s / 4, s / 2, -s / 2, 0, 0);
-                this.cx.closePath();
-                this.cx.fillStyle = p.cl;
-                this.cx.fill();
-                this.cx.restore();
-            }
-
-            burst(cx, cy, count, m = false) {
-                for (let i = 0; i < count; i++) {
-                    if (this.ps.length >= this.mp) break;
-                    const a = Math.random() * 2 * Math.PI;
-                    const sp = Math.random() * 4 + 3;
-                    const vx = Math.cos(a) * sp;
-                    const vy = Math.sin(a) * sp;
-
-                    // Smaller confetti if mobile
-                    const bs = m ? 8 : 12;
-                    const sr = m ? 10 : 16;
-
-                    this.ps.push({
-                        x: cx,
-                        y: cy,
-                        vx,
-                        vy,
-                        sz: bs + Math.random() * sr,
-                        cl: this.cs[Math.floor(Math.random() * this.cs.length)],
-                        r: Math.random() * 2 * Math.PI,
-                        rs: (Math.random() - 0.5) * 0.1
-                    });
-                }
-            }
-
-            launch(m) {
-                const tb = 5;
-                const cnt = m ? 25 : 40;
-                const intv = m ? 300 : 800;
-
-                for (let i = 0; i < tb; i++) {
-                    setTimeout(() => {
-                        const cx =
-                            this.cv.width * 0.2 + Math.random() * this.cv.width * 0.6;
-                        const cy =
-                            this.cv.height * 0.2 + Math.random() * this.cv.height * 0.6;
-
-                        this.burst(cx, cy, cnt, m);
-                        this.spark(cx, cy);
-                        if (!this.af) this.upd();
-                    }, i * intv);
-                }
-            }
-
-            spark(x, y) {
-                for (let i = 0; i < 8; i++) {
-                    if (this.ps.length >= this.mp) break;
-                    const a = Math.random() * 2 * Math.PI;
-                    const sp = 1 + Math.random() * 2;
-                    const vx = Math.cos(a) * sp;
-                    const vy = Math.sin(a) * sp;
-                    this.ps.push({
-                        x,
-                        y,
-                        vx,
-                        vy,
-                        sz: 6 + Math.random() * 8,
-                        cl: "rgba(255,255,255,0.9)",
-                        r: Math.random() * 2 * Math.PI,
-                        rs: (Math.random() - 0.5) * 0.05
-                    });
-                }
-            }
+          this.ps.push({
+            x: cx,
+            y: cy,
+            vx,
+            vy,
+            sz: bs + Math.random() * sr,
+            cl: this.cs[Math.floor(Math.random() * this.cs.length)],
+            r: Math.random() * 2 * Math.PI,
+            rs: (Math.random() - 0.5) * 0.1
+          });
         }
+      }
 
-        function updateDatingCounter() {
-            const start = new Date("2023-08-09");
-            const now = new Date();
-            const diff = now - start;
+      launch(m) {
+        const tb = 5;
+        const cnt = m ? 25 : 40;
+        const intv = m ? 300 : 800;
 
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        for (let i = 0; i < tb; i++) {
+          setTimeout(() => {
+            const cx =
+              this.cv.width * 0.2 + Math.random() * this.cv.width * 0.6;
+            const cy =
+              this.cv.height * 0.2 + Math.random() * this.cv.height * 0.6;
 
-            document.getElementById("dating-days").textContent = days;
-            document.getElementById("dating-hours").textContent = hours;
+            this.burst(cx, cy, cnt, m);
+            this.spark(cx, cy);
+            if (!this.af) this.upd();
+          }, i * intv);
         }
+      }
 
-        function updateValentineCounter() {
-            const now = new Date();
-            let year = now.getFullYear();
-
-            const valentineThisYear = new Date(year, 1, 14); // Feb 14
-            if (now > valentineThisYear) {
-                // If we've passed it this year, count for next year
-                year += 1;
-            }
-
-            const nextValentine = new Date(year, 1, 14);
-            const diff = nextValentine - now;
-
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const hours = Math.floor(
-                (diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-            );
-
-            document.getElementById("valentine-days").textContent = days;
-            document.getElementById("valentine-hours").textContent = hours;
+      spark(x, y) {
+        for (let i = 0; i < 8; i++) {
+          if (this.ps.length >= this.mp) break;
+          const a = Math.random() * 2 * Math.PI;
+          const sp = 1 + Math.random() * 2;
+          const vx = Math.cos(a) * sp;
+          const vy = Math.sin(a) * sp;
+          this.ps.push({
+            x,
+            y,
+            vx,
+            vy,
+            sz: 6 + Math.random() * 8,
+            cl: "rgba(255,255,255,0.9)",
+            r: Math.random() * 2 * Math.PI,
+            rs: (Math.random() - 0.5) * 0.05
+          });
         }
+      }
+    }
 
-        function setupGalleryModal() {
-            const galleryModal = document.getElementById("galleryModal");
-            const modalImg = galleryModal.querySelector(".gallery-modal-image");
-            const modalCap = galleryModal.querySelector(".gallery-modal-caption");
-            const closeBtn = galleryModal.querySelector(".close-gallery-modal");
+    // Update Dating Counter
+    function updateDatingCounter() {
+      const s = new Date("2023-08-09");
+      const n = new Date();
+      const d = n - s;
 
-            const allButtons = document.querySelectorAll(".button");
-            const musicPlayer = document.querySelector(".music-player");
-            const timeCounters = document.querySelectorAll(".card");
+      const dd = Math.floor(d / (1000 * 60 * 60 * 24));
+      const hh = Math.floor((d % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
 
-            document.querySelectorAll(".gallery-item").forEach((item) => {
-                const img = item.querySelector(".gallery-image");
-                const caption = item.querySelector(".gallery-caption");
+      document.getElementById("dating-days").textContent = dd;
+      document.getElementById("dating-hours").textContent = hh;
+    }
 
-                img.addEventListener("click", () => {
-                    modalImg.src = img.src;
-                    modalImg.alt = img.alt;
-                    modalCap.textContent = caption.textContent;
+    // Update Valentine Counter
+    function updateValentineCounter() {
+      const n = new Date();
+      let y = n.getFullYear();
 
-                    galleryModal.style.display = "flex";
+      const vd = new Date(y, 1, 14); // February 14th (Months are 0-indexed)
+      if (n > vd) y += 1;
 
-                    // Hide buttons, music player, counters behind the modal
-                    allButtons.forEach((b) => (b.style.display = "none"));
-                    if (musicPlayer) musicPlayer.style.display = "none";
-                    timeCounters.forEach((tc) => (tc.style.display = "none"));
-                });
-            });
+      const nv = new Date(y, 1, 14);
+      const d = nv - n;
 
-            function closeGallery() {
-                galleryModal.style.display = "none";
-                allButtons.forEach((b) => (b.style.display = "inline-block"));
-                if (musicPlayer) musicPlayer.style.display = "block";
-                timeCounters.forEach((tc) => (tc.style.display = "block"));
-            }
+      const dd = Math.floor(d / (1000 * 60 * 60 * 24));
+      const hh = Math.floor((d % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
 
-            closeBtn.addEventListener("click", closeGallery);
+      document.getElementById("valentine-days").textContent = dd;
+      document.getElementById("valentine-hours").textContent = hh;
+    }
 
-            window.addEventListener("click", (e) => {
-                if (e.target === galleryModal) {
-                    closeGallery();
-                }
-            });
+    // Setup Gallery Modal
+    function setupGalleryModal() {
+      const gm = document.getElementById("galleryModal");
+      const mi = gm.querySelector(".gallery-modal-image");
+      const mc = gm.querySelector(".gallery-modal-caption");
+      const cb = gm.querySelector(".close-gallery-modal");
+      const btns = document.querySelectorAll(".button");
+      const mp = document.querySelector(".music-player");
+      const cnt = document.querySelectorAll(".time-counter");
 
-            window.addEventListener("keydown", (e) => {
-                if (e.key === "Escape" && galleryModal.style.display === "flex") {
-                    closeGallery();
-                }
-            });
-        }
+      document.querySelectorAll(".gallery-item").forEach((it) => {
+        const img = it.querySelector(".gallery-image");
+        const cap = it.querySelector(".gallery-caption");
 
-        function setupMusicPlayer() {
-            const playBtn = document.getElementById("playSongBtn");
-            const audio = document.getElementById("ourSong");
-            let playing = false;
+        img.addEventListener("click", () => {
+          mi.src = img.src;
+          mi.alt = img.alt;
+          mc.textContent = cap.textContent;
+          gm.style.display = "flex";
 
-            playBtn.addEventListener("click", () => {
-                if (playing) {
-                    audio.pause();
-                    playBtn.querySelector("span").textContent = "Play Our Song ♪";
-                    playBtn.classList.remove("playing");
-                } else {
-                    audio.play().catch((e) => console.log(e));
-                    playBtn.querySelector("span").textContent = "Pause Our Song ♪";
-                    playBtn.classList.add("playing");
-                }
-                playing = !playing;
-            });
-
-            audio.addEventListener("ended", () => {
-                playing = false;
-                playBtn.querySelector("span").textContent = "Play Our Song ♪";
-                playBtn.classList.remove("playing");
-            });
-        }
-
-        document.addEventListener("DOMContentLoaded", () => {
-            // Floating hearts/sparkles
-            const floatingManager = new FloatingElementsManager(
-                document.getElementById("floatingElements")
-            );
-            floatingManager.start();
-
-            // No button logic
-            const noBtnHandler = new NoButtonHandler(
-                document.getElementById("noButton"),
-                document.getElementById("funnyMessage")
-            );
-
-            // Confetti
-            const confetti = new ConfettiManager(
-                document.getElementById("confettiContainer")
-            );
-
-            // Yes button & success modal
-            const modal = document.getElementById("modal");
-            const modalContent = modal.querySelector(".modal-content");
-            const yesButton = document.getElementById("yesButton");
-            const closeModalBtn = document.getElementById("closeModal");
-            let pressedYes = false;
-
-            function showModal() {
-                modal.style.display = "flex";
-                modalContent.scrollIntoView({ behavior: "smooth", block: "center" });
-
-                // Make the modal photo match the .gallery-item style
-                document
-                    .querySelector(".modal-photo-container")
-                    .classList.add("gallery-style");
-            }
-
-            yesButton.addEventListener("click", () => {
-                showModal();
-                const isMobile = window.matchMedia("(max-width: 768px)").matches;
-                confetti.launch(isMobile);
-
-                if (!pressedYes) {
-                    pressedYes = true;
-                    noBtnHandler.disable();
-                    yesButton.disabled = true;
-                }
-                closeModalBtn.focus();
-            });
-
-            function closeModal() {
-                modal.style.display = "none";
-                if (pressedYes) {
-                    pressedYes = false;
-                    noBtnHandler.enable();
-                    yesButton.disabled = false;
-                }
-                yesButton.focus();
-            }
-
-            closeModalBtn.addEventListener("click", closeModal);
-
-            window.addEventListener("click", (e) => {
-                if (e.target === modal) {
-                    closeModal();
-                }
-            });
-
-            window.addEventListener("keydown", (e) => {
-                if (e.key === "Escape" && modal.style.display === "flex") {
-                    closeModal();
-                }
-            });
-
-            // Custom cursor for non-touch devices
-            if (!window.matchMedia("(pointer: coarse)").matches) {
-                document.addEventListener("mousemove", (e) => {
-                    const cursor = document.getElementById("customCursor");
-                    if (cursor) {
-                        cursor.style.left = e.clientX + "px";
-                        cursor.style.top = e.clientY + "px";
-                    }
-                });
-
-                yesButton.addEventListener("mouseenter", () => {
-                    const cursor = document.getElementById("customCursor");
-                    if (cursor) {
-                        cursor.classList.add("hover-yes");
-                    }
-                });
-
-                yesButton.addEventListener("mouseleave", () => {
-                    const cursor = document.getElementById("customCursor");
-                    if (cursor) {
-                        cursor.classList.remove("hover-yes");
-                    }
-                });
-            }
-
-            // Scroll Down button
-            const scrollDownBtn = document.getElementById("scrollDownBtn");
-            if (scrollDownBtn) {
-                scrollDownBtn.addEventListener("click", () => {
-                    document
-                        .querySelector(".container")
-                        .scrollIntoView({ behavior: "smooth", block: "center" });
-                });
-            }
-
-            // Set up modal, music player
-            setupGalleryModal();
-            setupMusicPlayer();
-
-            // Counters
-            updateDatingCounter();
-            updateValentineCounter();
-            setInterval(() => {
-                updateDatingCounter();
-                updateValentineCounter();
-            }, 1000 * 60 * 5); // Update every 5 minutes
+          btns.forEach((b) => (b.style.display = "none"));
+          if (mp) mp.style.display = "none";
+          cnt.forEach((c) => (c.style.display = "none"));
         });
-    </script>
+      });
+
+      cb.addEventListener("click", () => {
+        gm.style.display = "none";
+        btns.forEach((b) => (b.style.display = "inline-block"));
+        if (mp) mp.style.display = "block";
+        cnt.forEach((c) => (c.style.display = "block"));
+      });
+
+      window.addEventListener("click", (e) => {
+        if (e.target === gm) {
+          gm.style.display = "none";
+          btns.forEach((b) => (b.style.display = "inline-block"));
+          if (mp) mp.style.display = "block";
+          cnt.forEach((c) => (c.style.display = "block"));
+        }
+      });
+
+      window.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && gm.style.display === "flex") {
+          gm.style.display = "none";
+          btns.forEach((b) => (b.style.display = "inline-block"));
+          if (mp) mp.style.display = "block";
+          cnt.forEach((c) => (c.style.display = "block"));
+        }
+      });
+    }
+
+    // Setup Music Player
+    function setupMusicPlayer() {
+      const pb = document.getElementById("playSongBtn");
+      const audio = document.getElementById("ourSong");
+      let playing = false;
+
+      pb.addEventListener("click", () => {
+        if (playing) {
+          audio.pause();
+          pb.querySelector("span").textContent = "Play Our Song ♪";
+          pb.classList.remove("playing");
+        } else {
+          audio.play().catch((e) => console.log(e));
+          pb.querySelector("span").textContent = "Pause Our Song ♪";
+          pb.classList.add("playing");
+        }
+        playing = !playing;
+      });
+
+      audio.addEventListener("ended", () => {
+        playing = false;
+        pb.querySelector("span").textContent = "Play Our Song ♪";
+        pb.classList.remove("playing");
+      });
+    }
+
+    // Document Ready Function
+    document.addEventListener("DOMContentLoaded", () => {
+      // Initialize Floating Elements
+      const fl = new FloatingElementsManager(document.getElementById("floatingElements"));
+      fl.start();
+
+      // Initialize No Button Handler
+      const noBtnH = new NoButtonHandler(
+        document.getElementById("noButton"),
+        document.getElementById("funnyMessage")
+      );
+
+      // Initialize Confetti Manager
+      const confetti = new ConfettiManager(document.getElementById("confettiContainer"));
+
+      // Modal Elements
+      const mo = document.getElementById("modal");
+      const moC = mo.querySelector(".modal-content");
+      const yb = document.getElementById("yesButton");
+      const cMo = document.getElementById("closeModal");
+      let pressed = false;
+
+      // Function to Show Modal
+      function showModal() {
+        mo.style.display = "flex";
+        moC.scrollIntoView({ behavior: "smooth", block: "center" });
+
+        // Once "Yes" is triggered, match the gallery styling for the success photo
+        document.querySelector(".modal-photo-container").classList.add("gallery-style");
+      }
+
+      // "Yes" Button Click Event
+      yb.addEventListener("click", () => {
+        showModal();
+        const isMob = window.matchMedia("(max-width: 768px)").matches;
+        confetti.launch(isMob);
+
+        if (!pressed) {
+          pressed = true;
+          noBtnH.disable();
+          yb.disabled = true;
+        }
+
+        cMo.focus();
+      });
+
+      // Close Modal Event
+      cMo.addEventListener("click", () => {
+        mo.style.display = "none";
+        if (pressed) {
+          pressed = false;
+          noBtnH.enable();
+          yb.disabled = false;
+        }
+        yb.focus();
+      });
+
+      // Click Outside Modal to Close
+      window.addEventListener("click", (e) => {
+        if (e.target === mo) {
+          mo.style.display = "none";
+          if (pressed) {
+            pressed = false;
+            noBtnH.enable();
+            yb.disabled = false;
+          }
+          yb.focus();
+        }
+      });
+
+      // Escape Key to Close Modal
+      window.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && mo.style.display === "flex") {
+          mo.style.display = "none";
+          if (pressed) {
+            pressed = false;
+            noBtnH.enable();
+            yb.disabled = false;
+          }
+          yb.focus();
+        }
+      });
+
+      // Custom Cursor for Non-Touch Devices
+      if (!window.matchMedia("(pointer: coarse)").matches) {
+        document.addEventListener("mousemove", (e) => {
+          const c = document.getElementById("customCursor");
+          if (c) {
+            c.style.left = e.clientX + "px";
+            c.style.top = e.clientY + "px";
+          }
+        });
+
+        // "Yes" Button Hover Effects
+        yb.addEventListener("mouseenter", () => {
+          const c = document.getElementById("customCursor");
+          if (c) {
+            c.classList.add("hover-yes");
+          }
+        });
+
+        yb.addEventListener("mouseleave", () => {
+          const c = document.getElementById("customCursor");
+          if (c) {
+            c.classList.remove("hover-yes");
+          }
+        });
+      }
+
+      // Scroll Down Button Logic
+      const scrollDownBtn = document.getElementById("scrollDownBtn");
+      if (scrollDownBtn) {
+        scrollDownBtn.addEventListener("click", () => {
+          document.querySelector(".container").scrollIntoView({ behavior: "smooth" });
+        });
+      }
+
+      // Initialize Modals and Music Player
+      setupGalleryModal();
+      setupMusicPlayer();
+
+      // Initialize Counters
+      updateDatingCounter();
+      updateValentineCounter();
+      setInterval(() => {
+        updateDatingCounter();
+        updateValentineCounter();
+      }, 1000 * 60 * 5); // Update every 5 minutes
+    });
+  </script>
 </body>
 </html>
