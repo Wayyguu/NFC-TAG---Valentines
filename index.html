@@ -416,9 +416,11 @@
 
     /* Main Container */
     .container {
-      width: min(90%, 1000px);
+      /* Made the container slightly smaller as requested */
+      width: min(85%, 900px);
       background: rgba(255, 255, 255, 0.95);
-      padding: 60px;
+      /* Reduced padding slightly */
+      padding: 50px;
       border-radius: 20px;
       text-align: center;
       margin: 150px auto;
@@ -586,7 +588,7 @@
     .button > div {
       position: relative;
       pointer-events: none;
-      background-color: var(--red-400); /* background set here */
+      background-color: var(--red-400); /* default pink background */
       border: 2px solid rgba(255, 255, 255, 0.3);
       border-radius: 9999px;
       overflow: hidden;
@@ -616,6 +618,28 @@
       mix-blend-mode: hard-light;
       animation: dots 0.5s infinite linear;
       pointer-events: none;
+    }
+
+    /* 
+      1) Make only the text within the scroll down button and the play our song button font sizes slightly smaller.
+      2) Change their background to white with black texts and black dots.
+    */
+    #scrollDownBtn > div,
+    #playSongBtn > div {
+      background-color: #ffffff !important; /* white background */
+    }
+
+    #scrollDownBtn > div > span,
+    #playSongBtn > div > span {
+      font-size: 1rem !important; /* slightly smaller text */
+      color: #000000 !important; /* black text */
+    }
+
+    /* Override the dotted background pattern to black for specific buttons */
+    #scrollDownBtn > div::before,
+    #playSongBtn > div::before {
+      background-image: radial-gradient(rgb(0 0 0 / 80%) 20%, transparent 20%),
+        radial-gradient(rgb(0 0 0 / 100%) 20%, transparent 20%);
     }
 
     /* Button Text and Icons */
@@ -978,10 +1002,27 @@
       overflow: hidden !important;
       position: relative !important;
     }
-    .gallery-style:hover {
-      transform: translateY(-5px) !important;
-      box-shadow: var(--box-shadow-hover) !important;
-      border: none !important;
+
+    /* 
+      1) Make only the text within the scroll down button and the play our song button font sizes slightly smaller.
+      2) Change their background to white with black texts and black dots.
+    */
+    #scrollDownBtn > div,
+    #playSongBtn > div {
+      background-color: #ffffff !important; /* white background */
+    }
+
+    #scrollDownBtn > div > span,
+    #playSongBtn > div > span {
+      font-size: 1rem !important; /* slightly smaller text */
+      color: #000000 !important; /* black text */
+    }
+
+    /* Override the dotted background pattern to black for specific buttons */
+    #scrollDownBtn > div::before,
+    #playSongBtn > div::before {
+      background-image: radial-gradient(rgb(0 0 0 / 80%) 20%, transparent 20%),
+        radial-gradient(rgb(0 0 0 / 100%) 20%, transparent 20%);
     }
   </style>
 </head>
@@ -1722,13 +1763,14 @@
       const scrollDownBtn = document.getElementById("scrollDownBtn");
       if (scrollDownBtn) {
         scrollDownBtn.addEventListener("click", () => {
+          // Center the container when scrolling
           document
             .querySelector(".container")
-            .scrollIntoView({ behavior: "smooth" });
+            .scrollIntoView({ behavior: "smooth", block: "center" });
         });
       }
 
-      // Set up modal, music player
+      // Set up gallery modal and music player
       setupGalleryModal();
       setupMusicPlayer();
 
