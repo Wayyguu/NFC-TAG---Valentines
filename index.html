@@ -339,7 +339,7 @@
     .gallery-caption {
       font-family: var(--font-sans);
       color: #000;
-      font-size: clamp(0.9em, 3vw, 1em);
+      font-size: clamp(1.2em, 4vw, 1.5em);
       text-align: center;
       margin-top: 15px;
       padding: 0 10px;
@@ -397,7 +397,7 @@
       text-align: center;
       margin-top: 15px;
       font-family: var(--font-sans);
-      font-size: clamp(1em, 3vw, 1.2em);
+      font-size: clamp(1.2em, 3vw, 1.5em);
     }
 
     .close-gallery-modal {
@@ -434,7 +434,7 @@
     }
 
     .message {
-      font-size: clamp(1em, 4vw, 1.8em);
+      font-size: clamp(1.2em, 4vw, 2em);
       color: #000;
       margin-bottom: 50px;
       line-height: 1.6;
@@ -454,7 +454,7 @@
     /* Base Button Styles */
     .button {
       position: relative;
-      font-size: 1rem;
+      font-size: 1.5rem;
       cursor: pointer;
       font-weight: bold;
       line-height: 1;
@@ -466,7 +466,7 @@
       color: transparent; /* Hide text color, handled by inner span */
       transition: all 0.2s ease-in;
       text-align: center;
-      min-width: 180px;
+      min-width: 200px;
       box-shadow:
         0.5px 0.5px 0 0 var(--pink-800),
         1px 1px 0 0 var(--pink-800),
@@ -627,6 +627,7 @@
       text-transform: uppercase;
       letter-spacing: 2px;
       transition: transform 0.1s ease-in-out;
+      font-size: 1.2rem;
     }
 
     .button > div > span:active {
@@ -636,14 +637,14 @@
     .button > div > span::after {
       content: "♥";
       margin-left: 8px;
-      font-size: 16px;
+      font-size: 1rem;
       transition: transform 0.1s ease-in-out;
     }
 
     .button.no-btn > div > span::after {
       content: ":(";
       margin-left: 8px;
-      font-size: 16px;
+      font-size: 1rem;
     }
 
     /* Keyframes for Animations */
@@ -737,12 +738,12 @@
       max-width: 400px;
       height: 300px;
       margin: 20px 0;
-      border-radius: 15px;
-      overflow: hidden;
-      position: relative;
       border: 3px solid var(--primary-color);
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
       transition: all 0.3s ease;
+      border-radius: 15px;
+      overflow: hidden;
+      position: relative;
     }
 
     .modal-photo-container:hover {
@@ -767,7 +768,7 @@
       max-width: 80%;
       font-family: var(--font-sans);
       color: #000;
-      font-size: clamp(1em, 3vw, 1.2em);
+      font-size: clamp(1.2em, 3vw, 1.5em);
       line-height: 1.5;
     }
 
@@ -786,7 +787,6 @@
       color: var(--primary-color);
     }
 
-    /* Animations */
     @keyframes fadeIn {
       from {
         opacity: 0;
@@ -843,6 +843,17 @@
     .scroll-down-subtle-bounce {
       animation: subtleBounceBtn 3s infinite;
     }
+
+    /* Additional Spacing Under "Scroll Down" Button 
+       to force more scrolling, per request */
+    /* Changed from 150px to 600px */
+    .scroll-down-container {
+      text-align: center;
+      margin-bottom: 600px; /* Greatly increased spacing */
+    }
+
+    /* OPTIONAL: You might prefer to do it inline in HTML:
+       <div class="scroll-down-container" style="margin-bottom:600px;"> */
 
     /* Responsive Styles */
     @media (max-width: 1200px) {
@@ -906,7 +917,7 @@
       }
 
       .message {
-        font-size: clamp(1em, 4vw, 1.4em);
+        font-size: clamp(1.2em, 4vw, 1.5em);
         margin-bottom: 30px;
       }
 
@@ -918,7 +929,7 @@
       }
 
       .button {
-        font-size: 0.9rem;
+        font-size: 1.2rem;
         min-width: 140px;
       }
 
@@ -952,6 +963,28 @@
       .gallery-item:hover::before {
         opacity: 0;
       }
+    }
+
+    /* NEW: Remove glowing effect on "No" button once triggered */
+    .disable-no-hover:hover {
+      box-shadow: none !important;
+    }
+
+    /* NEW: Matching the gallery style for the success modal photo
+       (applied once "Yes" is triggered). This ensures identical border,
+       hover effect, transform, & box shadows as .gallery-item. */
+    .gallery-style {
+      border-radius: 30px !important;
+      box-shadow: var(--box-shadow-card) !important;
+      transition: var(--transition-default) !important;
+      border: none !important;
+      overflow: hidden !important;
+      position: relative !important;
+    }
+    .gallery-style:hover {
+      transform: translateY(-5px) !important;
+      box-shadow: var(--box-shadow-hover) !important;
+      border: none !important;
     }
   </style>
 </head>
@@ -1029,7 +1062,8 @@
   </section>
 
   <!-- Scroll Down Button with Subtle Bounce -->
-  <div style="text-align:center; margin-bottom:150px;">
+  <!-- GREATLY increased margin-bottom to force more scrolling down -->
+  <div class="scroll-down-container" style="margin-bottom:600px;">
     <button id="scrollDownBtn" class="button scroll-down-subtle-bounce" aria-label="Scroll Down">
       <div><span>Scroll Down</span></div>
     </button>
@@ -1099,6 +1133,7 @@
       >
         Yay! ❤️
       </h2>
+      <!-- Initially includes old border logic, but we can override with .gallery-style once "Yes" is triggered -->
       <div class="modal-photo-container">
         <img src="images/photo1.jpg" alt="Special Moment" class="modal-photo" />
       </div>
@@ -1133,7 +1168,6 @@
       "You trynna say something??😭"
     ];
 
-    // Handler for "No" Button Movement
     class NoButtonHandler {
       constructor(button, msg) {
         this.button = button;
@@ -1143,7 +1177,6 @@
         this.moveTimeout = null;
         this.pad = 20;
 
-        // Event listeners to trigger movement on various interactions
         ["mouseover", "focus", "click", "touchstart"].forEach(evt => {
           this.button.addEventListener(evt, (e) => {
             e.preventDefault();
@@ -1171,6 +1204,9 @@
         this.button.style.left = n.x + "px";
         this.button.style.top = n.y + "px";
         this.showMsg(n, r);
+
+        // NEW: Once triggered (moved), remove the glow effect by adding a class
+        this.button.classList.add("disable-no-hover");
 
         clearTimeout(this.moveTimeout);
         this.moveTimeout = setTimeout(() => {
@@ -1236,6 +1272,9 @@
           this.button.style.top = "auto";
           this.button.style.left = "auto";
         }
+
+        // If we want to re-enable glowing effect, we can remove the class
+        this.button.classList.remove("disable-no-hover");
       }
 
       disable() {
@@ -1245,7 +1284,6 @@
       }
     }
 
-    // Manager for Floating Elements
     class FloatingElementsManager {
       constructor(c) {
         this.c = c;
@@ -1289,7 +1327,6 @@
       }
     }
 
-    // Manager for Confetti Effects
     class ConfettiManager {
       constructor(co) {
         this.co = co;
@@ -1437,7 +1474,6 @@
       }
     }
 
-    // Update Dating Counter
     function updateDatingCounter() {
       const s = new Date("2023-08-09");
       const n = new Date();
@@ -1450,12 +1486,11 @@
       document.getElementById("dating-hours").textContent = hh;
     }
 
-    // Update Valentine Counter
     function updateValentineCounter() {
       const n = new Date();
       let y = n.getFullYear();
 
-      const vd = new Date(y, 1, 14); // February 14th (Months are 0-indexed)
+      const vd = new Date(y, 1, 14);
       if (n > vd) y += 1;
 
       const nv = new Date(y, 1, 14);
@@ -1468,7 +1503,6 @@
       document.getElementById("valentine-hours").textContent = hh;
     }
 
-    // Setup Gallery Modal
     function setupGalleryModal() {
       const gm = document.getElementById("galleryModal");
       const mi = gm.querySelector(".gallery-modal-image");
@@ -1520,7 +1554,6 @@
       });
     }
 
-    // Setup Music Player
     function setupMusicPlayer() {
       const pb = document.getElementById("playSongBtn");
       const audio = document.getElementById("ourSong");
@@ -1546,35 +1579,31 @@
       });
     }
 
-    // Document Ready Function
     document.addEventListener("DOMContentLoaded", () => {
-      // Initialize Floating Elements
       const fl = new FloatingElementsManager(document.getElementById("floatingElements"));
       fl.start();
 
-      // Initialize No Button Handler
       const noBtnH = new NoButtonHandler(
         document.getElementById("noButton"),
         document.getElementById("funnyMessage")
       );
 
-      // Initialize Confetti Manager
       const confetti = new ConfettiManager(document.getElementById("confettiContainer"));
 
-      // Modal Elements
       const mo = document.getElementById("modal");
       const moC = mo.querySelector(".modal-content");
       const yb = document.getElementById("yesButton");
       const cMo = document.getElementById("closeModal");
       let pressed = false;
 
-      // Function to Show Modal
       function showModal() {
         mo.style.display = "flex";
         moC.scrollIntoView({ behavior: "smooth", block: "center" });
+
+        // NEW: Once "Yes" is triggered, match the gallery styling for the success photo
+        document.querySelector(".modal-photo-container").classList.add("gallery-style");
       }
 
-      // "Yes" Button Click Event
       yb.addEventListener("click", () => {
         showModal();
         const isMob = window.matchMedia("(max-width: 768px)").matches;
@@ -1589,7 +1618,6 @@
         cMo.focus();
       });
 
-      // Close Modal Event
       cMo.addEventListener("click", () => {
         mo.style.display = "none";
         if (pressed) {
@@ -1600,7 +1628,6 @@
         yb.focus();
       });
 
-      // Click Outside Modal to Close
       window.addEventListener("click", (e) => {
         if (e.target === mo) {
           mo.style.display = "none";
@@ -1613,7 +1640,6 @@
         }
       });
 
-      // Escape Key to Close Modal
       window.addEventListener("keydown", (e) => {
         if (e.key === "Escape" && mo.style.display === "flex") {
           mo.style.display = "none";
@@ -1626,7 +1652,7 @@
         }
       });
 
-      // Custom Cursor for Non-Touch Devices
+      // Custom cursor for non-touch devices
       if (!window.matchMedia("(pointer: coarse)").matches) {
         document.addEventListener("mousemove", (e) => {
           const c = document.getElementById("customCursor");
@@ -1636,7 +1662,6 @@
           }
         });
 
-        // "Yes" Button Hover Effects
         yb.addEventListener("mouseenter", () => {
           const c = document.getElementById("customCursor");
           if (c) {
@@ -1652,7 +1677,7 @@
         });
       }
 
-      // Scroll Down Button Logic
+      // Press down button logic
       const scrollDownBtn = document.getElementById("scrollDownBtn");
       if (scrollDownBtn) {
         scrollDownBtn.addEventListener("click", () => {
@@ -1660,17 +1685,15 @@
         });
       }
 
-      // Initialize Modals and Music Player
       setupGalleryModal();
       setupMusicPlayer();
 
-      // Initialize Counters
       updateDatingCounter();
       updateValentineCounter();
       setInterval(() => {
         updateDatingCounter();
         updateValentineCounter();
-      }, 1000 * 60 * 5); // Update every 5 minutes
+      }, 1000 * 60 * 5);
     });
   </script>
 </body>
