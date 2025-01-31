@@ -2,7 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <!-- Viewport fit=cover for iPhone’s notch, ensures safe-area insets -->
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+  />
   <title>Be My Valentine?</title>
   <link
     href="https://fonts.googleapis.com/css2?family=Parisienne&family=Poppins:wght@400;700&display=swap"
@@ -17,18 +21,18 @@
       --font-sans: "Poppins", sans-serif;
       --font-script: "Parisienne", cursive;
 
+      /* Safe area variables for notched screens (iPhones) */
       --safe-area-inset-top: env(safe-area-inset-top, 20px);
       --safe-area-inset-right: env(safe-area-inset-right, 20px);
       --safe-area-inset-bottom: env(safe-area-inset-bottom, 20px);
       --safe-area-inset-left: env(safe-area-inset-left, 20px);
 
-      /* Adjusted colors for a more cohesive look */
+      /* Colors, transitions, shadows */
       --pink-50: #ffd6e9;
       --pink-800: #9d174d;
       --red-400: #ff4d8d;
       --gray-700: #555;
 
-      /* Common transitions & shadows */
       --transition-ease: 0.4s ease-out;
       --transition-default: all 0.4s ease;
       --box-shadow-card: 0 5px 20px rgba(0, 0, 0, 0.1);
@@ -462,8 +466,8 @@
       outline: 2px solid transparent;
       outline-offset: 5px;
       border-radius: 9999px;
-      background-color: transparent; /* Removed to prevent conflict */
-      color: transparent; /* Hide text color, handled by inner span */
+      background-color: transparent; /* handle background within inner div */
+      color: transparent; /* text color handled by the inner span */
       transition: all 0.2s ease-in;
       text-align: center;
       min-width: 200px;
@@ -582,7 +586,7 @@
     .button > div {
       position: relative;
       pointer-events: none;
-      background-color: var(--red-400); /* Set background here */
+      background-color: var(--red-400); /* background set here */
       border: 2px solid rgba(255, 255, 255, 0.3);
       border-radius: 9999px;
       overflow: hidden;
@@ -844,16 +848,11 @@
       animation: subtleBounceBtn 3s infinite;
     }
 
-    /* Additional Spacing Under "Scroll Down" Button 
-       to force more scrolling, per request */
-    /* Changed from 150px to 600px */
+    /* Additional Spacing Under "Scroll Down" to force more scrolling */
     .scroll-down-container {
       text-align: center;
-      margin-bottom: 600px; /* Greatly increased spacing */
+      margin-bottom: 600px; /* Increased spacing */
     }
-
-    /* OPTIONAL: You might prefer to do it inline in HTML:
-       <div class="scroll-down-container" style="margin-bottom:600px;"> */
 
     /* Responsive Styles */
     @media (max-width: 1200px) {
@@ -965,14 +964,12 @@
       }
     }
 
-    /* NEW: Remove glowing effect on "No" button once triggered */
+    /* Remove glowing effect on "No" button once triggered */
     .disable-no-hover:hover {
       box-shadow: none !important;
     }
 
-    /* NEW: Matching the gallery style for the success modal photo
-       (applied once "Yes" is triggered). This ensures identical border,
-       hover effect, transform, & box shadows as .gallery-item. */
+    /* Match the gallery style for the success modal photo once "Yes" is triggered */
     .gallery-style {
       border-radius: 30px !important;
       box-shadow: var(--box-shadow-card) !important;
@@ -1006,10 +1003,16 @@
     </div>
   </div>
 
-  <!-- Other Elements -->
+  <!-- Funny Message -->
   <div class="funny-message" id="funnyMessage"></div>
+
+  <!-- Floating Elements -->
   <div class="floating-elements" id="floatingElements"></div>
+
+  <!-- Confetti -->
   <div class="confetti-container" id="confettiContainer"></div>
+
+  <!-- Custom Cursor -->
   <div class="custom-cursor" id="customCursor">❄️</div>
 
   <!-- Gallery Section -->
@@ -1019,57 +1022,90 @@
       <div class="gallery-item">
         <div class="glass-overlay"></div>
         <div class="gallery-frame">
-          <img src="images/first_date.jpg" loading="lazy" alt="First Date" class="gallery-image" />
+          <img
+            src="images/first_date.jpg"
+            loading="lazy"
+            alt="First Date"
+            class="gallery-image"
+          />
           <p class="gallery-caption">First Date ❤️</p>
         </div>
       </div>
       <div class="gallery-item">
         <div class="glass-overlay"></div>
         <div class="gallery-frame">
-          <img src="images/first_roadtrip.jpg" loading="lazy" alt="First Road Trip" class="gallery-image" />
+          <img
+            src="images/first_roadtrip.jpg"
+            loading="lazy"
+            alt="First Road Trip"
+            class="gallery-image"
+          />
           <p class="gallery-caption">Road Trip 🚗</p>
         </div>
       </div>
       <div class="gallery-item">
         <div class="glass-overlay"></div>
         <div class="gallery-frame">
-          <img src="images/first_pet.jpg" loading="lazy" alt="First Pet" class="gallery-image" />
+          <img
+            src="images/first_pet.jpg"
+            loading="lazy"
+            alt="First Pet"
+            class="gallery-image"
+          />
           <p class="gallery-caption">Our Pet 🐾</p>
         </div>
       </div>
       <div class="gallery-item">
         <div class="glass-overlay"></div>
         <div class="gallery-frame">
-          <img src="images/farmcart.JPG" loading="lazy" alt="Farm Market" class="gallery-image" />
+          <img
+            src="images/farmcart.JPG"
+            loading="lazy"
+            alt="Farm Market"
+            class="gallery-image"
+          />
           <p class="gallery-caption">Farm Market 🚜</p>
         </div>
       </div>
       <div class="gallery-item">
         <div class="glass-overlay"></div>
         <div class="gallery-frame">
-          <img src="images/stoneyriver.jpg" loading="lazy" alt="Stoney River" class="gallery-image" />
+          <img
+            src="images/stoneyriver.jpg"
+            loading="lazy"
+            alt="Stoney River"
+            class="gallery-image"
+          />
           <p class="gallery-caption">Stoney River 🌊</p>
         </div>
       </div>
       <div class="gallery-item">
         <div class="glass-overlay"></div>
         <div class="gallery-frame">
-          <img src="images/kiss.jpg" loading="lazy" alt="Muah Muah" class="gallery-image" />
+          <img
+            src="images/kiss.jpg"
+            loading="lazy"
+            alt="Muah Muah"
+            class="gallery-image"
+          />
           <p class="gallery-caption">First Kiss 💋</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Scroll Down Button with Subtle Bounce -->
-  <!-- GREATLY increased margin-bottom to force more scrolling down -->
+  <!-- Scroll Down Button -->
   <div class="scroll-down-container" style="margin-bottom:600px;">
-    <button id="scrollDownBtn" class="button scroll-down-subtle-bounce" aria-label="Scroll Down">
+    <button
+      id="scrollDownBtn"
+      class="button scroll-down-subtle-bounce"
+      aria-label="Scroll Down"
+    >
       <div><span>Scroll Down</span></div>
     </button>
   </div>
 
-  <!-- Main Container with Yes/No Buttons -->
+  <!-- Main Container -->
   <div class="container">
     <h1>Will You Be My Valentine?</h1>
     <p class="message">
@@ -1078,13 +1114,11 @@
       Will you be my Valentine?
     </p>
     <div class="buttons">
-      <!-- Yes Button -->
       <button id="yesButton" class="button" aria-label="Yes">
         <div>
           <span>Yes</span>
         </div>
       </button>
-      <!-- No Button -->
       <button id="noButton" class="button no-btn" aria-label="No">
         <div>
           <span>No</span>
@@ -1093,7 +1127,7 @@
     </div>
   </div>
 
-  <!-- Music Player Section -->
+  <!-- Music Player -->
   <div class="music-player" style="margin-bottom: 60px;">
     <button id="playSongBtn" class="button" aria-label="Play Our Song">
       <div>
@@ -1133,7 +1167,7 @@
       >
         Yay! ❤️
       </h2>
-      <!-- Initially includes old border logic, but we can override with .gallery-style once "Yes" is triggered -->
+      <!-- Once "Yes" is clicked, we'll add .gallery-style to match gallery look -->
       <div class="modal-photo-container">
         <img src="images/photo1.jpg" alt="Special Moment" class="modal-photo" />
       </div>
@@ -1144,7 +1178,7 @@
   </div>
 
   <script>
-    // Witty Messages for "No" Button
+    // Witty messages when "No" tries to flee
     const wittyMessages = [
       "Intrigued yet?😉",
       "Consider it briefly.😏",
@@ -1191,6 +1225,7 @@
 
         const r = this.button.getBoundingClientRect();
 
+        // Convert to fixed positioning once "No" starts to run
         if (this.button.style.position !== "fixed") {
           this.button.style.position = "fixed";
           this.button.style.top = r.top + "px";
@@ -1205,7 +1240,7 @@
         this.button.style.top = n.y + "px";
         this.showMsg(n, r);
 
-        // NEW: Once triggered (moved), remove the glow effect by adding a class
+        // Once triggered, remove the glow effect
         this.button.classList.add("disable-no-hover");
 
         clearTimeout(this.moveTimeout);
@@ -1273,7 +1308,6 @@
           this.button.style.left = "auto";
         }
 
-        // If we want to re-enable glowing effect, we can remove the class
         this.button.classList.remove("disable-no-hover");
       }
 
@@ -1284,6 +1318,7 @@
       }
     }
 
+    /* Floating elements (hearts, sparkles, etc.) */
     class FloatingElementsManager {
       constructor(c) {
         this.c = c;
@@ -1327,6 +1362,7 @@
       }
     }
 
+    /* Confetti Manager */
     class ConfettiManager {
       constructor(co) {
         this.co = co;
@@ -1418,6 +1454,8 @@
           const sp = Math.random() * 4 + 3;
           const vx = Math.cos(a) * sp;
           const vy = Math.sin(a) * sp;
+
+          // Smaller confetti if mobile
           const bs = m ? 8 : 12;
           const sr = m ? 10 : 16;
 
@@ -1475,225 +1513,232 @@
     }
 
     function updateDatingCounter() {
-      const s = new Date("2023-08-09");
-      const n = new Date();
-      const d = n - s;
+      const start = new Date("2023-08-09");
+      const now = new Date();
+      const diff = now - start;
 
-      const dd = Math.floor(d / (1000 * 60 * 60 * 24));
-      const hh = Math.floor((d % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
 
-      document.getElementById("dating-days").textContent = dd;
-      document.getElementById("dating-hours").textContent = hh;
+      document.getElementById("dating-days").textContent = days;
+      document.getElementById("dating-hours").textContent = hours;
     }
 
     function updateValentineCounter() {
-      const n = new Date();
-      let y = n.getFullYear();
+      const now = new Date();
+      let year = now.getFullYear();
 
-      const vd = new Date(y, 1, 14);
-      if (n > vd) y += 1;
+      const valentineThisYear = new Date(year, 1, 14); // Feb 14
+      if (now > valentineThisYear) {
+        // If we've passed it this year, count for next year
+        year += 1;
+      }
 
-      const nv = new Date(y, 1, 14);
-      const d = nv - n;
+      const nextValentine = new Date(year, 1, 14);
+      const diff = nextValentine - now;
 
-      const dd = Math.floor(d / (1000 * 60 * 60 * 24));
-      const hh = Math.floor((d % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor(
+        (diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+      );
 
-      document.getElementById("valentine-days").textContent = dd;
-      document.getElementById("valentine-hours").textContent = hh;
+      document.getElementById("valentine-days").textContent = days;
+      document.getElementById("valentine-hours").textContent = hours;
     }
 
     function setupGalleryModal() {
-      const gm = document.getElementById("galleryModal");
-      const mi = gm.querySelector(".gallery-modal-image");
-      const mc = gm.querySelector(".gallery-modal-caption");
-      const cb = gm.querySelector(".close-gallery-modal");
-      const btns = document.querySelectorAll(".button");
-      const mp = document.querySelector(".music-player");
-      const cnt = document.querySelectorAll(".time-counter");
+      const galleryModal = document.getElementById("galleryModal");
+      const modalImg = galleryModal.querySelector(".gallery-modal-image");
+      const modalCap = galleryModal.querySelector(".gallery-modal-caption");
+      const closeBtn = galleryModal.querySelector(".close-gallery-modal");
 
-      document.querySelectorAll(".gallery-item").forEach((it) => {
-        const img = it.querySelector(".gallery-image");
-        const cap = it.querySelector(".gallery-caption");
+      const allButtons = document.querySelectorAll(".button");
+      const musicPlayer = document.querySelector(".music-player");
+      const timeCounters = document.querySelectorAll(".time-counter");
+
+      document.querySelectorAll(".gallery-item").forEach((item) => {
+        const img = item.querySelector(".gallery-image");
+        const caption = item.querySelector(".gallery-caption");
 
         img.addEventListener("click", () => {
-          mi.src = img.src;
-          mi.alt = img.alt;
-          mc.textContent = cap.textContent;
-          gm.style.display = "flex";
+          modalImg.src = img.src;
+          modalImg.alt = img.alt;
+          modalCap.textContent = caption.textContent;
 
-          btns.forEach((b) => (b.style.display = "none"));
-          if (mp) mp.style.display = "none";
-          cnt.forEach((c) => (c.style.display = "none"));
+          galleryModal.style.display = "flex";
+
+          // Hide buttons, music player, counters behind the modal
+          allButtons.forEach((b) => (b.style.display = "none"));
+          if (musicPlayer) musicPlayer.style.display = "none";
+          timeCounters.forEach((tc) => (tc.style.display = "none"));
         });
       });
 
-      cb.addEventListener("click", () => {
-        gm.style.display = "none";
-        btns.forEach((b) => (b.style.display = "inline-block"));
-        if (mp) mp.style.display = "block";
-        cnt.forEach((c) => (c.style.display = "block"));
-      });
+      function closeGallery() {
+        galleryModal.style.display = "none";
+        allButtons.forEach((b) => (b.style.display = "inline-block"));
+        if (musicPlayer) musicPlayer.style.display = "block";
+        timeCounters.forEach((tc) => (tc.style.display = "block"));
+      }
+
+      closeBtn.addEventListener("click", closeGallery);
 
       window.addEventListener("click", (e) => {
-        if (e.target === gm) {
-          gm.style.display = "none";
-          btns.forEach((b) => (b.style.display = "inline-block"));
-          if (mp) mp.style.display = "block";
-          cnt.forEach((c) => (c.style.display = "block"));
+        if (e.target === galleryModal) {
+          closeGallery();
         }
       });
 
       window.addEventListener("keydown", (e) => {
-        if (e.key === "Escape" && gm.style.display === "flex") {
-          gm.style.display = "none";
-          btns.forEach((b) => (b.style.display = "inline-block"));
-          if (mp) mp.style.display = "block";
-          cnt.forEach((c) => (c.style.display = "block"));
+        if (e.key === "Escape" && galleryModal.style.display === "flex") {
+          closeGallery();
         }
       });
     }
 
     function setupMusicPlayer() {
-      const pb = document.getElementById("playSongBtn");
+      const playBtn = document.getElementById("playSongBtn");
       const audio = document.getElementById("ourSong");
       let playing = false;
 
-      pb.addEventListener("click", () => {
+      playBtn.addEventListener("click", () => {
         if (playing) {
           audio.pause();
-          pb.querySelector("span").textContent = "Play Our Song ♪";
-          pb.classList.remove("playing");
+          playBtn.querySelector("span").textContent = "Play Our Song ♪";
+          playBtn.classList.remove("playing");
         } else {
           audio.play().catch((e) => console.log(e));
-          pb.querySelector("span").textContent = "Pause Our Song ♪";
-          pb.classList.add("playing");
+          playBtn.querySelector("span").textContent = "Pause Our Song ♪";
+          playBtn.classList.add("playing");
         }
         playing = !playing;
       });
 
       audio.addEventListener("ended", () => {
         playing = false;
-        pb.querySelector("span").textContent = "Play Our Song ♪";
-        pb.classList.remove("playing");
+        playBtn.querySelector("span").textContent = "Play Our Song ♪";
+        playBtn.classList.remove("playing");
       });
     }
 
     document.addEventListener("DOMContentLoaded", () => {
-      const fl = new FloatingElementsManager(document.getElementById("floatingElements"));
-      fl.start();
+      // Floating hearts/sparkles
+      const floatingManager = new FloatingElementsManager(
+        document.getElementById("floatingElements")
+      );
+      floatingManager.start();
 
-      const noBtnH = new NoButtonHandler(
+      // No button logic
+      const noBtnHandler = new NoButtonHandler(
         document.getElementById("noButton"),
         document.getElementById("funnyMessage")
       );
 
-      const confetti = new ConfettiManager(document.getElementById("confettiContainer"));
+      // Confetti
+      const confetti = new ConfettiManager(
+        document.getElementById("confettiContainer")
+      );
 
-      const mo = document.getElementById("modal");
-      const moC = mo.querySelector(".modal-content");
-      const yb = document.getElementById("yesButton");
-      const cMo = document.getElementById("closeModal");
-      let pressed = false;
+      // Yes button & success modal
+      const modal = document.getElementById("modal");
+      const modalContent = modal.querySelector(".modal-content");
+      const yesButton = document.getElementById("yesButton");
+      const closeModalBtn = document.getElementById("closeModal");
+      let pressedYes = false;
 
       function showModal() {
-        mo.style.display = "flex";
-        moC.scrollIntoView({ behavior: "smooth", block: "center" });
+        modal.style.display = "flex";
+        modalContent.scrollIntoView({ behavior: "smooth", block: "center" });
 
-        // NEW: Once "Yes" is triggered, match the gallery styling for the success photo
-        document.querySelector(".modal-photo-container").classList.add("gallery-style");
+        // Make the modal photo match the .gallery-item style
+        document
+          .querySelector(".modal-photo-container")
+          .classList.add("gallery-style");
       }
 
-      yb.addEventListener("click", () => {
+      yesButton.addEventListener("click", () => {
         showModal();
-        const isMob = window.matchMedia("(max-width: 768px)").matches;
-        confetti.launch(isMob);
+        const isMobile = window.matchMedia("(max-width: 768px)").matches;
+        confetti.launch(isMobile);
 
-        if (!pressed) {
-          pressed = true;
-          noBtnH.disable();
-          yb.disabled = true;
+        if (!pressedYes) {
+          pressedYes = true;
+          noBtnHandler.disable();
+          yesButton.disabled = true;
         }
-
-        cMo.focus();
+        closeModalBtn.focus();
       });
 
-      cMo.addEventListener("click", () => {
-        mo.style.display = "none";
-        if (pressed) {
-          pressed = false;
-          noBtnH.enable();
-          yb.disabled = false;
+      function closeModal() {
+        modal.style.display = "none";
+        if (pressedYes) {
+          pressedYes = false;
+          noBtnHandler.enable();
+          yesButton.disabled = false;
         }
-        yb.focus();
-      });
+        yesButton.focus();
+      }
+
+      closeModalBtn.addEventListener("click", closeModal);
 
       window.addEventListener("click", (e) => {
-        if (e.target === mo) {
-          mo.style.display = "none";
-          if (pressed) {
-            pressed = false;
-            noBtnH.enable();
-            yb.disabled = false;
-          }
-          yb.focus();
+        if (e.target === modal) {
+          closeModal();
         }
       });
 
       window.addEventListener("keydown", (e) => {
-        if (e.key === "Escape" && mo.style.display === "flex") {
-          mo.style.display = "none";
-          if (pressed) {
-            pressed = false;
-            noBtnH.enable();
-            yb.disabled = false;
-          }
-          yb.focus();
+        if (e.key === "Escape" && modal.style.display === "flex") {
+          closeModal();
         }
       });
 
       // Custom cursor for non-touch devices
       if (!window.matchMedia("(pointer: coarse)").matches) {
         document.addEventListener("mousemove", (e) => {
-          const c = document.getElementById("customCursor");
-          if (c) {
-            c.style.left = e.clientX + "px";
-            c.style.top = e.clientY + "px";
+          const cursor = document.getElementById("customCursor");
+          if (cursor) {
+            cursor.style.left = e.clientX + "px";
+            cursor.style.top = e.clientY + "px";
           }
         });
 
-        yb.addEventListener("mouseenter", () => {
-          const c = document.getElementById("customCursor");
-          if (c) {
-            c.classList.add("hover-yes");
+        yesButton.addEventListener("mouseenter", () => {
+          const cursor = document.getElementById("customCursor");
+          if (cursor) {
+            cursor.classList.add("hover-yes");
           }
         });
 
-        yb.addEventListener("mouseleave", () => {
-          const c = document.getElementById("customCursor");
-          if (c) {
-            c.classList.remove("hover-yes");
+        yesButton.addEventListener("mouseleave", () => {
+          const cursor = document.getElementById("customCursor");
+          if (cursor) {
+            cursor.classList.remove("hover-yes");
           }
         });
       }
 
-      // Press down button logic
+      // Scroll Down button
       const scrollDownBtn = document.getElementById("scrollDownBtn");
       if (scrollDownBtn) {
         scrollDownBtn.addEventListener("click", () => {
-          document.querySelector(".container").scrollIntoView({ behavior: "smooth" });
+          document
+            .querySelector(".container")
+            .scrollIntoView({ behavior: "smooth" });
         });
       }
 
+      // Set up modal, music player
       setupGalleryModal();
       setupMusicPlayer();
 
+      // Counters
       updateDatingCounter();
       updateValentineCounter();
       setInterval(() => {
         updateDatingCounter();
         updateValentineCounter();
-      }, 1000 * 60 * 5);
+      }, 1000 * 60 * 5); // Update every 5 minutes
     });
   </script>
 </body>
