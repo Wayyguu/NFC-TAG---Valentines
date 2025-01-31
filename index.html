@@ -3,15 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <!-- Viewport fit=cover for iPhone’s notch, ensures safe-area insets -->
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
-  />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Be My Valentine?</title>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Parisienne&family=Poppins:wght@400;700&display=swap"
-    rel="stylesheet"
-  />
+  <link href="https://fonts.googleapis.com/css2?family=Parisienne&family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
   <style>
     :root {
       --primary-color: #ff6b81;
@@ -39,7 +33,25 @@
       --box-shadow-hover: 0 15px 40px rgba(0, 0, 0, 0.2);
       --box-shadow-counter: 0 5px 15px rgba(0, 0, 0, 0.1);
       --box-shadow-larger: 0 15px 35px rgba(0, 0, 0, 0.15);
-      --box-shadow-medium: 0 10px 25px rgba(0, 0, 0, 0.2); /* Added for neutral shadow */
+      --box-shadow-medium: 0 10px 25px rgba(0, 0, 0, 0.2);
+
+      /* Custom multi-layered shadow for the NO button */
+      --no-btn-shadow: 
+        0.5px 0.5px 0 0 #000,
+        1px 1px 0 0 #000,
+        1.5px 1.5px 0 0 #000,
+        2px 2px 0 0 #000,
+        2.5px 2.5px 0 0 #000,
+        3px 3px 0 0 #000,
+        0 0 0 2px #ccc,
+        0.5px 0.5px 0 2px #ccc,
+        1px 1px 0 2px #ccc,
+        1.5px 1.5px 0 2px #ccc,
+        2px 2px 0 2px #ccc,
+        2.5px 2.5px 0 2px #ccc,
+        3px 3px 0 2px #ccc,
+        3.5px 3.5px 0 2px #ccc,
+        4px 4px 0 2px #ccc;
     }
 
     * {
@@ -53,8 +65,7 @@
       color: #000;
       background: var(--background-gradient);
       min-height: 100vh;
-      padding: var(--safe-area-inset-top) var(--safe-area-inset-right)
-        var(--safe-area-inset-bottom) var(--safe-area-inset-left);
+      padding: var(--safe-area-inset-top) var(--safe-area-inset-right) var(--safe-area-inset-bottom) var(--safe-area-inset-left);
       overflow-x: hidden;
     }
 
@@ -64,50 +75,79 @@
       }
     }
 
-    /* Time Counters */
-    .time-counter {
-      position: fixed;
-      top: max(var(--safe-area-inset-top), 20px);
-      background: rgba(255, 255, 255, 0.95);
-      padding: 15px 25px;
-      border-radius: 15px;
-      box-shadow: var(--box-shadow-counter);
-      z-index: 1001;
-      text-align: center;
-      line-height: 1.4;
-      width: 200px;
-      min-height: 120px;
-    }
-
-    .counter-label {
-      display: block;
-      font-family: var(--font-script);
-      font-size: clamp(1.5em, 5vw, 2em);
-      color: var(--primary-color);
-      margin-bottom: 8px;
-      text-align: center;
-    }
-
-    .time-values {
+    /* ======================================
+       COUNTER CARDS – Expanded and Minimized
+       ====================================== */
+    /* Container for the two counter cards on the main page */
+    #counterContainer {
       display: flex;
-      gap: 10px;
+      justify-content: space-around;
+      align-items: center;
+      min-height: 100vh;
+      padding: 2rem;
+      background: var(--background-gradient);
+      transition: all 0.2s ease;
+    }
+
+    /* Expanded (default) state of the counter cards */
+    .time-counter {
+      width: calc(50% - 40px);
+      height: 300px;
+      padding: 2rem;
+      background: #ffffff;
+      border: 3px solid #000;
+      border-radius: 2px;
+      box-shadow: 8px 8px 0 #000;
+      transition: all 0.2s ease;
+      font-family: 'Helvetica Neue', sans-serif;
+      font-size: 2rem;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
       justify-content: center;
     }
 
-    .time-counter span:not(.counter-label) {
-      font-family: var(--font-sans);
-      color: #000;
-      font-size: clamp(1em, 3vw, 1.2em);
-      display: block;
+    .time-counter .counter-label {
+      font-family: 'Helvetica Neue', sans-serif;
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
     }
 
-    #dating-counter {
-      right: max(var(--safe-area-inset-right), 20px);
+    .time-counter .time-values {
+      font-size: 2rem;
     }
 
-    #valentine-counter {
-      left: max(var(--safe-area-inset-left), 20px);
+    /* Minimized state when scrolling – the counter cards shrink and reposition */
+    .time-counter.minimized {
+      position: fixed;
+      width: 200px;
+      height: 120px;
+      padding: 1rem;
+      top: 20px;
+      background: #ffffff;
+      border: 3px solid #000;
+      border-radius: 2px;
+      box-shadow: 4px 4px 0 #000;
+      font-size: 1rem;
+      z-index: 1001;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-align: center;
+      transition: all 0.2s ease;
     }
+
+    /* Position each minimized counter in its respective corner */
+    #valentine-counter.minimized {
+      left: 20px;
+    }
+    #dating-counter.minimized {
+      right: 20px;
+    }
+
+    /* ======================
+       Funny Message, Floating, etc.
+       ====================== */
 
     /* Funny Message */
     .funny-message {
@@ -228,12 +268,7 @@
       transform: translateX(-50%);
       width: 100px;
       height: 3px;
-      background: linear-gradient(
-        90deg,
-        transparent,
-        var(--primary-color),
-        transparent
-      );
+      background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
     }
 
     .gallery-grid {
@@ -280,15 +315,9 @@
     }
 
     @keyframes rotBGimg {
-      0% {
-        transform: rotate(0deg) scale(1);
-      }
-      50% {
-        transform: rotate(180deg) scale(1.2);
-      }
-      100% {
-        transform: rotate(360deg) scale(1);
-      }
+      0% { transform: rotate(0deg) scale(1); }
+      50% { transform: rotate(180deg) scale(1.2); }
+      100% { transform: rotate(360deg) scale(1); }
     }
 
     .gallery-item::after {
@@ -378,9 +407,9 @@
       justify-content: center;
       align-items: center;
       padding: max(var(--safe-area-inset-top), 20px)
-        max(var(--safe-area-inset-right), 20px)
-        max(var(--safe-area-inset-bottom), 20px)
-        max(var(--safe-area-inset-left), 20px);
+               max(var(--safe-area-inset-right), 20px)
+               max(var(--safe-area-inset-bottom), 20px)
+               max(var(--safe-area-inset-left), 20px);
     }
 
     .gallery-modal-content {
@@ -416,15 +445,13 @@
 
     /* Main Container */
     .container {
-      /* Made the container slightly smaller as requested */
       width: min(85%, 900px);
       background: rgba(255, 255, 255, 0.95);
-      /* Reduced padding slightly */
       padding: 50px;
       border-radius: 20px;
       text-align: center;
       margin: 150px auto;
-      box-shadow: var(--box-shadow-medium); /* Changed to neutral shadow */
+      box-shadow: var(--box-shadow-medium);
       position: relative;
       z-index: 2;
       animation: fadeIn 1.5s ease-in-out;
@@ -468,20 +495,34 @@
       outline: 2px solid transparent;
       outline-offset: 5px;
       border-radius: 9999px;
-      background-color: transparent; /* handle background within inner div */
-      color: transparent; /* text color handled by the inner span */
+      background-color: transparent;
+      color: transparent;
       transition: all 0.2s ease-in;
       text-align: center;
       min-width: 200px;
-      /* Removed existing pink box-shadow and replaced with neutral shadow */
-      box-shadow: var(--box-shadow-medium);
+      box-shadow:
+        0.5px 0.5px 0 0 #000,
+        1px 1px 0 0 #000,
+        1.5px 1.5px 0 0 #000,
+        2px 2px 0 0 #000,
+        2.5px 2.5px 0 0 #000,
+        3px 3px 0 0 #000,
+        0 0 0 2px #fff,
+        0.5px 0.5px 0 2px #fff,
+        1px 1px 0 2px #fff,
+        1.5px 1.5px 0 2px #fff,
+        2px 2px 0 2px #fff,
+        2.5px 2.5px 0 2px #fff,
+        3px 3px 0 2px #fff,
+        3.5px 3.5px 0 2px #fff,
+        4px 4px 0 2px #fff;
+      transform: translate(-4px, -4px);
       overflow: hidden;
     }
 
     /* "No" Button Specific Styles */
     .button.no-btn {
-      /* Removed existing pink box-shadow and replaced with neutral shadow */
-      box-shadow: var(--box-shadow-medium);
+      box-shadow: var(--no-btn-shadow);
     }
 
     /* Playing State for "Play Our Song" Button */
@@ -531,13 +572,12 @@
 
     /* Hover Effects */
     .button:hover {
-      /* Changed to use neutral hover shadow */
-      box-shadow: var(--box-shadow-hover);
+      transform: translate(0, 0);
+      box-shadow: 0 0 0 2px #fff;
     }
 
     .button:hover.no-btn {
-      /* Changed to use neutral hover shadow */
-      box-shadow: var(--box-shadow-hover);
+      box-shadow: 0 0 0 2px #fff;
     }
 
     .button:hover::before {
@@ -562,8 +602,8 @@
     .button > div {
       position: relative;
       pointer-events: none;
-      background-color: var(--red-400); /* default pink background */
-      border: 2.5px solid rgba(255, 255, 255, 0.3); /* Increased border width from 2px to 2.5px */
+      background-color: var(--red-400);
+      border: 2.5px solid rgba(255, 255, 255, 0.3);
       border-radius: 9999px;
       overflow: hidden;
       transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
@@ -594,19 +634,19 @@
       pointer-events: none;
     }
 
-    /* 
+    /*
       1) Make only the text within the scroll down button and the play our song button font sizes slightly smaller.
       2) Change their background to white with black texts and black dots.
     */
     #scrollDownBtn > div,
     #playSongBtn > div {
-      background-color: #ffffff !important; /* white background */
+      background-color: #ffffff !important;
     }
 
     #scrollDownBtn > div > span,
     #playSongBtn > div > span {
-      font-size: 1rem !important; /* slightly smaller text */
-      color: #000000 !important; /* black text */
+      font-size: 1rem !important;
+      color: #000000 !important;
     }
 
     /* Override the dotted background pattern to black for specific buttons */
@@ -651,47 +691,22 @@
 
     /* Keyframes for Animations */
     @keyframes dots {
-      0% {
-        background-position: 0 0, 4px 4px;
-      }
-      100% {
-        background-position: 8px 0, 12px 4px;
-      }
+      0% { background-position: 0 0, 4px 4px; }
+      100% { background-position: 8px 0, 12px 4px; }
     }
 
     @keyframes sh02 {
-      from {
-        opacity: 0;
-        left: 0%;
-      }
-      50% {
-        opacity: 1;
-      }
-      to {
-        opacity: 0;
-        left: 100%;
-      }
+      from { opacity: 0; left: 0%; }
+      50% { opacity: 1; }
+      to { opacity: 0; left: 100%; }
     }
 
     @keyframes shine {
-      0% {
-        transform: skewX(-20deg) translateX(-100%);
-        opacity: 0;
-      }
-      10% {
-        opacity: 0.5;
-      }
-      50% {
-        transform: skewX(-20deg) translateX(0%);
-        opacity: 0.5;
-      }
-      90% {
-        opacity: 0.5;
-      }
-      100% {
-        transform: skewX(-20deg) translateX(100%);
-        opacity: 0;
-      }
+      0% { transform: skewX(-20deg) translateX(-100%); opacity: 0; }
+      10% { opacity: 0.5; }
+      50% { transform: skewX(-20deg) translateX(0%); opacity: 0.5; }
+      90% { opacity: 0.5; }
+      100% { transform: skewX(-20deg) translateX(100%); opacity: 0; }
     }
 
     /* Music Player */
@@ -714,9 +729,9 @@
       align-items: flex-start;
       z-index: 1000;
       padding: max(var(--safe-area-inset-top), 20px)
-        max(var(--safe-area-inset-right), 20px)
-        max(var(--safe-area-inset-bottom), 20px)
-        max(var(--safe-area-inset-left), 20px);
+               max(var(--safe-area-inset-right), 20px)
+               max(var(--safe-area-inset-bottom), 20px)
+               max(var(--safe-area-inset-left), 20px);
       overflow-y: auto;
     }
 
@@ -790,56 +805,28 @@
     }
 
     @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: scale(0.95);
-      }
-      to {
-        opacity: 1;
-        transform: scale(1);
-      }
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
     }
 
     @keyframes slideIn {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     @keyframes fadeInModal {
-      from {
-        opacity: 0;
-        transform: scale(0.9);
-      }
-      to {
-        opacity: 1;
-        transform: scale(1);
-      }
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
     }
 
     @keyframes subtleBounce {
-      0%,
-      100% {
-        transform: translateY(0);
-      }
-      50% {
-        transform: translateY(-10px);
-      }
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
     }
 
     @keyframes subtleBounceBtn {
-      0%,
-      100% {
-        transform: translateY(0);
-      }
-      50% {
-        transform: translateY(-5px);
-      }
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
     }
 
     .scroll-down-subtle-bounce {
@@ -849,7 +836,7 @@
     /* Additional Spacing Under "Scroll Down" to force more scrolling */
     .scroll-down-container {
       text-align: center;
-      margin-bottom: 600px; /* Increased spacing */
+      margin-bottom: 600px;
     }
 
     /* Responsive Styles */
@@ -866,70 +853,42 @@
     }
 
     @media (max-width: 768px) {
+      #counterContainer {
+        flex-direction: column;
+      }
       .time-counter {
-        position: static !important;
-        display: block !important;
-        font-size: 0.9em;
-        padding: 8px 15px;
-        border-radius: 20px !important;
-        box-shadow: var(--box-shadow-medium) !important;
-        width: 200px !important;
-        min-height: 120px !important;
-        margin: 30px auto !important;
+        width: 80%;
+        margin-bottom: 20px;
       }
-
-      #dating-counter,
-      #valentine-counter {
-        left: auto !important;
-        right: auto !important;
-      }
-
-      .gallery-section {
-        margin: 100px auto;
-        padding: 30px;
-      }
-
-      .gallery-grid {
-        gap: 20px;
-        padding: 10px;
-      }
-
       .modal-photo-container {
         height: 180px;
       }
-
       .close-gallery-modal {
         top: -30px;
         right: -10px;
       }
-
       .container {
         padding: 30px;
         margin: 100px auto;
       }
-
       h1 {
         font-size: clamp(2.5em, 8vw, 3.5em);
         margin-bottom: 30px;
       }
-
       .message {
         font-size: clamp(1.2em, 4vw, 1.5em);
         margin-bottom: 30px;
       }
-
       .buttons {
         flex-direction: column;
         align-items: center;
         gap: 15px;
         min-height: 100px;
       }
-
       .button {
         font-size: 1.2rem;
         min-width: 140px;
       }
-
       .button > div > span {
         padding: 0.5rem 1rem;
       }
@@ -939,7 +898,6 @@
       .gallery-grid {
         grid-template-columns: 1fr;
       }
-
       .gallery-item {
         aspect-ratio: 4/3;
       }
@@ -976,45 +934,24 @@
       overflow: hidden !important;
       position: relative !important;
     }
-
-    /* 
-      1) Make only the text within the scroll down button and the play our song button font sizes slightly smaller.
-      2) Change their background to white with black texts and black dots.
-    */
-    #scrollDownBtn > div,
-    #playSongBtn > div {
-      background-color: #ffffff !important; /* white background */
-    }
-
-    #scrollDownBtn > div > span,
-    #playSongBtn > div > span {
-      font-size: 1rem !important; /* slightly smaller text */
-      color: #000000 !important; /* black text */
-    }
-
-    /* Override the dotted background pattern to black for specific buttons */
-    #scrollDownBtn > div::before,
-    #playSongBtn > div::before {
-      background-image: radial-gradient(rgb(0 0 0 / 80%) 20%, transparent 20%),
-        radial-gradient(rgb(0 0 0 / 100%) 20%, transparent 20%);
-    }
   </style>
 </head>
 <body>
-  <!-- Time Counters -->
-  <div class="time-counter" id="dating-counter">
-    <span class="counter-label">Together Since</span>
-    <div class="time-values">
-      <span id="dating-days">0</span> Days
-      <span id="dating-hours">0</span> Hours
+  <!-- Counter Cards Container (Expanded State) -->
+  <div id="counterContainer">
+    <div class="time-counter" id="dating-counter">
+      <span class="counter-label">Together Since</span>
+      <div class="time-values">
+        <span id="dating-days">0</span> Days
+        <span id="dating-hours">0</span> Hours
+      </div>
     </div>
-  </div>
-
-  <div class="time-counter" id="valentine-counter">
-    <span class="counter-label">Until Valentine's</span>
-    <div class="time-values">
-      <span id="valentine-days">0</span> Days
-      <span id="valentine-hours">0</span> Hours
+    <div class="time-counter" id="valentine-counter">
+      <span class="counter-label">Until Valentine's</span>
+      <div class="time-values">
+        <span id="valentine-days">0</span> Days
+        <span id="valentine-hours">0</span> Hours
+      </div>
     </div>
   </div>
 
@@ -1037,72 +974,42 @@
       <div class="gallery-item">
         <div class="glass-overlay"></div>
         <div class="gallery-frame">
-          <img
-            src="images/first_date.jpg"
-            loading="lazy"
-            alt="First Date"
-            class="gallery-image"
-          />
+          <img src="images/first_date.jpg" loading="lazy" alt="First Date" class="gallery-image" />
           <p class="gallery-caption">First Date ❤️</p>
         </div>
       </div>
       <div class="gallery-item">
         <div class="glass-overlay"></div>
         <div class="gallery-frame">
-          <img
-            src="images/first_roadtrip.jpg"
-            loading="lazy"
-            alt="First Road Trip"
-            class="gallery-image"
-          />
+          <img src="images/first_roadtrip.jpg" loading="lazy" alt="First Road Trip" class="gallery-image" />
           <p class="gallery-caption">Road Trip 🚗</p>
         </div>
       </div>
       <div class="gallery-item">
         <div class="glass-overlay"></div>
         <div class="gallery-frame">
-          <img
-            src="images/first_pet.jpg"
-            loading="lazy"
-            alt="First Pet"
-            class="gallery-image"
-          />
+          <img src="images/first_pet.jpg" loading="lazy" alt="First Pet" class="gallery-image" />
           <p class="gallery-caption">Our Pet 🐾</p>
         </div>
       </div>
       <div class="gallery-item">
         <div class="glass-overlay"></div>
         <div class="gallery-frame">
-          <img
-            src="images/farmcart.JPG"
-            loading="lazy"
-            alt="Farm Market"
-            class="gallery-image"
-          />
+          <img src="images/farmcart.JPG" loading="lazy" alt="Farm Market" class="gallery-image" />
           <p class="gallery-caption">Farm Market 🚜</p>
         </div>
       </div>
       <div class="gallery-item">
         <div class="glass-overlay"></div>
         <div class="gallery-frame">
-          <img
-            src="images/stoneyriver.jpg"
-            loading="lazy"
-            alt="Stoney River"
-            class="gallery-image"
-          />
+          <img src="images/stoneyriver.jpg" loading="lazy" alt="Stoney River" class="gallery-image" />
           <p class="gallery-caption">Stoney River 🌊</p>
         </div>
       </div>
       <div class="gallery-item">
         <div class="glass-overlay"></div>
         <div class="gallery-frame">
-          <img
-            src="images/kiss.jpg"
-            loading="lazy"
-            alt="Muah Muah"
-            class="gallery-image"
-          />
+          <img src="images/kiss.jpg" loading="lazy" alt="Muah Muah" class="gallery-image" />
           <p class="gallery-caption">First Kiss 💋</p>
         </div>
       </div>
@@ -1111,11 +1018,7 @@
 
   <!-- Scroll Down Button -->
   <div class="scroll-down-container" style="margin-bottom:600px;">
-    <button
-      id="scrollDownBtn"
-      class="button scroll-down-subtle-bounce"
-      aria-label="Scroll Down"
-    >
+    <button id="scrollDownBtn" class="button scroll-down-subtle-bounce" aria-label="Scroll Down">
       <div><span>Scroll Down</span></div>
     </button>
   </div>
@@ -1162,24 +1065,10 @@
   </div>
 
   <!-- Success Modal -->
-  <div
-    id="modal"
-    class="modal"
-    role="dialog"
-    aria-modal="true"
-    aria-labelledby="modalTitle"
-    aria-describedby="modalDescription"
-  >
+  <div id="modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-describedby="modalDescription">
     <div class="modal-content">
       <span class="close-modal" id="closeModal" aria-label="Close Modal">&times;</span>
-      <h2
-        id="modalTitle"
-        style="
-          font-family: var(--font-script);
-          color: var(--primary-color);
-          font-size: clamp(2.5em, 8vw, 5em);
-        "
-      >
+      <h2 id="modalTitle" style="font-family: var(--font-script); color: var(--primary-color); font-size: clamp(2.5em, 8vw, 5em);">
         Yay! ❤️
       </h2>
       <!-- Once "Yes" is clicked, we'll add .gallery-style to match gallery look -->
@@ -1275,14 +1164,8 @@
         let nx, ny;
 
         do {
-          nx = Math.min(
-            Math.max(this.pad, Math.random() * sx),
-            sx
-          );
-          ny = Math.min(
-            Math.max(this.pad, Math.random() * sy),
-            sy
-          );
+          nx = Math.min(Math.max(this.pad, Math.random() * sx), sx);
+          ny = Math.min(Math.max(this.pad, Math.random() * sy), sy);
         } while (Math.abs(nx - cx) < 100 && Math.abs(ny - cy) < 100);
 
         return { x: nx, y: ny };
@@ -1430,11 +1313,7 @@
           p.r += p.rs;
 
           this.drawP(p);
-          if (
-            p.x < -100 ||
-            p.x > this.cv.width + 100 ||
-            p.y > this.cv.height + 100
-          ) {
+          if (p.x < -100 || p.x > this.cv.width + 100 || p.y > this.cv.height + 100) {
             this.ps.splice(i, 1);
             i--;
           }
@@ -1494,10 +1373,8 @@
 
         for (let i = 0; i < tb; i++) {
           setTimeout(() => {
-            const cx =
-              this.cv.width * 0.2 + Math.random() * this.cv.width * 0.6;
-            const cy =
-              this.cv.height * 0.2 + Math.random() * this.cv.height * 0.6;
+            const cx = this.cv.width * 0.2 + Math.random() * this.cv.width * 0.6;
+            const cy = this.cv.height * 0.2 + Math.random() * this.cv.height * 0.6;
 
             this.burst(cx, cy, cnt, m);
             this.spark(cx, cy);
@@ -1545,7 +1422,6 @@
 
       const valentineThisYear = new Date(year, 1, 14); // Feb 14
       if (now > valentineThisYear) {
-        // If we've passed it this year, count for next year
         year += 1;
       }
 
@@ -1553,9 +1429,7 @@
       const diff = nextValentine - now;
 
       const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-      const hours = Math.floor(
-        (diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-      );
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
 
       document.getElementById("valentine-days").textContent = days;
       document.getElementById("valentine-hours").textContent = hours;
@@ -1638,9 +1512,7 @@
 
     document.addEventListener("DOMContentLoaded", () => {
       // Floating hearts/sparkles
-      const floatingManager = new FloatingElementsManager(
-        document.getElementById("floatingElements")
-      );
+      const floatingManager = new FloatingElementsManager(document.getElementById("floatingElements"));
       floatingManager.start();
 
       // No button logic
@@ -1650,9 +1522,7 @@
       );
 
       // Confetti
-      const confetti = new ConfettiManager(
-        document.getElementById("confettiContainer")
-      );
+      const confetti = new ConfettiManager(document.getElementById("confettiContainer"));
 
       // Yes button & success modal
       const modal = document.getElementById("modal");
@@ -1664,11 +1534,7 @@
       function showModal() {
         modal.style.display = "flex";
         modalContent.scrollIntoView({ behavior: "smooth", block: "center" });
-
-        // Make the modal photo match the .gallery-item style
-        document
-          .querySelector(".modal-photo-container")
-          .classList.add("gallery-style");
+        document.querySelector(".modal-photo-container").classList.add("gallery-style");
       }
 
       yesButton.addEventListener("click", () => {
@@ -1737,10 +1603,7 @@
       const scrollDownBtn = document.getElementById("scrollDownBtn");
       if (scrollDownBtn) {
         scrollDownBtn.addEventListener("click", () => {
-          // Center the container when scrolling
-          document
-            .querySelector(".container")
-            .scrollIntoView({ behavior: "smooth", block: "center" });
+          document.querySelector(".container").scrollIntoView({ behavior: "smooth", block: "center" });
         });
       }
 
@@ -1748,13 +1611,27 @@
       setupGalleryModal();
       setupMusicPlayer();
 
-      // Counters
+      // Counters: initial update and then periodic updates every 5 minutes
       updateDatingCounter();
       updateValentineCounter();
       setInterval(() => {
         updateDatingCounter();
         updateValentineCounter();
-      }, 1000 * 60 * 5); // Update every 5 minutes
+      }, 1000 * 60 * 5);
+
+      // On scroll, minimize the counter cards into the top corners
+      window.addEventListener("scroll", function() {
+        const threshold = 100;
+        const datingCounter = document.getElementById("dating-counter");
+        const valentineCounter = document.getElementById("valentine-counter");
+        if (window.scrollY > threshold) {
+          datingCounter.classList.add("minimized");
+          valentineCounter.classList.add("minimized");
+        } else {
+          datingCounter.classList.remove("minimized");
+          valentineCounter.classList.remove("minimized");
+        }
+      });
     });
   </script>
 </body>
