@@ -3,9 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <!-- Viewport fit=cover for iPhone’s notch, ensures safe-area insets -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+  />
   <title>Be My Valentine?</title>
-  <link href="https://fonts.googleapis.com/css2?family=Parisienne&family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Parisienne&family=Poppins:wght@400;700&display=swap"
+    rel="stylesheet"
+  />
   <style>
     :root {
       --primary-color: #ff6b81;
@@ -65,7 +71,8 @@
       color: #000;
       background: var(--background-gradient);
       min-height: 100vh;
-      padding: var(--safe-area-inset-top) var(--safe-area-inset-right) var(--safe-area-inset-bottom) var(--safe-area-inset-left);
+      padding: var(--safe-area-inset-top) var(--safe-area-inset-right)
+        var(--safe-area-inset-bottom) var(--safe-area-inset-left);
       overflow-x: hidden;
     }
 
@@ -75,79 +82,52 @@
       }
     }
 
-    /* ======================================
-       COUNTER CARDS – Expanded and Minimized
-       ====================================== */
-    /* Container for the two counter cards on the main page */
-    #counterContainer {
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      min-height: 100vh;
-      padding: 2rem;
-      background: var(--background-gradient);
-      transition: all 0.2s ease;
-    }
-
-    /* Expanded (default) state of the counter cards */
+    /* Time Counters */
     .time-counter {
-      width: calc(50% - 40px);
-      height: 300px;
-      padding: 2rem;
+      position: fixed;
+      top: max(var(--safe-area-inset-top), 20px);
       background: #ffffff;
       border: 3px solid #000;
       border-radius: 2px;
       box-shadow: 8px 8px 0 #000;
-      transition: all 0.2s ease;
-      font-family: 'Helvetica Neue', sans-serif;
-      font-size: 2rem;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-
-    .time-counter .counter-label {
-      font-family: 'Helvetica Neue', sans-serif;
-      font-size: 2.5rem;
-      margin-bottom: 1rem;
-    }
-
-    .time-counter .time-values {
-      font-size: 2rem;
-    }
-
-    /* Minimized state when scrolling – the counter cards shrink and reposition */
-    .time-counter.minimized {
-      position: fixed;
-      width: 200px;
-      height: 120px;
-      padding: 1rem;
-      top: 20px;
-      background: #ffffff;
-      border: 3px solid #000;
-      border-radius: 2px;
-      box-shadow: 4px 4px 0 #000;
-      font-size: 1rem;
+      padding: 2rem;
+      width: 320px;
+      height: 200px;
       z-index: 1001;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
       text-align: center;
-      transition: all 0.2s ease;
+      line-height: 1.4;
     }
 
-    /* Position each minimized counter in its respective corner */
-    #valentine-counter.minimized {
-      left: 20px;
-    }
-    #dating-counter.minimized {
-      right: 20px;
+    .counter-label {
+      display: block;
+      font-family: var(--font-script);
+      font-weight: bold;
+      font-size: clamp(1.5em, 5vw, 2em);
+      color: #ff3366;
+      margin-bottom: 8px;
+      text-align: center;
     }
 
-    /* ======================
-       Funny Message, Floating, etc.
-       ====================== */
+    .time-values {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .time-counter span:not(.counter-label) {
+      font-family: var(--font-sans);
+      color: #000;
+      font-size: clamp(1em, 3vw, 1.2em);
+      display: block;
+    }
+
+    #dating-counter {
+      right: max(var(--safe-area-inset-right), 20px);
+    }
+
+    #valentine-counter {
+      left: max(var(--safe-area-inset-left), 20px);
+    }
 
     /* Funny Message */
     .funny-message {
@@ -268,7 +248,12 @@
       transform: translateX(-50%);
       width: 100px;
       height: 3px;
-      background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
+      background: linear-gradient(
+        90deg,
+        transparent,
+        var(--primary-color),
+        transparent
+      );
     }
 
     .gallery-grid {
@@ -315,9 +300,15 @@
     }
 
     @keyframes rotBGimg {
-      0% { transform: rotate(0deg) scale(1); }
-      50% { transform: rotate(180deg) scale(1.2); }
-      100% { transform: rotate(360deg) scale(1); }
+      0% {
+        transform: rotate(0deg) scale(1);
+      }
+      50% {
+        transform: rotate(180deg) scale(1.2);
+      }
+      100% {
+        transform: rotate(360deg) scale(1);
+      }
     }
 
     .gallery-item::after {
@@ -407,9 +398,9 @@
       justify-content: center;
       align-items: center;
       padding: max(var(--safe-area-inset-top), 20px)
-               max(var(--safe-area-inset-right), 20px)
-               max(var(--safe-area-inset-bottom), 20px)
-               max(var(--safe-area-inset-left), 20px);
+        max(var(--safe-area-inset-right), 20px)
+        max(var(--safe-area-inset-bottom), 20px)
+        max(var(--safe-area-inset-left), 20px);
     }
 
     .gallery-modal-content {
@@ -445,8 +436,10 @@
 
     /* Main Container */
     .container {
+      /* Made the container slightly smaller as requested */
       width: min(85%, 900px);
       background: rgba(255, 255, 255, 0.95);
+      /* Reduced padding slightly */
       padding: 50px;
       border-radius: 20px;
       text-align: center;
@@ -691,22 +684,47 @@
 
     /* Keyframes for Animations */
     @keyframes dots {
-      0% { background-position: 0 0, 4px 4px; }
-      100% { background-position: 8px 0, 12px 4px; }
+      0% {
+        background-position: 0 0, 4px 4px;
+      }
+      100% {
+        background-position: 8px 0, 12px 4px;
+      }
     }
 
     @keyframes sh02 {
-      from { opacity: 0; left: 0%; }
-      50% { opacity: 1; }
-      to { opacity: 0; left: 100%; }
+      from {
+        opacity: 0;
+        left: 0%;
+      }
+      50% {
+        opacity: 1;
+      }
+      to {
+        opacity: 0;
+        left: 100%;
+      }
     }
 
     @keyframes shine {
-      0% { transform: skewX(-20deg) translateX(-100%); opacity: 0; }
-      10% { opacity: 0.5; }
-      50% { transform: skewX(-20deg) translateX(0%); opacity: 0.5; }
-      90% { opacity: 0.5; }
-      100% { transform: skewX(-20deg) translateX(100%); opacity: 0; }
+      0% {
+        transform: skewX(-20deg) translateX(-100%);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.5;
+      }
+      50% {
+        transform: skewX(-20deg) translateX(0%);
+        opacity: 0.5;
+      }
+      90% {
+        opacity: 0.5;
+      }
+      100% {
+        transform: skewX(-20deg) translateX(100%);
+        opacity: 0;
+      }
     }
 
     /* Music Player */
@@ -729,9 +747,9 @@
       align-items: flex-start;
       z-index: 1000;
       padding: max(var(--safe-area-inset-top), 20px)
-               max(var(--safe-area-inset-right), 20px)
-               max(var(--safe-area-inset-bottom), 20px)
-               max(var(--safe-area-inset-left), 20px);
+        max(var(--safe-area-inset-right), 20px)
+        max(var(--safe-area-inset-bottom), 20px)
+        max(var(--safe-area-inset-left), 20px);
       overflow-y: auto;
     }
 
@@ -805,28 +823,56 @@
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: scale(0.95); }
-      to { opacity: 1; transform: scale(1); }
+      from {
+        opacity: 0;
+        transform: scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
     }
 
     @keyframes slideIn {
-      from { opacity: 0; transform: translateY(30px); }
-      to { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     @keyframes fadeInModal {
-      from { opacity: 0; transform: scale(0.9); }
-      to { opacity: 1; transform: scale(1); }
+      from {
+        opacity: 0;
+        transform: scale(0.9);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
     }
 
     @keyframes subtleBounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
     }
 
     @keyframes subtleBounceBtn {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-5px); }
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-5px);
+      }
     }
 
     .scroll-down-subtle-bounce {
@@ -853,42 +899,70 @@
     }
 
     @media (max-width: 768px) {
-      #counterContainer {
-        flex-direction: column;
-      }
       .time-counter {
-        width: 80%;
-        margin-bottom: 20px;
+        position: static !important;
+        display: block !important;
+        width: 90% !important;
+        height: auto !important;
+        padding: 1rem !important;
+        border: 3px solid #000 !important;
+        border-radius: 2px !important;
+        box-shadow: 8px 8px 0 #000 !important;
+        margin: 30px auto !important;
       }
+
+      #dating-counter,
+      #valentine-counter {
+        left: auto !important;
+        right: auto !important;
+      }
+
+      .gallery-section {
+        margin: 100px auto;
+        padding: 30px;
+      }
+
+      .gallery-grid {
+        gap: 20px;
+        padding: 10px;
+      }
+
       .modal-photo-container {
         height: 180px;
       }
+
       .close-gallery-modal {
         top: -30px;
         right: -10px;
       }
+
       .container {
         padding: 30px;
         margin: 100px auto;
       }
+
       h1 {
         font-size: clamp(2.5em, 8vw, 3.5em);
         margin-bottom: 30px;
       }
+
       .message {
         font-size: clamp(1.2em, 4vw, 1.5em);
         margin-bottom: 30px;
       }
+
       .buttons {
         flex-direction: column;
         align-items: center;
         gap: 15px;
         min-height: 100px;
       }
+
       .button {
         font-size: 1.2rem;
         min-width: 140px;
       }
+
       .button > div > span {
         padding: 0.5rem 1rem;
       }
@@ -898,6 +972,7 @@
       .gallery-grid {
         grid-template-columns: 1fr;
       }
+
       .gallery-item {
         aspect-ratio: 4/3;
       }
@@ -937,21 +1012,20 @@
   </style>
 </head>
 <body>
-  <!-- Counter Cards Container (Expanded State) -->
-  <div id="counterContainer">
-    <div class="time-counter" id="dating-counter">
-      <span class="counter-label">Together Since</span>
-      <div class="time-values">
-        <span id="dating-days">0</span> Days
-        <span id="dating-hours">0</span> Hours
-      </div>
+  <!-- Time Counters -->
+  <div class="time-counter" id="dating-counter">
+    <span class="counter-label">Together Since</span>
+    <div class="time-values">
+      <span id="dating-days">0</span> Days
+      <span id="dating-hours">0</span> Hours
     </div>
-    <div class="time-counter" id="valentine-counter">
-      <span class="counter-label">Until Valentine's</span>
-      <div class="time-values">
-        <span id="valentine-days">0</span> Days
-        <span id="valentine-hours">0</span> Hours
-      </div>
+  </div>
+
+  <div class="time-counter" id="valentine-counter">
+    <span class="counter-label">Until Valentine's</span>
+    <div class="time-values">
+      <span id="valentine-days">0</span> Days
+      <span id="valentine-hours">0</span> Hours
     </div>
   </div>
 
@@ -974,42 +1048,72 @@
       <div class="gallery-item">
         <div class="glass-overlay"></div>
         <div class="gallery-frame">
-          <img src="images/first_date.jpg" loading="lazy" alt="First Date" class="gallery-image" />
+          <img
+            src="images/first_date.jpg"
+            loading="lazy"
+            alt="First Date"
+            class="gallery-image"
+          />
           <p class="gallery-caption">First Date ❤️</p>
         </div>
       </div>
       <div class="gallery-item">
         <div class="glass-overlay"></div>
         <div class="gallery-frame">
-          <img src="images/first_roadtrip.jpg" loading="lazy" alt="First Road Trip" class="gallery-image" />
+          <img
+            src="images/first_roadtrip.jpg"
+            loading="lazy"
+            alt="First Road Trip"
+            class="gallery-image"
+          />
           <p class="gallery-caption">Road Trip 🚗</p>
         </div>
       </div>
       <div class="gallery-item">
         <div class="glass-overlay"></div>
         <div class="gallery-frame">
-          <img src="images/first_pet.jpg" loading="lazy" alt="First Pet" class="gallery-image" />
+          <img
+            src="images/first_pet.jpg"
+            loading="lazy"
+            alt="First Pet"
+            class="gallery-image"
+          />
           <p class="gallery-caption">Our Pet 🐾</p>
         </div>
       </div>
       <div class="gallery-item">
         <div class="glass-overlay"></div>
         <div class="gallery-frame">
-          <img src="images/farmcart.JPG" loading="lazy" alt="Farm Market" class="gallery-image" />
+          <img
+            src="images/farmcart.JPG"
+            loading="lazy"
+            alt="Farm Market"
+            class="gallery-image"
+          />
           <p class="gallery-caption">Farm Market 🚜</p>
         </div>
       </div>
       <div class="gallery-item">
         <div class="glass-overlay"></div>
         <div class="gallery-frame">
-          <img src="images/stoneyriver.jpg" loading="lazy" alt="Stoney River" class="gallery-image" />
+          <img
+            src="images/stoneyriver.jpg"
+            loading="lazy"
+            alt="Stoney River"
+            class="gallery-image"
+          />
           <p class="gallery-caption">Stoney River 🌊</p>
         </div>
       </div>
       <div class="gallery-item">
         <div class="glass-overlay"></div>
         <div class="gallery-frame">
-          <img src="images/kiss.jpg" loading="lazy" alt="Muah Muah" class="gallery-image" />
+          <img
+            src="images/kiss.jpg"
+            loading="lazy"
+            alt="Muah Muah"
+            class="gallery-image"
+          />
           <p class="gallery-caption">First Kiss 💋</p>
         </div>
       </div>
@@ -1018,7 +1122,11 @@
 
   <!-- Scroll Down Button -->
   <div class="scroll-down-container" style="margin-bottom:600px;">
-    <button id="scrollDownBtn" class="button scroll-down-subtle-bounce" aria-label="Scroll Down">
+    <button
+      id="scrollDownBtn"
+      class="button scroll-down-subtle-bounce"
+      aria-label="Scroll Down"
+    >
       <div><span>Scroll Down</span></div>
     </button>
   </div>
@@ -1065,10 +1173,24 @@
   </div>
 
   <!-- Success Modal -->
-  <div id="modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-describedby="modalDescription">
+  <div
+    id="modal"
+    class="modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="modalTitle"
+    aria-describedby="modalDescription"
+  >
     <div class="modal-content">
       <span class="close-modal" id="closeModal" aria-label="Close Modal">&times;</span>
-      <h2 id="modalTitle" style="font-family: var(--font-script); color: var(--primary-color); font-size: clamp(2.5em, 8vw, 5em);">
+      <h2
+        id="modalTitle"
+        style="
+          font-family: var(--font-script);
+          color: var(--primary-color);
+          font-size: clamp(2.5em, 8vw, 5em);
+        "
+      >
         Yay! ❤️
       </h2>
       <!-- Once "Yes" is clicked, we'll add .gallery-style to match gallery look -->
@@ -1164,8 +1286,14 @@
         let nx, ny;
 
         do {
-          nx = Math.min(Math.max(this.pad, Math.random() * sx), sx);
-          ny = Math.min(Math.max(this.pad, Math.random() * sy), sy);
+          nx = Math.min(
+            Math.max(this.pad, Math.random() * sx),
+            sx
+          );
+          ny = Math.min(
+            Math.max(this.pad, Math.random() * sy),
+            sy
+          );
         } while (Math.abs(nx - cx) < 100 && Math.abs(ny - cy) < 100);
 
         return { x: nx, y: ny };
@@ -1313,7 +1441,11 @@
           p.r += p.rs;
 
           this.drawP(p);
-          if (p.x < -100 || p.x > this.cv.width + 100 || p.y > this.cv.height + 100) {
+          if (
+            p.x < -100 ||
+            p.x > this.cv.width + 100 ||
+            p.y > this.cv.height + 100
+          ) {
             this.ps.splice(i, 1);
             i--;
           }
@@ -1373,8 +1505,10 @@
 
         for (let i = 0; i < tb; i++) {
           setTimeout(() => {
-            const cx = this.cv.width * 0.2 + Math.random() * this.cv.width * 0.6;
-            const cy = this.cv.height * 0.2 + Math.random() * this.cv.height * 0.6;
+            const cx =
+              this.cv.width * 0.2 + Math.random() * this.cv.width * 0.6;
+            const cy =
+              this.cv.height * 0.2 + Math.random() * this.cv.height * 0.6;
 
             this.burst(cx, cy, cnt, m);
             this.spark(cx, cy);
@@ -1422,6 +1556,7 @@
 
       const valentineThisYear = new Date(year, 1, 14); // Feb 14
       if (now > valentineThisYear) {
+        // If we've passed it this year, count for next year
         year += 1;
       }
 
@@ -1429,7 +1564,9 @@
       const diff = nextValentine - now;
 
       const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const hours = Math.floor(
+        (diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+      );
 
       document.getElementById("valentine-days").textContent = days;
       document.getElementById("valentine-hours").textContent = hours;
@@ -1512,7 +1649,9 @@
 
     document.addEventListener("DOMContentLoaded", () => {
       // Floating hearts/sparkles
-      const floatingManager = new FloatingElementsManager(document.getElementById("floatingElements"));
+      const floatingManager = new FloatingElementsManager(
+        document.getElementById("floatingElements")
+      );
       floatingManager.start();
 
       // No button logic
@@ -1522,7 +1661,9 @@
       );
 
       // Confetti
-      const confetti = new ConfettiManager(document.getElementById("confettiContainer"));
+      const confetti = new ConfettiManager(
+        document.getElementById("confettiContainer")
+      );
 
       // Yes button & success modal
       const modal = document.getElementById("modal");
@@ -1534,7 +1675,11 @@
       function showModal() {
         modal.style.display = "flex";
         modalContent.scrollIntoView({ behavior: "smooth", block: "center" });
-        document.querySelector(".modal-photo-container").classList.add("gallery-style");
+
+        // Make the modal photo match the .gallery-item style
+        document
+          .querySelector(".modal-photo-container")
+          .classList.add("gallery-style");
       }
 
       yesButton.addEventListener("click", () => {
@@ -1603,7 +1748,10 @@
       const scrollDownBtn = document.getElementById("scrollDownBtn");
       if (scrollDownBtn) {
         scrollDownBtn.addEventListener("click", () => {
-          document.querySelector(".container").scrollIntoView({ behavior: "smooth", block: "center" });
+          // Center the container when scrolling
+          document
+            .querySelector(".container")
+            .scrollIntoView({ behavior: "smooth", block: "center" });
         });
       }
 
@@ -1611,27 +1759,13 @@
       setupGalleryModal();
       setupMusicPlayer();
 
-      // Counters: initial update and then periodic updates every 5 minutes
+      // Counters
       updateDatingCounter();
       updateValentineCounter();
       setInterval(() => {
         updateDatingCounter();
         updateValentineCounter();
-      }, 1000 * 60 * 5);
-
-      // On scroll, minimize the counter cards into the top corners
-      window.addEventListener("scroll", function() {
-        const threshold = 100;
-        const datingCounter = document.getElementById("dating-counter");
-        const valentineCounter = document.getElementById("valentine-counter");
-        if (window.scrollY > threshold) {
-          datingCounter.classList.add("minimized");
-          valentineCounter.classList.add("minimized");
-        } else {
-          datingCounter.classList.remove("minimized");
-          valentineCounter.classList.remove("minimized");
-        }
-      });
+      }, 1000 * 60 * 5); // Update every 5 minutes
     });
   </script>
 </body>
