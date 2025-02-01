@@ -50,16 +50,7 @@
         1.5px 1.5px 0 0 #000,
         2px 2px 0 0 #000,
         2.5px 2.5px 0 0 #000,
-        3px 3px 0 0 #000,
-        0 0 0 2px #ccc,
-        0.5px 0.5px 0 2px #ccc,
-        1px 1px 0 2px #ccc,
-        1.5px 1.5px 0 2px #ccc,
-        2px 2px 0 2px #ccc,
-        2.5px 2.5px 0 2px #ccc,
-        3px 3px 0 2px #ccc,
-        3.5px 3.5px 0 2px #ccc,
-        4px 4px 0 2px #ccc;
+        3px 3px 0 0 #000;
     }
 
     * {
@@ -142,15 +133,27 @@
       letter-spacing: 0.02em;
       text-align: center;
     }
+    /* Updated time-values structure for numbers and labels on separate lines */
     .time-values {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 0;
+      padding: 0;
+    }
+    .time-values .numbers {
+      display: flex;
+      gap: 8px;
       font-family: 'Space Grotesk', sans-serif;
       font-size: 1rem;
       color: #333;
+    }
+    .time-values .labels {
       display: flex;
-      justify-content: center;
-      gap: 4px;
-      margin: 0;
-      padding: 0;
+      gap: 8px;
+      font-family: var(--font-ds);
+      font-size: 0.9rem;
+      color: #333;
     }
     /* Positioning for the two counter boxes */
     #dating-counter {
@@ -188,19 +191,16 @@
         left: auto !important;
         right: auto !important;
       }
-      /* Adjust heart icon and pop-dots for mobile */
+      /* Adjust heart icon for mobile */
       .heart-icon {
         top: 10px;
         right: 10px;
         width: 20px;
         height: 20px;
       }
+      /* Remove pop-dots on mobile */
       .pop-dots {
-        bottom: -5px;
-        left: -5px;
-        width: 30px;
-        height: 30px;
-        background-size: 8px 8px;
+        display: none;
       }
     }
 
@@ -530,24 +530,21 @@
       transition: all 0.2s ease-in;
       text-align: center;
       min-width: 200px;
+      /* Only black shadow applied */
       box-shadow:
         0.5px 0.5px 0 0 #000,
         1px 1px 0 0 #000,
         1.5px 1.5px 0 0 #000,
         2px 2px 0 0 #000,
         2.5px 2.5px 0 0 #000,
-        3px 3px 0 0 #000,
-        0 0 0 2px #fff,
-        0.5px 0.5px 0 2px #fff,
-        1px 1px 0 2px #fff,
-        1.5px 1.5px 0 2px #fff,
-        2px 2px 0 2px #fff,
-        2.5px 2.5px 0 2px #fff,
-        3px 3px 0 2px #fff,
-        3.5px 3.5px 0 2px #fff,
-        4px 4px 0 2px #fff;
+        3px 3px 0 0 #000;
       transform: translate(-4px, -4px);
       overflow: hidden;
+    }
+    /* When NO button is disabled, remove shadows and apply a white border */
+    .button.no-btn:disabled {
+      box-shadow: none;
+      border: 2px solid #fff;
     }
     /* "No" Button Specific Styles */
     .button.no-btn {
@@ -597,14 +594,10 @@
       opacity: 0;
       pointer-events: none;
     }
-    /* Ensure consistent styling for the NO button on hover */
-    .button.no-btn:hover {
-      box-shadow: var(--no-btn-shadow) !important;
-    }
     /* Hover Effects */
     .button:hover {
       transform: translate(0, 0);
-      box-shadow: 0 0 0 2px #fff;
+      box-shadow: 0 0 0 2px #000;
     }
     .button:active {
       box-shadow: 0 0 0 2px var(--pink-50);
@@ -640,7 +633,7 @@
       border-radius: 9999px;
       opacity: 0.5;
       background-image: radial-gradient(rgb(255 255 255 / 80%) 20%, transparent 20%),
-        radial-gradient(rgb(255 255 255 / 100%) 20%, transparent 20%);
+        radial-gradient(rgb(255 255, 255, 80%) 20%, transparent 20%);
       background-position: 0 0, 4px 4px;
       background-size: 8px 8px;
       mix-blend-mode: hard-light;
@@ -949,7 +942,6 @@
         opacity: 0;
       }
     }
-    /* Removed removal of glowing effect on "No" button on hover to maintain consistency */
     /* Match the gallery style for the success modal photo once "Yes" is triggered */
     .gallery-style {
       border-radius: 30px !important;
@@ -971,8 +963,14 @@
     <div class="pop-dots"></div>
     <span class="counter-label">Together Since</span>
     <div class="time-values">
-      <span id="dating-days">0</span> Days
-      <span id="dating-hours">0</span> Hours
+      <div class="numbers">
+        <span id="dating-days">0</span>
+        <span id="dating-hours">0</span>
+      </div>
+      <div class="labels">
+        <span>Days</span>
+        <span>Hours</span>
+      </div>
     </div>
   </div>
 
@@ -984,8 +982,14 @@
     <div class="pop-dots"></div>
     <span class="counter-label">Until Valentine's</span>
     <div class="time-values">
-      <span id="valentine-days">0</span> Days
-      <span id="valentine-hours">0</span> Hours
+      <div class="numbers">
+        <span id="valentine-days">0</span>
+        <span id="valentine-hours">0</span>
+      </div>
+      <div class="labels">
+        <span>Days</span>
+        <span>Hours</span>
+      </div>
     </div>
   </div>
 
@@ -1177,9 +1181,6 @@
         this.button.style.left = n.x + "px";
         this.button.style.top = n.y + "px";
         this.showMsg(n, r);
-
-        // Once triggered, maintain consistent shadow styling for NO button
-        // (Previously, a class was added to remove the glowing effect. We now maintain it.)
 
         clearTimeout(this.moveTimeout);
         this.moveTimeout = setTimeout(() => {
