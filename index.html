@@ -125,7 +125,7 @@
       font-family: var(--font-ds);
       font-weight: 700;
       font-size: 1.5rem;
-      color: #f472b6; /* Using YES box color */
+      color: #f472b6;
       margin-bottom: 0.5rem;
       letter-spacing: 0.02em;
       text-align: center;
@@ -338,14 +338,13 @@
       position: absolute;
       width: 200px;
       height: 130%;
-      background-image: linear-gradient(180deg, rgba(99, 102, 241, 0.8), rgba(168, 85, 247, 0.8), rgba(236, 72, 153, 0.8));
-      /* Removed haziness for crystal clear waves */
-      filter: none;
+      background-image: linear-gradient(180deg, rgba(99,102,241,0.8), rgba(168,85,247,0.8), rgba(236,72,153,0.8));
+      filter: blur(20px);
       top: 0;
       left: 0;
       z-index: 1;
-      animation: rotBGimg 8s cubic-bezier(0.8, 0.2, 0.2, 0.8) infinite;
-      transition: opacity var(--transition-ease);
+      animation: rotBGimg 8s cubic-bezier(0.8,0.2,0.2,0.8) infinite;
+      transition: opacity 0.4s ease;
       opacity: 0;
       border-radius: 16px;
     }
@@ -390,7 +389,7 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 50%, rgba(255, 255, 255, 0) 100%);
+      background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 50%, rgba(255,255,255,0) 100%);
       border-radius: 16px;
       pointer-events: none;
       z-index: 2;
@@ -508,7 +507,7 @@
       letter-spacing: 0.08em;
       overflow: hidden;
       background: transparent;
-      margin: 0.5rem; /* Added margin for proper spacing */
+      margin: 0.5rem;
     }
     .button-content {
       position: relative;
@@ -535,12 +534,12 @@
       background: #4b5563;
       color: #fff;
     }
-    /* Default buttons (e.g., scroll down and play our song) */
+    /* Default buttons */
     .default {
       background: #fff;
       color: #000;
     }
-    /* ---------------- End UPDATED BUTTON STYLING ---------------- */
+    /* (Reflection feature completely removed) */
 
     /* Modal Styles */
     .modal {
@@ -551,7 +550,6 @@
       width: 100%;
       height: 100%;
       background: rgba(0, 0, 0, 0.5);
-      /* Center modal content both horizontally and vertically */
       justify-content: center;
       align-items: center;
       z-index: 1000;
@@ -571,9 +569,8 @@
       height: var(--card-height);
       border-radius: var(--card-radius);
       overflow: hidden;
-      background: rgba(255, 255, 255, 0.03);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
+      /* High quality gradient background replacing wave animations */
+      background: linear-gradient(135deg, #ff6b81, #ff9a9e, #fad0c4);
       box-shadow: 0 25px 45px rgba(0, 0, 0, 0.2), 0 0 1px rgba(255, 255, 255, 0.1);
       margin: 0 auto;
       padding: 20px;
@@ -583,6 +580,7 @@
       align-items: center;
       justify-content: center;
       position: relative;
+      border: 4px solid #fff;
     }
     .yay-card::before,
     .yay-card::after {
@@ -595,8 +593,8 @@
     .yay-card::before {
       background: linear-gradient(
         135deg,
-        rgba(255, 255, 255, 0.1) 0%,
-        rgba(255, 255, 255, 0.05) 50%,
+        rgba(255,255,255,0.1) 0%,
+        rgba(255,255,255,0.05) 50%,
         transparent 100%
       );
       z-index: 3;
@@ -604,117 +602,18 @@
     .yay-card::after {
       background: radial-gradient(
         circle at 50% -20%,
-        rgba(255, 255, 255, 0.1) 0%,
+        rgba(255,255,255,0.1) 0%,
         transparent 70%
       );
       z-index: 4;
     }
-    .yay-card .wave {
-      position: absolute;
-      width: 1200px;
-      height: 1600px;
-      opacity: 0.5;
-      left: 0;
-      top: 0;
-      margin-left: -50%;
-      margin-top: -70%;
-      /* Removed haziness for crystal clear waves */
-      filter: none;
-      mix-blend-mode: screen;
-      will-change: transform;
-      pointer-events: none;
-    }
-    .yay-card .wave:nth-child(1) {
-      background: radial-gradient(
-        circle at center,
-        rgba(255,105,180,0.9) 0%,
-        rgba(147,112,219,0.9) 35%,
-        rgba(147,112,219,0) 70%
-      );
-      animation: wave1 24s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-    }
-    .yay-card .wave:nth-child(2) {
-      background: radial-gradient(
-        circle at center,
-        rgba(255,20,147,0.9) 0%,
-        rgba(218,112,214,0.9) 35%,
-        rgba(218,112,214,0) 70%
-      );
-      animation: wave2 21s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-      top: 420px;
-    }
-    .yay-card .wave:nth-child(3) {
-      background: radial-gradient(
-        circle at center,
-        rgba(255,0,0,0.9) 0%,
-        rgba(230,230,250,0.9) 35%,
-        rgba(230,230,250,0) 70%
-      );
-      animation: wave3 18s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-      top: 420px;
-      mix-blend-mode: soft-light;
-    }
-    @keyframes wave1 {
-      0% { 
-        transform: rotate(0deg) scale(1) translate3d(0, 0, 0);
-        border-radius: 40%;
-      }
-      33% { 
-        transform: rotate(120deg) scale(1.2) translate3d(40px, -40px, 0);
-        border-radius: 45%;
-      }
-      66% { 
-        transform: rotate(240deg) scale(1.1) translate3d(-40px, 40px, 0);
-        border-radius: 42%;
-      }
-      100% { 
-        transform: rotate(360deg) scale(1) translate3d(0, 0, 0);
-        border-radius: 40%;
-      }
-    }
-    @keyframes wave2 {
-      0% { 
-        transform: rotate(0deg) scale(1.1) translate3d(0, 0, 0);
-        border-radius: 45%;
-      }
-      33% { 
-        transform: rotate(-120deg) scale(0.9) translate3d(-40px, -40px, 0);
-        border-radius: 40%;
-      }
-      66% { 
-        transform: rotate(-240deg) scale(1) translate3d(40px, 40px, 0);
-        border-radius: 43%;
-      }
-      100% { 
-        transform: rotate(-360deg) scale(1.1) translate3d(0, 0, 0);
-        border-radius: 45%;
-      }
-    }
-    @keyframes wave3 {
-      0% { 
-        transform: rotate(0deg) scale(0.9) translate3d(0, 0, 0);
-        border-radius: 42%;
-      }
-      33% { 
-        transform: rotate(120deg) scale(1.1) translate3d(-40px, 40px, 0);
-        border-radius: 38%;
-      }
-      66% { 
-        transform: rotate(240deg) scale(1) translate3d(40px, -40px, 0);
-        border-radius: 41%;
-      }
-      100% { 
-        transform: rotate(360deg) scale(0.9) translate3d(0, 0, 0);
-        border-radius: 42%;
-      }
-    }
-    /* ---------------- End Yay Modal Card Styles ---------------- */
+    /* The wave elements have been completely removed in favor of a high quality gradient background. */
 
     /* New styles for the Yay modal image display logic */
     .yay-image-container {
       width: 300px;
       aspect-ratio: 1 / 1;
-      margin: 20px auto;
+      margin: 5px auto 20px auto;
       border: 4px solid #fff;
       display: flex;
       align-items: center;
@@ -1021,8 +920,7 @@
         </div>
       </div>
     </div>
-    <!-- A single close button will be handled by the unified modal close logic -->
-    <span class="close-modal" id="galleryCloseBtn">×</span>
+    <!-- Removed duplicate close button; only one close button in the modal will be used -->
   </section>
 
   <!-- Scroll Down Button -->
@@ -1083,15 +981,12 @@
   <!-- Success Modal (Yay Modal) -->
   <div id="modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="yayModalTitle" aria-describedby="yayModalDescription">
     <div class="yay-card">
-      <!-- Halo / wave effects -->
-      <div class="wave"></div>
-      <div class="wave"></div>
-      <div class="wave"></div>
-      <!-- New smaller title in white using Quicksand -->
-      <h2 id="yayModalTitle" style="font-family: 'Quicksand', sans-serif; font-weight: bold; color: #fff; font-size: clamp(1.5em, 4vw, 2em); text-align: center; margin-top: 20px;">
-        I knew you'd say yes ;)
+      <!-- The wave animation elements have been removed in favor of a high quality gradient background -->
+      <!-- New smaller title in white using Quicksand, moved slightly towards the top with a red heart -->
+      <h2 id="yayModalTitle" style="font-family: 'Quicksand', sans-serif; font-weight: bold; color: #fff; font-size: clamp(1.5em, 4vw, 2em); text-align: center; margin-top: 10px;">
+        I knew you'd say yes <span style="color: red;">❤️</span>
       </h2>
-      <!-- New image container with 1:1 ratio, centered, with a thicker white border -->
+      <!-- New image container with 1:1 ratio, centered, with a thicker white border, moved slightly upwards -->
       <div class="yay-image-container">
         <img src="images/photo1.jpg" alt="Special Moment" />
       </div>
@@ -1391,7 +1286,6 @@
 
     // Unified modal close functionality for both WEB and MOBILE
     function setupModalClose(modal, onCloseCallback) {
-      // Close button(s) inside modal
       const closeButtons = modal.querySelectorAll(".close-modal");
       closeButtons.forEach(btn => {
         btn.addEventListener("click", () => {
@@ -1399,14 +1293,12 @@
           if (onCloseCallback) onCloseCallback();
         });
       });
-      // Click outside modal content closes it
       modal.addEventListener("click", (e) => {
         if (e.target === modal) {
           modal.style.display = "none";
           if (onCloseCallback) onCloseCallback();
         }
       });
-      // Escape key to close
       window.addEventListener("keydown", (e) => {
         if (e.key === "Escape" && modal.style.display === "flex") {
           modal.style.display = "none";
@@ -1455,7 +1347,6 @@
           modalImg.alt = img.alt;
           modalCap.textContent = caption.textContent;
           galleryModal.style.display = "flex";
-          // Hide distracting UI elements
           allButtons.forEach((b) => (b.style.display = "none"));
           if (musicPlayer) musicPlayer.style.display = "none";
           if (window.matchMedia("(max-width: 768px)").matches) {
@@ -1463,7 +1354,6 @@
           }
         });
       });
-      // Use unified modal close setup
       setupModalClose(galleryModal, () => {
         allButtons.forEach((b) => (b.style.display = "inline-block"));
         if (musicPlayer) musicPlayer.style.display = "block";
@@ -1478,21 +1368,17 @@
       const allButtons = document.querySelectorAll(".button");
       const musicPlayer = document.querySelector(".music-player");
       const timeCounters = document.querySelectorAll(".time-counter");
-      // Reset YES/NO buttons when closing the modal
       const resetModal = () => {
-        // Re-show buttons, music player, and counters on close
         allButtons.forEach((b) => (b.style.display = "inline-block"));
         if (musicPlayer) musicPlayer.style.display = "block";
         if (window.matchMedia("(max-width: 768px)").matches) {
           timeCounters.forEach((tc) => (tc.style.display = "block"));
         }
-        // Reset YES/NO button states
         pressedYes = false;
         noBtnHandler.enable();
         yesButton.disabled = false;
         yesButton.focus();
       };
-      // Use unified modal close setup
       setupModalClose(yayModal, resetModal);
     }
 
@@ -1519,7 +1405,6 @@
       });
     }
 
-    // Global variables for YES/NO button management
     let pressedYes = false;
     let noBtnHandler;
     let yesButton;
@@ -1540,7 +1425,6 @@
 
       function showYayModal() {
         yayModal.style.display = "flex";
-        // In mobile, hide counter boxes
         if (window.matchMedia("(max-width: 768px)").matches) {
           timeCounters.forEach((tc) => (tc.style.display = "none"));
         }
@@ -1554,7 +1438,6 @@
           pressedYes = true;
           noBtnHandler.disable();
           yesButton.disabled = true;
-          // In mobile, hide buttons and music player for distraction-free view
           if (isMobile) {
             allButtons.forEach((b) => (b.style.display = "none"));
             if (musicPlayer) musicPlayer.style.display = "none";
@@ -1562,7 +1445,6 @@
         }
       });
 
-      // Setup unified modal exits
       setupGalleryModal();
       setupYayModal();
       setupMusicPlayer();
@@ -1574,7 +1456,6 @@
         updateValentineCounter();
       }, 1000 * 60 * 5);
 
-      // Custom cursor movement for non-touch devices
       if (!window.matchMedia("(pointer: coarse)").matches) {
         document.addEventListener("mousemove", (e) => {
           const cursor = document.getElementById("customCursor");
