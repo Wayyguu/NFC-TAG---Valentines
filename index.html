@@ -62,8 +62,6 @@
         4px 4px 0 2px #ccc;
     }
 
-    /* Removed the previous shiny-heart style and instead will use a regular red heart via inline styling in the modal */
-
     * {
       margin: 0;
       padding: 0;
@@ -173,7 +171,7 @@
     /* Proper and symmetrical spacing for counter cards when stacked on mobile */
     @media (max-width: 768px) {
       .time-counter {
-        position: static !important;
+        position: relative !important; /* changed from static to relative */
         display: block !important;
         width: 90% !important;
         height: auto !important;
