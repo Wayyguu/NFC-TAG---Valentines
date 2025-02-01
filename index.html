@@ -62,11 +62,7 @@
         4px 4px 0 2px #ccc;
     }
 
-    /* Shiny heart style for the yay modal heading */
-    .shiny-heart {
-      color: #ff69b4;
-      text-shadow: 0 0 10px rgba(255, 105, 180, 0.8);
-    }
+    /* Removed the previous shiny-heart style and instead will use a regular red heart via inline styling in the modal */
 
     * {
       margin: 0;
@@ -174,7 +170,7 @@
       }
     }
 
-    /* Proper spacing and sizing adjustments for mobile counter cards */
+    /* Proper and symmetrical spacing for counter cards when stacked on mobile */
     @media (max-width: 768px) {
       .time-counter {
         position: static !important;
@@ -186,7 +182,8 @@
         border-radius: 2px !important;
         box-shadow: 8px 8px 0 #000 !important;
         margin: 30px auto !important;
-        margin-bottom: 20px !important;
+        /* Ensure symmetrical vertical spacing */
+        margin-bottom: 30px !important;
       }
       #dating-counter,
       #valentine-counter {
@@ -685,9 +682,9 @@
     .button > div > span:active {
       transform: translateY(2px);
     }
-    /* Use emoticons/symbols instead of emojis in buttons.
-       The default pseudo-element content for buttons is overridden for scroll down and play our song buttons.
-       (Yes and No buttons will still use the default "<3" for positive and ":(" for negative.)
+    /* Use <3 only for the YES button.
+       For the YES button, we leave the default <3 content from .button::after intact.
+       For the NO button, we override with ":(".
     */
     .button.no-btn > div > span::after {
       content: ":(";
@@ -1106,7 +1103,7 @@
     <div class="modal-content">
       <span class="close-modal" id="closeModal" aria-label="Close Modal">&times;</span>
       <h2 id="modalTitle" style="font-family: var(--font-sg); color: var(--primary-color); font-size: clamp(2.5em, 8vw, 5em);">
-        Yay! <span class="shiny-heart">💖</span>
+        Yay! <span style="color: red;">❤️</span>
       </h2>
       <!-- Once "Yes" is clicked, we'll add .gallery-style to match gallery look -->
       <div class="modal-photo-container">
