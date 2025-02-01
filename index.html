@@ -188,6 +188,20 @@
         left: auto !important;
         right: auto !important;
       }
+      /* Adjust heart icon and pop-dots for mobile */
+      .heart-icon {
+        top: 10px;
+        right: 10px;
+        width: 20px;
+        height: 20px;
+      }
+      .pop-dots {
+        bottom: -5px;
+        left: -5px;
+        width: 30px;
+        height: 30px;
+        background-size: 8px 8px;
+      }
     }
 
     /* Funny Message */
@@ -539,13 +553,21 @@
     .button.no-btn {
       box-shadow: var(--no-btn-shadow);
     }
-    /* Playing State for "Play Our Song" Button */
-    .button.playing > div {
-      background-color: #fff !important;
-      color: var(--pink-800);
+    /* Override for specific buttons: Scroll Down and Play Our Song */
+    #scrollDownBtn > div,
+    #playSongBtn > div {
+      background-color: #ffffff !important;
     }
-    .button.playing > div > span {
-      color: var(--pink-800) !important;
+    #scrollDownBtn > div > span,
+    #playSongBtn > div > span {
+      font-size: 1rem !important;
+      color: #000000 !important;
+    }
+    /* Override the dotted background pattern to black for specific buttons */
+    #scrollDownBtn > div::before,
+    #playSongBtn > div::before {
+      background-image: radial-gradient(rgb(0 0 0 / 80%) 20%, transparent 20%),
+        radial-gradient(rgb(0 0 0 / 100%) 20%, transparent 20%);
     }
     /* Button Pseudo-elements */
     .button::before {
@@ -575,31 +597,14 @@
       opacity: 0;
       pointer-events: none;
     }
-    /* Override for specific buttons: Scroll Down and Play Our Song */
-    #scrollDownBtn > div > span::after {
-      content: "↓";
-      margin-left: 8px;
-      font-size: 1rem;
-    }
-    #playSongBtn > div > span::after {
-      content: "♫";
-      margin-left: 8px;
-      font-size: 1rem;
+    /* Ensure consistent styling for the NO button on hover */
+    .button.no-btn:hover {
+      box-shadow: var(--no-btn-shadow) !important;
     }
     /* Hover Effects */
     .button:hover {
       transform: translate(0, 0);
       box-shadow: 0 0 0 2px #fff;
-    }
-    .button:hover.no-btn {
-      box-shadow: 0 0 0 2px #fff;
-    }
-    .button:hover::before {
-      animation: sh02 0.5s 0s linear forwards;
-    }
-    .button:hover::after {
-      opacity: 1;
-      animation: shine 1s forwards;
     }
     .button:active {
       box-shadow: 0 0 0 2px var(--pink-50);
@@ -944,10 +949,7 @@
         opacity: 0;
       }
     }
-    /* Remove glowing effect on "No" button once triggered */
-    .disable-no-hover:hover {
-      box-shadow: none !important;
-    }
+    /* Removed removal of glowing effect on "No" button on hover to maintain consistency */
     /* Match the gallery style for the success modal photo once "Yes" is triggered */
     .gallery-style {
       border-radius: 30px !important;
@@ -1176,8 +1178,8 @@
         this.button.style.top = n.y + "px";
         this.showMsg(n, r);
 
-        // Once triggered, remove the glow effect
-        this.button.classList.add("disable-no-hover");
+        // Once triggered, maintain consistent shadow styling for NO button
+        // (Previously, a class was added to remove the glowing effect. We now maintain it.)
 
         clearTimeout(this.moveTimeout);
         this.moveTimeout = setTimeout(() => {
@@ -1237,8 +1239,6 @@
           this.button.style.top = "auto";
           this.button.style.left = "auto";
         }
-
-        this.button.classList.remove("disable-no-hover");
       }
 
       disable() {
