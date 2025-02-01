@@ -69,6 +69,13 @@
       100% { transform: scale(1); }
     }
 
+    /* Dynamic gradient animation for yay modal inner element */
+    @keyframes gradientFlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
     * {
       margin: 0;
       padding: 0;
@@ -127,7 +134,6 @@
       box-shadow: 6px 6px 0 #000;
     }
     .time-counter .counter-label {
-      display: block;
       font-family: var(--font-ds);
       font-weight: 700;
       font-size: 1.5rem;
@@ -326,12 +332,12 @@
     }
     .gallery-title {
       font-family: var(--font-ds);
-      font-weight: bold;
-      color: red;
+      font-weight: 700;
+      color: #f472b6;
       font-size: clamp(2.2em, 6vw, 4em);
       text-align: center;
       margin-bottom: 60px;
-      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.15);
       position: relative;
     }
     /* The decorative line below the title has been removed completely */
@@ -491,7 +497,7 @@
       animation: fadeIn 1.5s ease-in-out;
       font-family: var(--font-sg);
     }
-    /* Updated Title: Using Quicksand, red font for the sign, boldened */
+    /* Updated Title: Using Quicksand, red font for the sign, boldened with slight shadow */
     h1 {
       font-family: 'Quicksand', sans-serif;
       font-weight: bold;
@@ -499,7 +505,7 @@
       font-size: clamp(2.5em, 8vw, 5em);
       margin-bottom: 50px;
       animation: subtleBounce 2s infinite;
-      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.15);
     }
     .message {
       font-family: var(--font-sg);
@@ -508,6 +514,7 @@
       margin-bottom: 50px;
       line-height: 1.6;
       animation: slideIn 1s;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.15);
     }
 
     /* -------------------- UPDATED BUTTON STYLING -------------------- */
@@ -609,21 +616,39 @@
       height: var(--card-height);
       border-radius: var(--card-radius);
       overflow: hidden;
-      /* High quality gradient using the YES button color (#f472b6) and purple with a hint of lavender */
+      /* High quality gradient using YES button color and purple with a hint of lavender */
       background: linear-gradient(135deg, #f472b6, #9b59b6, #e6e6fa);
       box-shadow: 0 25px 45px rgba(0, 0, 0, 0.2), 0 0 1px rgba(255,255,255,0.1);
       margin: 0 auto;
       padding: 20px;
       text-align: center;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
       position: relative;
       border: 4px solid #fff;
-      animation: minimalPulse 5s infinite alternate ease-in-out;
+      /* No container animation on the modal itself */
     }
-    /* Removed wave elements in favor of a high quality gradient background */
+    /* Dynamic gradient element inside the yay modal */
+    .dynamic-gradient {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 1;
+      background: linear-gradient(135deg, #f472b6, #9b59b6, #e6e6fa);
+      background-size: 200% 200%;
+      animation: gradientFlow 8s ease infinite;
+      opacity: 0.6;
+    }
+    @keyframes gradientFlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    /* Ensure modal content is above dynamic gradient */
+    .yay-card > *:not(.dynamic-gradient) {
+      position: relative;
+      z-index: 2;
+    }
 
     .yay-image-container {
       width: 300px;
@@ -959,7 +984,7 @@
       Every day with you is a new adventure, and I can't imagine my life without you.
       Will you be my Valentine?
     </p>
-    <div class="buttons">
+    <div class="buttons" style="display: flex; justify-content: center; gap: 30px;">
       <button id="yesButton" class="button yes" aria-label="Yes">
         <div class="button-content">
           Yes <span class="icon">&lt;3</span>
@@ -996,6 +1021,8 @@
   <!-- Success Modal (Yay Modal) -->
   <div id="modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="yayModalTitle" aria-describedby="yayModalDescription">
     <div class="yay-card">
+      <!-- Dynamic gradient element inside the yay modal for a flowing effect optimized for mobile -->
+      <div class="dynamic-gradient"></div>
       <!-- New smaller title in white using Quicksand, moved slightly towards the top with a red heart -->
       <h2 id="yayModalTitle" style="font-family: 'Quicksand', sans-serif; font-weight: bold; color: #fff; font-size: clamp(1.5em, 4vw, 2em); text-align: center; margin-top: 10px;">
         I knew you'd say yes <span style="color: red;">❤️</span>
@@ -1114,22 +1141,18 @@
         this.button.disabled = false;
         this.button.style.opacity = "1";
         this.button.style.cursor = "pointer";
-        if (this.button.style.position === "fixed") {
-          this.button.style.position = "static";
-          this.button.style.top = "auto";
-          this.button.style.left = "auto";
-        }
+        // Reset inline styles to ensure the button returns to its original size
+        this.button.style.position = "";
+        this.button.style.top = "";
+        this.button.style.left = "";
+        this.button.style.margin = "";
       }
 
       disable() {
         this.button.disabled = true;
         this.button.style.opacity = "0.5";
         this.button.style.cursor = "not-allowed";
-        if (this.button.style.position === "fixed") {
-          this.button.style.position = "static";
-          this.button.style.top = "auto";
-          this.button.style.left = "auto";
-        }
+        // No change needed here as the reset will occur in enable()
       }
     }
 
@@ -1388,7 +1411,7 @@
         if (window.matchMedia("(max-width: 768px)").matches) {
           timeCounters.forEach((tc) => (tc.style.display = "block"));
         }
-        // Trigger the confetti animation after the yay modal is closed
+        // Trigger the confetti animation only after the yay modal is closed
         const isMobile = window.matchMedia("(max-width: 768px)").matches;
         confetti.launch(isMobile);
         pressedYes = false;
