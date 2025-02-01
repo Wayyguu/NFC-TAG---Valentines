@@ -9,7 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
   <!-- Additional fonts -->
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap" rel="stylesheet" />
-  <!-- Replacing Space Grotesk with Quicksand previously; now we also add Space Grotesk for button icons -->
+  <!-- Using Quicksand for a cute look and Space Grotesk for button icons -->
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500&display=swap" rel="stylesheet" />
@@ -84,8 +84,7 @@
       }
     }
 
-    /* Mini Heart Element and Pop-Dots */
-    /* Updated mini heart icon in time counters to be identical to the main boxes using the .box-heart class */
+    /* Mini Heart Element */
     .heart-icon {
       width: 24px;
       height: 24px;
@@ -93,19 +92,7 @@
       z-index: 0;
     }
     .box-heart {
-      /* Additional styling if needed can be added here */
-    }
-    .pop-dots {
-      position: absolute;
-      bottom: -10px;
-      left: -10px;
-      width: 40px;
-      height: 40px;
-      background-image: radial-gradient(#000 2px, transparent 2px);
-      background-size: 10px 10px;
-      opacity: 0.3;
-      z-index: 0;
-      border-radius: 12px;
+      /* Consistent styling for all mini heart icons */
     }
 
     /* Counter Boxes */
@@ -138,7 +125,7 @@
       font-family: var(--font-ds);
       font-weight: 700;
       font-size: 1.5rem;
-      color: #f472b6;
+      color: #f472b6; /* Using YES box color */
       margin-bottom: 0.5rem;
       letter-spacing: 0.02em;
       text-align: center;
@@ -206,18 +193,6 @@
         right: 10px;
         width: 20px;
         height: 20px;
-      }
-      .pop-dots {
-        display: none;
-      }
-      /* For mobile, reduce borders and shadows for main containers */
-      .gallery-section {
-        border-width: 3px;
-        box-shadow: 8px 8px 0 #000;
-      }
-      .container {
-        border-width: 3px;
-        box-shadow: 8px 8px 0 #000;
       }
     }
 
@@ -322,23 +297,14 @@
     }
     .gallery-title {
       font-family: 'Russo One', sans-serif;
-      color: var(--primary-color);
+      color: #f472b6;
       font-size: clamp(2.2em, 6vw, 4em);
       text-align: center;
       margin-bottom: 60px;
       text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
       position: relative;
     }
-    .gallery-title:after {
-      content: "";
-      position: absolute;
-      bottom: -15px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 100px;
-      height: 3px;
-      background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
-    }
+    /* The decorative line below the title has been removed completely */
     .gallery-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -478,15 +444,6 @@
       font-family: var(--font-sg);
       font-size: clamp(1.2em, 3vw, 1.5em);
     }
-    .close-gallery-modal {
-      position: absolute;
-      top: -40px;
-      right: -40px;
-      color: white;
-      font-size: 2em;
-      cursor: pointer;
-      padding: 10px;
-    }
 
     /* Main Container */
     .container {
@@ -503,11 +460,11 @@
       animation: fadeIn 1.5s ease-in-out;
       font-family: var(--font-sg);
     }
-    /* Use Russo One for the valentine sign text and make it bold */
+    /* Updated Title: Using Quicksand and same color as the YES box (#f472b6) */
     h1 {
-      font-family: 'Russo One', sans-serif;
+      font-family: 'Quicksand', sans-serif;
       font-weight: bold;
-      color: var(--primary-color);
+      color: #f472b6;
       font-size: clamp(2.5em, 8vw, 5em);
       margin-bottom: 50px;
       animation: subtleBounce 2s infinite;
@@ -521,9 +478,8 @@
       line-height: 1.6;
       animation: slideIn 1s;
     }
-    /* -------------------------------------------------------------------------
-       UPDATED BUTTON STYLING
-       ------------------------------------------------------------------------- */
+
+    /* -------------------- UPDATED BUTTON STYLING -------------------- */
     .button {
       position: relative;
       min-width: 130px;
@@ -540,6 +496,7 @@
       letter-spacing: 0.08em;
       overflow: hidden;
       background: transparent;
+      margin: 0.5rem; /* Added margin for proper spacing */
     }
     .button-content {
       position: relative;
@@ -549,22 +506,7 @@
       gap: 0.75rem;
       z-index: 1;
     }
-    /* Shiny reflective modern hover effect for the buttons */
-    .button::after {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(120deg, transparent, rgba(255,255,255,0.4), transparent);
-      transform: skewX(-25deg);
-      transition: left 0.5s;
-      pointer-events: none;
-    }
-    .button:hover::after {
-      left: 200%;
-    }
+    /* (Reflection effects removed) */
     .button:hover {
       transform: translate(-6px, -6px);
       box-shadow: 18px 18px 0 #000;
@@ -587,65 +529,7 @@
       background: #fff;
       color: #000;
     }
-    .pop-dots {
-      position: absolute;
-      bottom: -4px;
-      left: -4px;
-      width: 32px;
-      height: 32px;
-      background-image: radial-gradient(#000 2.5px, transparent 2.5px);
-      background-size: 10px 10px;
-      opacity: 0.4;
-    }
-    .zigzag {
-      position: absolute;
-      top: -4px;
-      right: -4px;
-      width: 32px;
-      height: 32px;
-      background: 
-        linear-gradient(45deg, transparent 48%, #000 48%, #000 52%, transparent 52%),
-        linear-gradient(-45deg, transparent 48%, #000 48%, #000 52%, transparent 52%);
-      background-size: 10px 10px;
-      opacity: 0.4;
-    }
-    .icon {
-      font-family: 'Space Grotesk', sans-serif;
-      font-weight: 700;
-      font-size: 1.25rem;
-      display: inline-block;
-      transform: translateY(-1px);
-    }
-    /* Spacing for yes and no buttons */
-    .buttons {
-      display: flex;
-      gap: 2rem;
-      justify-content: center;
-      margin-top: 20px;
-    }
-    /* Scroll Down Button with subtle bounce and down arrow */
-    .scroll-down {
-      animation: subtleBounceBtn 3s infinite;
-    }
-    @keyframes subtleBounceBtn {
-      0%, 100% {
-        transform: translateY(0);
-      }
-      50% {
-        transform: translateY(-5px);
-      }
-    }
-    /* When the music button is played, add a subtle bounce to its icon */
-    @keyframes bounceMusic {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-3px); }
-    }
-    .button.default.playing .icon {
-      animation: bounceMusic 0.6s infinite;
-    }
-    /* -------------------------------------------------------------------------
-       END UPDATED BUTTON STYLING
-       ------------------------------------------------------------------------- */
+    /* ---------------- End UPDATED BUTTON STYLING ---------------- */
 
     /* Modal Styles */
     .modal {
@@ -656,31 +540,169 @@
       width: 100%;
       height: 100%;
       background: rgba(0, 0, 0, 0.5);
+      /* Center modal content both horizontally and vertically */
       justify-content: center;
-      align-items: flex-start;
+      align-items: center;
       z-index: 1000;
       padding: max(var(--safe-area-inset-top), 20px) max(var(--safe-area-inset-right), 20px) max(var(--safe-area-inset-bottom), 20px) max(var(--safe-area-inset-left), 20px);
       overflow-y: auto;
     }
-    .modal-content {
-      background: #fff;
-      padding: 40px;
-      border-radius: 16px;
-      text-align: center;
+
+    /* -------------------- Yay Modal Card Styles -------------------- */
+    :root {
+      --card-width: 480px;
+      --card-height: 660px;
+      --card-radius: 40px;
+    }
+    .yay-card {
       position: relative;
-      animation: fadeInModal 0.5s;
-      max-width: 90%;
-      width: 500px;
-      margin: auto;
+      width: var(--card-width);
+      height: var(--card-height);
+      border-radius: var(--card-radius);
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      box-shadow: 0 25px 45px rgba(0, 0, 0, 0.2), 0 0 1px rgba(255, 255, 255, 0.1);
+      margin: 0 auto;
+      padding: 20px;
+      text-align: center;
       display: flex;
       flex-direction: column;
       align-items: center;
+      justify-content: center;
     }
+    .yay-card::before,
+    .yay-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: var(--card-radius);
+      pointer-events: none;
+    }
+    .yay-card::before {
+      background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.1) 0%,
+        rgba(255, 255, 255, 0.05) 50%,
+        transparent 100%
+      );
+      z-index: 3;
+    }
+    .yay-card::after {
+      background: radial-gradient(
+        circle at 50% -20%,
+        rgba(255, 255, 255, 0.1) 0%,
+        transparent 70%
+      );
+      z-index: 4;
+    }
+    .yay-card .wave {
+      position: absolute;
+      width: 1200px;
+      height: 1600px;
+      opacity: 0.5;
+      left: 0;
+      top: 0;
+      margin-left: -50%;
+      margin-top: -70%;
+      filter: blur(4px) contrast(120%);
+      mix-blend-mode: screen;
+      will-change: transform;
+      pointer-events: none;
+    }
+    .yay-card .wave:nth-child(1) {
+      background: radial-gradient(
+        circle at center,
+        rgba(255,105,180,0.9) 0%,
+        rgba(147,112,219,0.9) 35%,
+        rgba(147,112,219,0) 70%
+      );
+      animation: wave1 24s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    }
+    .yay-card .wave:nth-child(2) {
+      background: radial-gradient(
+        circle at center,
+        rgba(255,20,147,0.9) 0%,
+        rgba(218,112,214,0.9) 35%,
+        rgba(218,112,214,0) 70%
+      );
+      animation: wave2 21s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+      top: 420px;
+    }
+    .yay-card .wave:nth-child(3) {
+      background: radial-gradient(
+        circle at center,
+        rgba(255,0,0,0.9) 0%,
+        rgba(230,230,250,0.9) 35%,
+        rgba(230,230,250,0) 70%
+      );
+      animation: wave3 18s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+      top: 420px;
+      mix-blend-mode: soft-light;
+    }
+    @keyframes wave1 {
+      0% { 
+        transform: rotate(0deg) scale(1) translate3d(0, 0, 0);
+        border-radius: 40%;
+      }
+      33% { 
+        transform: rotate(120deg) scale(1.2) translate3d(40px, -40px, 0);
+        border-radius: 45%;
+      }
+      66% { 
+        transform: rotate(240deg) scale(1.1) translate3d(-40px, 40px, 0);
+        border-radius: 42%;
+      }
+      100% { 
+        transform: rotate(360deg) scale(1) translate3d(0, 0, 0);
+        border-radius: 40%;
+      }
+    }
+    @keyframes wave2 {
+      0% { 
+        transform: rotate(0deg) scale(1.1) translate3d(0, 0, 0);
+        border-radius: 45%;
+      }
+      33% { 
+        transform: rotate(-120deg) scale(0.9) translate3d(-40px, -40px, 0);
+        border-radius: 40%;
+      }
+      66% { 
+        transform: rotate(-240deg) scale(1) translate3d(40px, 40px, 0);
+        border-radius: 43%;
+      }
+      100% { 
+        transform: rotate(-360deg) scale(1.1) translate3d(0, 0, 0);
+        border-radius: 45%;
+      }
+    }
+    @keyframes wave3 {
+      0% { 
+        transform: rotate(0deg) scale(0.9) translate3d(0, 0, 0);
+        border-radius: 42%;
+      }
+      33% { 
+        transform: rotate(120deg) scale(1.1) translate3d(-40px, 40px, 0);
+        border-radius: 38%;
+      }
+      66% { 
+        transform: rotate(240deg) scale(1) translate3d(40px, -40px, 0);
+        border-radius: 41%;
+      }
+      100% { 
+        transform: rotate(360deg) scale(0.9) translate3d(0, 0, 0);
+        border-radius: 42%;
+      }
+    }
+    /* ---------------- End Yay Modal Card Styles ---------------- */
+
+    /* Use gallery modal's picture frame styles for consistency */
     .modal-photo-container {
       width: 100%;
       max-width: 400px;
       height: 300px;
-      margin: 20px 0;
+      margin: 20px auto;
       border: 3px solid var(--primary-color);
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
       transition: all 0.3s ease;
@@ -693,11 +715,15 @@
       box-shadow: 0 0 20px 5px rgba(255, 107, 129, 0.5);
     }
     .modal-photo {
-      width: 100%;
-      height: 100%;
+      /* Ensure proper formatting: image is centered, with max-width and auto height */
+      display: block;
+      max-width: 80%;
+      height: auto;
       object-fit: cover;
       object-position: center;
       transition: transform 0.3s ease;
+      border: 2px solid #fff; /* Small white border */
+      margin: 20px auto;
     }
     .modal-photo-container:hover .modal-photo {
       transform: scale(1.05);
@@ -706,23 +732,12 @@
       margin-top: 20px;
       max-width: 80%;
       font-family: var(--font-sg);
-      color: #000;
+      color: #fff;
       font-size: clamp(1.2em, 3vw, 1.5em);
       line-height: 1.5;
+      text-align: center;
     }
-    .close-modal {
-      position: absolute;
-      top: 15px;
-      right: 20px;
-      font-size: 1.5em;
-      cursor: pointer;
-      color: #aaa;
-      transition: color 0.3s;
-      padding: 5px;
-    }
-    .close-modal:hover {
-      color: var(--primary-color);
-    }
+
     @keyframes fadeIn {
       from {
         opacity: 0;
@@ -789,10 +804,6 @@
       }
       .modal-photo-container {
         height: 180px;
-      }
-      .close-gallery-modal {
-        top: -30px;
-        right: -10px;
       }
       .container {
         padding: 30px;
@@ -863,7 +874,6 @@
     <svg class="heart-icon box-heart" viewBox="0 0 24 24" fill="currentColor">
       <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
     </svg>
-    <div class="pop-dots"></div>
     <span class="counter-label">Together Since</span>
     <div class="time-values">
       <div class="numbers">
@@ -881,7 +891,6 @@
     <svg class="heart-icon box-heart" viewBox="0 0 24 24" fill="currentColor">
       <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
     </svg>
-    <div class="pop-dots"></div>
     <span class="counter-label">Until Valentine's</span>
     <div class="time-values">
       <div class="numbers">
@@ -1007,13 +1016,11 @@
         <div class="button-content">
           Yes <span class="icon">&lt;3</span>
         </div>
-        <div class="pop-dots"></div>
       </button>
       <button id="noButton" class="button no" aria-label="No">
         <div class="button-content">
           No <span class="icon">:(</span>
         </div>
-        <div class="zigzag"></div>
       </button>
     </div>
   </div>
@@ -1032,25 +1039,18 @@
   <!-- Gallery Modal -->
   <div id="galleryModal" class="gallery-modal">
     <div class="gallery-modal-content">
-      <span class="close-gallery-modal">&times;</span>
       <img src="" alt="" class="gallery-modal-image" />
       <p class="gallery-modal-caption"></p>
     </div>
   </div>
 
-  <!-- Success Modal -->
+  <!-- Success Modal (Yay Modal) -->
   <div id="modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-describedby="modalDescription">
-    <div class="modal-content">
-      <span class="close-modal" id="closeModal" aria-label="Close Modal">&times;</span>
-      <h2 id="modalTitle" style="font-family: 'Russo One', sans-serif; font-weight: bold; color: var(--primary-color); font-size: clamp(2.5em, 8vw, 5em);">
-        Yay! <span style="color: red;">❤️</span>
-      </h2>
-      <div class="modal-photo-container">
-        <img src="images/photo1.jpg" alt="Special Moment" class="modal-photo" />
-      </div>
-      <div class="modal-text" id="modalDescription">
-        <p>I'm so happy you said yes! Looking forward to a wonderful Valentine's Day together.</p>
-      </div>
+    <div class="yay-card">
+      <!-- Only graphics are shown in the Yay modal; all inner content has been emptied -->
+      <div class="wave"></div>
+      <div class="wave"></div>
+      <div class="wave"></div>
     </div>
   </div>
 
@@ -1412,7 +1412,6 @@
       const galleryModal = document.getElementById("galleryModal");
       const modalImg = galleryModal.querySelector(".gallery-modal-image");
       const modalCap = galleryModal.querySelector(".gallery-modal-caption");
-      const closeBtn = galleryModal.querySelector(".close-gallery-modal");
 
       const allButtons = document.querySelectorAll(".button");
       const musicPlayer = document.querySelector(".music-player");
@@ -1445,8 +1444,6 @@
           timeCounters.forEach((tc) => (tc.style.display = "block"));
         }
       }
-
-      closeBtn.addEventListener("click", closeGallery);
 
       window.addEventListener("click", (e) => {
         if (e.target === galleryModal) {
@@ -1495,15 +1492,13 @@
       const confetti = new ConfettiManager(document.getElementById("confettiContainer"));
 
       const modal = document.getElementById("modal");
-      const modalContent = modal.querySelector(".modal-content");
+      const yayCard = modal.querySelector(".yay-card");
       const yesButton = document.getElementById("yesButton");
-      const closeModalBtn = document.getElementById("closeModal");
       let pressedYes = false;
 
       function showModal() {
         modal.style.display = "flex";
-        modalContent.scrollIntoView({ behavior: "smooth", block: "center" });
-        document.querySelector(".modal-photo-container").classList.add("gallery-style");
+        yayCard.scrollIntoView({ behavior: "smooth", block: "center" });
       }
 
       yesButton.addEventListener("click", () => {
@@ -1516,7 +1511,6 @@
           noBtnHandler.disable();
           yesButton.disabled = true;
         }
-        closeModalBtn.focus();
       });
 
       function closeModal() {
@@ -1528,8 +1522,6 @@
         }
         yesButton.focus();
       }
-
-      closeModalBtn.addEventListener("click", closeModal);
 
       window.addEventListener("click", (e) => {
         if (e.target === modal) {
