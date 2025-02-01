@@ -196,6 +196,17 @@
       }
     }
 
+    /* Close button for modals */
+    .close-modal {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 2rem;
+      color: #fff;
+      cursor: pointer;
+      z-index: 1100;
+    }
+
     /* Funny Message */
     .funny-message {
       position: fixed;
@@ -328,7 +339,8 @@
       width: 200px;
       height: 130%;
       background-image: linear-gradient(180deg, rgba(99, 102, 241, 0.8), rgba(168, 85, 247, 0.8), rgba(236, 72, 153, 0.8));
-      filter: blur(20px);
+      /* Removed haziness for crystal clear waves */
+      filter: none;
       top: 0;
       left: 0;
       z-index: 1;
@@ -506,7 +518,6 @@
       gap: 0.75rem;
       z-index: 1;
     }
-    /* (Reflection effects removed) */
     .button:hover {
       transform: translate(-6px, -6px);
       box-shadow: 18px 18px 0 #000;
@@ -571,6 +582,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      position: relative;
     }
     .yay-card::before,
     .yay-card::after {
@@ -606,7 +618,8 @@
       top: 0;
       margin-left: -50%;
       margin-top: -70%;
-      filter: blur(4px) contrast(120%);
+      /* Removed haziness for crystal clear waves */
+      filter: none;
       mix-blend-mode: screen;
       will-change: transform;
       pointer-events: none;
@@ -697,7 +710,28 @@
     }
     /* ---------------- End Yay Modal Card Styles ---------------- */
 
-    /* Use gallery modal's picture frame styles for consistency */
+    /* New styles for the Yay modal image display logic */
+    .yay-image-container {
+      width: 300px;
+      aspect-ratio: 1 / 1;
+      margin: 20px auto;
+      border: 4px solid #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      overflow: hidden;
+      position: relative;
+      z-index: 5;
+    }
+    .yay-image-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Use gallery modal's picture card design for other images */
     .modal-photo-container {
       width: 100%;
       max-width: 400px;
@@ -715,14 +749,13 @@
       box-shadow: 0 0 20px 5px rgba(255, 107, 129, 0.5);
     }
     .modal-photo {
-      /* Ensure proper formatting: image is centered, with max-width and auto height */
       display: block;
       max-width: 80%;
       height: auto;
       object-fit: cover;
       object-position: center;
       transition: transform 0.3s ease;
-      border: 2px solid #fff; /* Small white border */
+      border: 2px solid #fff;
       margin: 20px auto;
     }
     .modal-photo-container:hover .modal-photo {
@@ -988,6 +1021,8 @@
         </div>
       </div>
     </div>
+    <!-- A single close button will be handled by the unified modal close logic -->
+    <span class="close-modal" id="galleryCloseBtn">×</span>
   </section>
 
   <!-- Scroll Down Button -->
@@ -1039,18 +1074,29 @@
   <!-- Gallery Modal -->
   <div id="galleryModal" class="gallery-modal">
     <div class="gallery-modal-content">
+      <span class="close-modal" id="galleryModalClose">×</span>
       <img src="" alt="" class="gallery-modal-image" />
       <p class="gallery-modal-caption"></p>
     </div>
   </div>
 
   <!-- Success Modal (Yay Modal) -->
-  <div id="modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-describedby="modalDescription">
+  <div id="modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="yayModalTitle" aria-describedby="yayModalDescription">
     <div class="yay-card">
-      <!-- Only graphics are shown in the Yay modal; all inner content has been emptied -->
+      <!-- Halo / wave effects -->
       <div class="wave"></div>
       <div class="wave"></div>
       <div class="wave"></div>
+      <!-- New smaller title in white using Quicksand -->
+      <h2 id="yayModalTitle" style="font-family: 'Quicksand', sans-serif; font-weight: bold; color: #fff; font-size: clamp(1.5em, 4vw, 2em); text-align: center; margin-top: 20px;">
+        I knew you'd say yes ;)
+      </h2>
+      <!-- New image container with 1:1 ratio, centered, with a thicker white border -->
+      <div class="yay-image-container">
+        <img src="images/photo1.jpg" alt="Special Moment" />
+      </div>
+      <!-- A single close button will be handled by the unified modal close logic -->
+      <span class="close-modal" id="yayModalClose">×</span>
     </div>
   </div>
 
@@ -1088,6 +1134,7 @@
         this.moveTimeout = null;
         this.pad = 20;
 
+        // Attach events robustly so that repeated triggers behave correctly
         ["mouseover", "focus", "click", "touchstart"].forEach(evt => {
           this.button.addEventListener(evt, (e) => {
             e.preventDefault();
@@ -1099,7 +1146,6 @@
       move() {
         if (this.isMoving || this.button.disabled) return;
         this.isMoving = true;
-
         const r = this.button.getBoundingClientRect();
 
         // Convert to fixed positioning once "No" starts to run
@@ -1109,14 +1155,11 @@
           this.button.style.left = r.left + "px";
           this.button.style.margin = "0";
         }
-
         this.button.style.transition = "all 0.4s ease-out";
         const n = this.newPos(r);
-
         this.button.style.left = n.x + "px";
         this.button.style.top = n.y + "px";
         this.showMsg(n, r);
-
         clearTimeout(this.moveTimeout);
         this.moveTimeout = setTimeout(() => {
           this.isMoving = false;
@@ -1128,16 +1171,13 @@
         const vh = window.innerHeight;
         const sx = vw - br.width - this.pad;
         const sy = vh - br.height - this.pad;
-
         const cx = br.left;
         const cy = br.top;
         let nx, ny;
-
         do {
           nx = Math.min(Math.max(this.pad, Math.random() * sx), sx);
           ny = Math.min(Math.max(this.pad, Math.random() * sy), sy);
         } while (Math.abs(nx - cx) < 100 && Math.abs(ny - cy) < 100);
-
         return { x: nx, y: ny };
       }
 
@@ -1145,20 +1185,16 @@
         const msgTxt = wittyMessages[Math.floor(Math.random() * wittyMessages.length)];
         this.msg.textContent = msgTxt;
         this.msg.style.transition = "top 0.4s, left 0.4s, opacity 0.3s";
-
         let mx = np.x + br.width / 2;
         let my = np.y - 10;
         const w = window.innerWidth;
         const h = window.innerHeight;
         const off = 20;
-
         mx = Math.max(off, Math.min(mx, w - off));
         my = Math.max(off, Math.min(my, h - off));
-
         this.msg.style.left = mx + "px";
         this.msg.style.top = my + "px";
         this.msg.style.opacity = "1";
-
         clearTimeout(this.messageTimeout);
         this.messageTimeout = setTimeout(() => {
           this.msg.style.opacity = "0";
@@ -1169,7 +1205,6 @@
         this.button.disabled = false;
         this.button.style.opacity = "1";
         this.button.style.cursor = "pointer";
-
         if (this.button.style.position === "fixed") {
           this.button.style.position = "static";
           this.button.style.top = "auto";
@@ -1181,7 +1216,6 @@
         this.button.disabled = true;
         this.button.style.opacity = "0.5";
         this.button.style.cursor = "not-allowed";
-
         if (this.button.style.position === "fixed") {
           this.button.style.position = "static";
           this.button.style.top = "auto";
@@ -1190,7 +1224,7 @@
       }
     }
 
-    /* Floating elements */
+    /* Floating Elements */
     class FloatingElementsManager {
       constructor(c) {
         this.c = c;
@@ -1198,7 +1232,6 @@
         this.max = 20;
         this.int = null;
       }
-
       createEl() {
         const el = document.createElement("div");
         el.className = "floating-element";
@@ -1209,14 +1242,12 @@
         const d = Math.random() * 5 + 5;
         el.style.animationDuration = d + "s";
         this.c.appendChild(el);
-
         setTimeout(() => {
           if (el.parentNode === this.c) {
             this.c.removeChild(el);
           }
         }, d * 1000);
       }
-
       start() {
         for (let i = 0; i < this.max / 2; i++) {
           this.createEl();
@@ -1227,7 +1258,6 @@
           }
         }, 1000);
       }
-
       stop() {
         if (this.int) clearInterval(this.int);
         this.c.innerHTML = "";
@@ -1245,7 +1275,6 @@
         this.cv.style.pointerEvents = "none";
         this.co.appendChild(this.cv);
         this.cx = this.cv.getContext("2d");
-
         this.cs = [
           "rgba(255,107,129,0.8)",
           "rgba(214,164,231,0.8)",
@@ -1256,50 +1285,40 @@
           "rgba(255,193,227,0.8)",
           "rgba(253,228,207,0.8)"
         ];
-
         this.ps = [];
         this.mp = 300;
         this.g = 0.05;
         this.d = 0.0005;
         this.af = null;
-
         this.resize();
         window.addEventListener("resize", () => this.resize());
       }
-
       resize() {
         this.cv.width = this.co.clientWidth;
         this.cv.height = this.co.clientHeight;
       }
-
       upd() {
         this.cx.clearRect(0, 0, this.cv.width, this.cv.height);
-
         for (let i = 0; i < this.ps.length; i++) {
           let p = this.ps[i];
           p.vy += this.g;
           p.vx *= 1 - this.d;
           p.vy *= 1 - this.d;
-
           p.x += p.vx;
           p.y += p.vy;
-
           p.r += p.rs;
-
           this.drawP(p);
           if (p.x < -100 || p.x > this.cv.width + 100 || p.y > this.cv.height + 100) {
             this.ps.splice(i, 1);
             i--;
           }
         }
-
         if (this.ps.length > 0) {
           this.af = requestAnimationFrame(() => this.upd());
         } else {
           this.af = null;
         }
       }
-
       drawP(p) {
         this.cx.save();
         this.cx.translate(p.x, p.y);
@@ -1314,7 +1333,6 @@
         this.cx.fill();
         this.cx.restore();
       }
-
       burst(cx, cy, count, m = false) {
         for (let i = 0; i < count; i++) {
           if (this.ps.length >= this.mp) break;
@@ -1322,10 +1340,8 @@
           const sp = Math.random() * 4 + 3;
           const vx = Math.cos(a) * sp;
           const vy = Math.sin(a) * sp;
-
           const bs = m ? 8 : 12;
           const sr = m ? 10 : 16;
-
           this.ps.push({
             x: cx,
             y: cy,
@@ -1338,24 +1354,20 @@
           });
         }
       }
-
       launch(m) {
         const tb = 5;
         const cnt = m ? 25 : 40;
         const intv = m ? 300 : 800;
-
         for (let i = 0; i < tb; i++) {
           setTimeout(() => {
             const cx = this.cv.width * 0.2 + Math.random() * this.cv.width * 0.6;
             const cy = this.cv.height * 0.2 + Math.random() * this.cv.height * 0.6;
-
             this.burst(cx, cy, cnt, m);
             this.spark(cx, cy);
             if (!this.af) this.upd();
           }, i * intv);
         }
       }
-
       spark(x, y) {
         for (let i = 0; i < 8; i++) {
           if (this.ps.length >= this.mp) break;
@@ -1377,14 +1389,38 @@
       }
     }
 
+    // Unified modal close functionality for both WEB and MOBILE
+    function setupModalClose(modal, onCloseCallback) {
+      // Close button(s) inside modal
+      const closeButtons = modal.querySelectorAll(".close-modal");
+      closeButtons.forEach(btn => {
+        btn.addEventListener("click", () => {
+          modal.style.display = "none";
+          if (onCloseCallback) onCloseCallback();
+        });
+      });
+      // Click outside modal content closes it
+      modal.addEventListener("click", (e) => {
+        if (e.target === modal) {
+          modal.style.display = "none";
+          if (onCloseCallback) onCloseCallback();
+        }
+      });
+      // Escape key to close
+      window.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && modal.style.display === "flex") {
+          modal.style.display = "none";
+          if (onCloseCallback) onCloseCallback();
+        }
+      });
+    }
+
     function updateDatingCounter() {
       const start = new Date("2023-08-09");
       const now = new Date();
       const diff = now - start;
-
       const days = Math.floor(diff / (1000 * 60 * 60 * 24));
       const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-
       document.getElementById("dating-days").textContent = days;
       document.getElementById("dating-hours").textContent = hours;
     }
@@ -1392,18 +1428,14 @@
     function updateValentineCounter() {
       const now = new Date();
       let year = now.getFullYear();
-
       const valentineThisYear = new Date(year, 1, 14);
       if (now > valentineThisYear) {
         year += 1;
       }
-
       const nextValentine = new Date(year, 1, 14);
       const diff = nextValentine - now;
-
       const days = Math.floor(diff / (1000 * 60 * 60 * 24));
       const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-
       document.getElementById("valentine-days").textContent = days;
       document.getElementById("valentine-hours").textContent = hours;
     }
@@ -1412,22 +1444,18 @@
       const galleryModal = document.getElementById("galleryModal");
       const modalImg = galleryModal.querySelector(".gallery-modal-image");
       const modalCap = galleryModal.querySelector(".gallery-modal-caption");
-
       const allButtons = document.querySelectorAll(".button");
       const musicPlayer = document.querySelector(".music-player");
       const timeCounters = document.querySelectorAll(".time-counter");
-
       document.querySelectorAll(".gallery-item").forEach((item) => {
         const img = item.querySelector(".gallery-image");
         const caption = item.querySelector(".gallery-caption");
-
         img.addEventListener("click", () => {
           modalImg.src = img.src;
           modalImg.alt = img.alt;
           modalCap.textContent = caption.textContent;
-
           galleryModal.style.display = "flex";
-
+          // Hide distracting UI elements
           allButtons.forEach((b) => (b.style.display = "none"));
           if (musicPlayer) musicPlayer.style.display = "none";
           if (window.matchMedia("(max-width: 768px)").matches) {
@@ -1435,34 +1463,43 @@
           }
         });
       });
-
-      function closeGallery() {
-        galleryModal.style.display = "none";
+      // Use unified modal close setup
+      setupModalClose(galleryModal, () => {
         allButtons.forEach((b) => (b.style.display = "inline-block"));
         if (musicPlayer) musicPlayer.style.display = "block";
         if (window.matchMedia("(max-width: 768px)").matches) {
           timeCounters.forEach((tc) => (tc.style.display = "block"));
         }
-      }
-
-      window.addEventListener("click", (e) => {
-        if (e.target === galleryModal) {
-          closeGallery();
-        }
       });
+    }
 
-      window.addEventListener("keydown", (e) => {
-        if (e.key === "Escape" && galleryModal.style.display === "flex") {
-          closeGallery();
+    function setupYayModal() {
+      const yayModal = document.getElementById("modal");
+      const allButtons = document.querySelectorAll(".button");
+      const musicPlayer = document.querySelector(".music-player");
+      const timeCounters = document.querySelectorAll(".time-counter");
+      // Reset YES/NO buttons when closing the modal
+      const resetModal = () => {
+        // Re-show buttons, music player, and counters on close
+        allButtons.forEach((b) => (b.style.display = "inline-block"));
+        if (musicPlayer) musicPlayer.style.display = "block";
+        if (window.matchMedia("(max-width: 768px)").matches) {
+          timeCounters.forEach((tc) => (tc.style.display = "block"));
         }
-      });
+        // Reset YES/NO button states
+        pressedYes = false;
+        noBtnHandler.enable();
+        yesButton.disabled = false;
+        yesButton.focus();
+      };
+      // Use unified modal close setup
+      setupModalClose(yayModal, resetModal);
     }
 
     function setupMusicPlayer() {
       const playBtn = document.getElementById("playSongBtn");
       const audio = document.getElementById("ourSong");
       let playing = false;
-
       playBtn.addEventListener("click", () => {
         if (playing) {
           audio.pause();
@@ -1475,7 +1512,6 @@
         }
         playing = !playing;
       });
-
       audio.addEventListener("ended", () => {
         playing = false;
         playBtn.querySelector("span").textContent = "Play Our Song";
@@ -1483,58 +1519,62 @@
       });
     }
 
+    // Global variables for YES/NO button management
+    let pressedYes = false;
+    let noBtnHandler;
+    let yesButton;
+
     document.addEventListener("DOMContentLoaded", () => {
       const floatingManager = new FloatingElementsManager(document.getElementById("floatingElements"));
       floatingManager.start();
 
-      const noBtnHandler = new NoButtonHandler(document.getElementById("noButton"), document.getElementById("funnyMessage"));
+      noBtnHandler = new NoButtonHandler(document.getElementById("noButton"), document.getElementById("funnyMessage"));
+      yesButton = document.getElementById("yesButton");
 
       const confetti = new ConfettiManager(document.getElementById("confettiContainer"));
 
-      const modal = document.getElementById("modal");
-      const yayCard = modal.querySelector(".yay-card");
-      const yesButton = document.getElementById("yesButton");
-      let pressedYes = false;
+      const timeCounters = document.querySelectorAll(".time-counter");
+      const allButtons = document.querySelectorAll(".button");
+      const musicPlayer = document.querySelector(".music-player");
+      const yayModal = document.getElementById("modal");
 
-      function showModal() {
-        modal.style.display = "flex";
-        yayCard.scrollIntoView({ behavior: "smooth", block: "center" });
+      function showYayModal() {
+        yayModal.style.display = "flex";
+        // In mobile, hide counter boxes
+        if (window.matchMedia("(max-width: 768px)").matches) {
+          timeCounters.forEach((tc) => (tc.style.display = "none"));
+        }
       }
 
       yesButton.addEventListener("click", () => {
-        showModal();
+        showYayModal();
         const isMobile = window.matchMedia("(max-width: 768px)").matches;
         confetti.launch(isMobile);
-
         if (!pressedYes) {
           pressedYes = true;
           noBtnHandler.disable();
           yesButton.disabled = true;
+          // In mobile, hide buttons and music player for distraction-free view
+          if (isMobile) {
+            allButtons.forEach((b) => (b.style.display = "none"));
+            if (musicPlayer) musicPlayer.style.display = "none";
+          }
         }
       });
 
-      function closeModal() {
-        modal.style.display = "none";
-        if (pressedYes) {
-          pressedYes = false;
-          noBtnHandler.enable();
-          yesButton.disabled = false;
-        }
-        yesButton.focus();
-      }
+      // Setup unified modal exits
+      setupGalleryModal();
+      setupYayModal();
+      setupMusicPlayer();
 
-      window.addEventListener("click", (e) => {
-        if (e.target === modal) {
-          closeModal();
-        }
-      });
+      updateDatingCounter();
+      updateValentineCounter();
+      setInterval(() => {
+        updateDatingCounter();
+        updateValentineCounter();
+      }, 1000 * 60 * 5);
 
-      window.addEventListener("keydown", (e) => {
-        if (e.key === "Escape" && modal.style.display === "flex") {
-          closeModal();
-        }
-      });
-
+      // Custom cursor movement for non-touch devices
       if (!window.matchMedia("(pointer: coarse)").matches) {
         document.addEventListener("mousemove", (e) => {
           const cursor = document.getElementById("customCursor");
@@ -1543,14 +1583,12 @@
             cursor.style.top = e.clientY + "px";
           }
         });
-
         yesButton.addEventListener("mouseenter", () => {
           const cursor = document.getElementById("customCursor");
           if (cursor) {
             cursor.classList.add("hover-yes");
           }
         });
-
         yesButton.addEventListener("mouseleave", () => {
           const cursor = document.getElementById("customCursor");
           if (cursor) {
@@ -1565,16 +1603,6 @@
           document.querySelector(".container").scrollIntoView({ behavior: "smooth", block: "center" });
         });
       }
-
-      setupGalleryModal();
-      setupMusicPlayer();
-
-      updateDatingCounter();
-      updateValentineCounter();
-      setInterval(() => {
-        updateDatingCounter();
-        updateValentineCounter();
-      }, 1000 * 60 * 5);
     });
   </script>
 </body>
