@@ -16,8 +16,8 @@
       --background-gradient: radial-gradient(circle at top left, #f9c6d5, #d6a4e7, #a18cd1, #fbc2eb);
 
       /* Updated fonts:
-         - DS Sans (DM Sans) will be used for black texts.
-         - Space Grotesk will be used as the replacement for the cursive fonts.
+         - DS Sans (DM Sans) will be used for Titles.
+         - Space Grotesk will be used for black texts.
       */
       --font-sans: "Poppins", sans-serif;
       --font-ds: "DM Sans", sans-serif;
@@ -50,7 +50,16 @@
         1.5px 1.5px 0 0 #000,
         2px 2px 0 0 #000,
         2.5px 2.5px 0 0 #000,
-        3px 3px 0 0 #000;
+        3px 3px 0 0 #000,
+        0 0 0 2px #ccc,
+        0.5px 0.5px 0 2px #ccc,
+        1px 1px 0 2px #ccc,
+        1.5px 1.5px 0 2px #ccc,
+        2px 2px 0 2px #ccc,
+        2.5px 2.5px 0 2px #ccc,
+        3px 3px 0 2px #ccc,
+        3.5px 3.5px 0 2px #ccc,
+        4px 4px 0 2px #ccc;
     }
 
     * {
@@ -133,27 +142,23 @@
       letter-spacing: 0.02em;
       text-align: center;
     }
-    /* Updated time-values structure for numbers and labels on separate lines */
     .time-values {
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin: 0;
-      padding: 0;
+      justify-content: center;
+      font-family: var(--font-sg);
     }
     .time-values .numbers {
       display: flex;
-      gap: 8px;
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 1rem;
-      color: #333;
+      gap: 10px;
+      font-size: 1.5rem;
     }
     .time-values .labels {
       display: flex;
-      gap: 8px;
-      font-family: var(--font-ds);
-      font-size: 0.9rem;
-      color: #333;
+      gap: 10px;
+      font-size: 1rem;
+      margin-top: 5px;
     }
     /* Positioning for the two counter boxes */
     #dating-counter {
@@ -174,7 +179,7 @@
     /* Proper and symmetrical spacing for counter cards when stacked on mobile */
     @media (max-width: 768px) {
       .time-counter {
-        position: relative !important; /* changed from static to relative */
+        position: relative !important;
         display: block !important;
         width: 90% !important;
         height: auto !important;
@@ -183,7 +188,6 @@
         border-radius: 2px !important;
         box-shadow: 8px 8px 0 #000 !important;
         margin: 30px auto !important;
-        /* Ensure symmetrical vertical spacing */
         margin-bottom: 30px !important;
       }
       #dating-counter,
@@ -198,7 +202,7 @@
         width: 20px;
         height: 20px;
       }
-      /* Remove pop-dots on mobile */
+      /* Remove the dots on mobile design for counter boxes */
       .pop-dots {
         display: none;
       }
@@ -291,22 +295,22 @@
     }
 
     /* Gallery Section 
-       Reverse the font logic:
-       - Use Space Grotesk (var(--font-sg)) for headings (replacement of the cursive fonts)
-       - Use DS Sans (var(--font-ds)) for black texts
+       Thematic changes: Apply the same styling as counter boxes to the main gallery box.
+       - Use DS Sans for Titles (gallery title) and Space Grotesk for the black texts.
     */
     .gallery-section {
       width: min(90%, 1000px);
       margin: 150px auto;
       padding: 60px;
-      background: rgba(255, 255, 255, 0.98);
-      border-radius: 30px;
-      box-shadow: var(--box-shadow-larger);
+      background: #fff;
+      border: 3px solid #000;
+      box-shadow: 8px 8px 0 #000;
+      border-radius: 2px;
       animation: fadeIn 1.5s ease-in-out;
-      font-family: var(--font-ds);
+      font-family: var(--font-sg);
     }
     .gallery-title {
-      font-family: var(--font-sg); /* Use Space Grotesk for headings */
+      font-family: var(--font-ds);
       color: var(--primary-color);
       font-size: clamp(2.2em, 6vw, 4em);
       text-align: center;
@@ -410,7 +414,7 @@
       cursor: pointer;
     }
     .gallery-caption {
-      font-family: var(--font-ds); /* Use DS Sans for black texts */
+      font-family: var(--font-sg);
       color: #000;
       font-size: clamp(1em, 3vw, 1.2em);
       text-align: center;
@@ -459,7 +463,7 @@
       color: white;
       text-align: center;
       margin-top: 15px;
-      font-family: var(--font-ds);
+      font-family: var(--font-sg);
       font-size: clamp(1.2em, 3vw, 1.5em);
     }
     .close-gallery-modal {
@@ -472,25 +476,25 @@
       padding: 10px;
     }
     /* Main Container 
-       Reverse the font logic:
-       - Use DS Sans (var(--font-ds)) for black texts.
-       - Use Space Grotesk (var(--font-sg)) for headings (replacement of the cursive fonts).
+       Thematic changes: Apply the same styling as the counter boxes to the main text box.
+       Use DS Sans for Titles and Space Grotesk for black texts.
     */
     .container {
       width: min(85%, 900px);
-      background: rgba(255, 255, 255, 0.95);
-      padding: 50px;
-      border-radius: 20px;
-      text-align: center;
       margin: 150px auto;
-      box-shadow: var(--box-shadow-medium);
+      padding: 50px;
+      background: #fff;
+      border: 3px solid #000;
+      box-shadow: 8px 8px 0 #000;
+      border-radius: 2px;
+      text-align: center;
       position: relative;
       z-index: 2;
       animation: fadeIn 1.5s ease-in-out;
-      font-family: var(--font-ds);
+      font-family: var(--font-sg);
     }
     h1 {
-      font-family: var(--font-sg); /* Use Space Grotesk for heading instead of DS Sans */
+      font-family: var(--font-ds);
       color: var(--primary-color);
       font-size: clamp(2.5em, 8vw, 5em);
       margin-bottom: 50px;
@@ -498,7 +502,7 @@
       text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
     }
     .message {
-      font-family: var(--font-ds); /* Use DS Sans for black texts */
+      font-family: var(--font-sg);
       font-size: clamp(1.2em, 4vw, 2em);
       color: #000;
       margin-bottom: 50px;
@@ -530,21 +534,24 @@
       transition: all 0.2s ease-in;
       text-align: center;
       min-width: 200px;
-      /* Only black shadow applied */
       box-shadow:
         0.5px 0.5px 0 0 #000,
         1px 1px 0 0 #000,
         1.5px 1.5px 0 0 #000,
         2px 2px 0 0 #000,
         2.5px 2.5px 0 0 #000,
-        3px 3px 0 0 #000;
+        3px 3px 0 0 #000,
+        0 0 0 2px #fff,
+        0.5px 0.5px 0 2px #fff,
+        1px 1px 0 2px #fff,
+        1.5px 1.5px 0 2px #fff,
+        2px 2px 0 2px #fff,
+        2.5px 2.5px 0 2px #fff,
+        3px 3px 0 2px #fff,
+        3.5px 3.5px 0 2px #fff,
+        4px 4px 0 2px #fff;
       transform: translate(-4px, -4px);
       overflow: hidden;
-    }
-    /* When NO button is disabled, remove shadows and apply a white border */
-    .button.no-btn:disabled {
-      box-shadow: none;
-      border: 2px solid #fff;
     }
     /* "No" Button Specific Styles */
     .button.no-btn {
@@ -594,13 +601,14 @@
       opacity: 0;
       pointer-events: none;
     }
-    /* Hover Effects */
+    /* Ensure consistent hover effect for buttons, mirroring counter box animations */
     .button:hover {
-      transform: translate(0, 0);
-      box-shadow: 0 0 0 2px #000;
+      transform: translate(-4px, -4px);
+      box-shadow: 12px 12px 0 #000;
     }
     .button:active {
-      box-shadow: 0 0 0 2px var(--pink-50);
+      transform: translate(2px, 2px);
+      box-shadow: 6px 6px 0 #000;
     }
     .button:focus-visible {
       outline-color: var(--red-400);
@@ -633,7 +641,7 @@
       border-radius: 9999px;
       opacity: 0.5;
       background-image: radial-gradient(rgb(255 255 255 / 80%) 20%, transparent 20%),
-        radial-gradient(rgb(255 255, 255, 80%) 20%, transparent 20%);
+        radial-gradient(rgb(255 255 255 / 100%) 20%, transparent 20%);
       background-position: 0 0, 4px 4px;
       background-size: 8px 8px;
       mix-blend-mode: hard-light;
@@ -793,7 +801,7 @@
     .modal-text {
       margin-top: 20px;
       max-width: 80%;
-      font-family: var(--font-ds);
+      font-family: var(--font-sg);
       color: #000;
       font-size: clamp(1.2em, 3vw, 1.5em);
       line-height: 1.5;
@@ -941,15 +949,6 @@
       .gallery-item:hover::before {
         opacity: 0;
       }
-    }
-    /* Match the gallery style for the success modal photo once "Yes" is triggered */
-    .gallery-style {
-      border-radius: 30px !important;
-      box-shadow: var(--box-shadow-card) !important;
-      transition: var(--transition-default) !important;
-      border: none !important;
-      overflow: hidden !important;
-      position: relative !important;
     }
   </style>
 </head>
@@ -1106,7 +1105,7 @@
   <div id="modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-describedby="modalDescription">
     <div class="modal-content">
       <span class="close-modal" id="closeModal" aria-label="Close Modal">&times;</span>
-      <h2 id="modalTitle" style="font-family: var(--font-sg); color: var(--primary-color); font-size: clamp(2.5em, 8vw, 5em);">
+      <h2 id="modalTitle" style="font-family: var(--font-ds); color: var(--primary-color); font-size: clamp(2.5em, 8vw, 5em);">
         Yay! <span style="color: red;">❤️</span>
       </h2>
       <!-- Once "Yes" is clicked, we'll add .gallery-style to match gallery look -->
@@ -1496,10 +1495,13 @@
 
           galleryModal.style.display = "flex";
 
-          // Hide buttons, music player, counters behind the modal
+          // Hide buttons and music player for immersive experience
           allButtons.forEach((b) => (b.style.display = "none"));
           if (musicPlayer) musicPlayer.style.display = "none";
-          timeCounters.forEach((tc) => (tc.style.display = "none"));
+          // For MOBILE: Hide counter boxes when a picture is clicked
+          if (window.matchMedia("(max-width: 768px)").matches) {
+            timeCounters.forEach((tc) => (tc.style.display = "none"));
+          }
         });
       });
 
@@ -1507,7 +1509,10 @@
         galleryModal.style.display = "none";
         allButtons.forEach((b) => (b.style.display = "inline-block"));
         if (musicPlayer) musicPlayer.style.display = "block";
-        timeCounters.forEach((tc) => (tc.style.display = "block"));
+        // For MOBILE: Restore counter boxes when the modal is closed
+        if (window.matchMedia("(max-width: 768px)").matches) {
+          timeCounters.forEach((tc) => (tc.style.display = "block"));
+        }
       }
 
       closeBtn.addEventListener("click", closeGallery);
