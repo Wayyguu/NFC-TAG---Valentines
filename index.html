@@ -9,6 +9,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
   <!-- Additional fonts for counter boxes, gallery text, main text, and buttons -->
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&family=Space+Grotesk:wght@400;500&display=swap" rel="stylesheet" />
+  <!-- Added Russo One for Our Journey font -->
+  <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet" />
   <style>
     :root {
       --primary-color: #ff6b81;
@@ -103,6 +105,7 @@
       background-size: 10px 10px;
       opacity: 0.3;
       z-index: 0;
+      border-radius: 12px;
     }
 
     /* Counter Boxes Styled as Retro Cards with Smaller, Squared 1:1 Ratio */
@@ -111,7 +114,7 @@
       top: max(var(--safe-area-inset-top), 20px);
       background: #fff;
       border: 3px solid #000;
-      border-radius: 2px;
+      border-radius: 16px;
       box-shadow: 8px 8px 0 #000;
       /* Set padding to allow space for the heart icon */
       padding: 1rem;
@@ -160,6 +163,14 @@
       font-size: 1rem;
       margin-top: 5px;
     }
+    /* Center items vertically */
+    .time-values .numbers span,
+    .time-values .labels span {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
     /* Positioning for the two counter boxes */
     #dating-counter {
       right: max(var(--safe-area-inset-right), 20px);
@@ -185,7 +196,7 @@
         height: auto !important;
         padding: 1rem !important;
         border: 3px solid #000 !important;
-        border-radius: 2px !important;
+        border-radius: 16px !important;
         box-shadow: 8px 8px 0 #000 !important;
         margin: 30px auto !important;
         margin-bottom: 30px !important;
@@ -214,7 +225,7 @@
       background-color: white;
       color: var(--primary-color);
       padding: 15px 30px;
-      border-radius: 10px;
+      border-radius: 16px;
       font-size: clamp(1em, 3vw, 1.2em);
       z-index: 1000;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
@@ -280,7 +291,7 @@
       pointer-events: none;
       z-index: 1002;
       background: transparent;
-      border-radius: 0;
+      border-radius: 16px;
       box-shadow: none;
       text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
       transition: transform 0.2s ease;
@@ -295,9 +306,7 @@
     }
 
     /* Gallery Section 
-       Thematic changes: Apply the same styling as counter boxes to the main gallery box.
-       Use DS Sans for Titles and Space Grotesk for the black texts.
-       Also, make the border thicker.
+       Make the gallery box border thicker (6px) & shadow bigger (12px).
     */
     .gallery-section {
       position: relative;
@@ -306,13 +315,13 @@
       padding: 60px;
       background: #fff;
       border: 6px solid #000;
-      box-shadow: 8px 8px 0 #000;
-      border-radius: 2px;
+      box-shadow: 12px 12px 0 #000;
+      border-radius: 16px;
       animation: fadeIn 1.5s ease-in-out;
       font-family: var(--font-sg);
     }
     .gallery-title {
-      font-family: var(--font-ds);
+      font-family: 'Russo One', sans-serif;
       color: var(--primary-color);
       font-size: clamp(2.2em, 6vw, 4em);
       text-align: center;
@@ -332,7 +341,7 @@
     }
     .gallery-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      grid-template-columns: repeat(3, 1fr);
       gap: 40px;
       padding: 20px;
       max-width: 1200px;
@@ -343,7 +352,7 @@
       transform-origin: center;
       aspect-ratio: 1;
       overflow: hidden;
-      border-radius: 2px;
+      border-radius: 16px;
       box-shadow: var(--box-shadow-card);
       transition: var(--transition-default);
     }
@@ -360,7 +369,7 @@
       animation: rotBGimg 8s cubic-bezier(0.8, 0.2, 0.2, 0.8) infinite;
       transition: opacity var(--transition-ease);
       opacity: 0;
-      border-radius: 2px;
+      border-radius: 16px;
     }
     .gallery-item:hover::before {
       opacity: 1;
@@ -380,7 +389,7 @@
       content: "";
       position: absolute;
       inset: 5px;
-      border-radius: 2px;
+      border-radius: 16px;
       background: #ffffff;
       backdrop-filter: blur(10px);
       box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
@@ -395,7 +404,7 @@
       display: flex;
       flex-direction: column;
       box-sizing: border-box;
-      border-radius: 2px;
+      border-radius: 16px;
     }
     .glass-overlay {
       position: absolute;
@@ -404,7 +413,7 @@
       right: 0;
       bottom: 0;
       background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 50%, rgba(255, 255, 255, 0) 100%);
-      border-radius: 2px;
+      border-radius: 16px;
       pointer-events: none;
       z-index: 2;
     }
@@ -412,7 +421,7 @@
       width: 100%;
       height: calc(100% - 40px);
       object-fit: cover;
-      border-radius: 2px;
+      border-radius: 16px;
       transition: var(--transition-default);
       cursor: pointer;
     }
@@ -460,7 +469,7 @@
       max-width: 100%;
       max-height: 90vh;
       object-fit: contain;
-      border-radius: 8px;
+      border-radius: 16px;
     }
     .gallery-modal-caption {
       color: white;
@@ -479,9 +488,7 @@
       padding: 10px;
     }
     /* Main Container 
-       Thematic changes: Apply the same styling as counter boxes to the main text box.
-       Use DS Sans for Titles and Space Grotesk for black texts.
-       Also, make the border thicker.
+       Make the main text box border thicker (6px) & shadow bigger (12px).
     */
     .container {
       position: relative;
@@ -490,10 +497,9 @@
       padding: 50px;
       background: #fff;
       border: 6px solid #000;
-      box-shadow: 8px 8px 0 #000;
-      border-radius: 2px;
+      box-shadow: 12px 12px 0 #000;
+      border-radius: 16px;
       text-align: center;
-      position: relative;
       z-index: 2;
       animation: fadeIn 1.5s ease-in-out;
       font-family: var(--font-sg);
@@ -646,17 +652,13 @@
       border-radius: 9999px;
       opacity: 0.5;
       background-image: radial-gradient(rgb(255 255 255 / 80%) 20%, transparent 20%),
-        radial-gradient(rgb(255 255, 255 / 100%) 20%, transparent 20%);
+        radial-gradient(rgb(255 255 255 / 100%) 20%, transparent 20%);
       background-position: 0 0, 4px 4px;
       background-size: 8px 8px;
       mix-blend-mode: hard-light;
       animation: dots 0.5s infinite linear;
       pointer-events: none;
     }
-    /*
-      1) Make only the text within the scroll down button and the play our song button font sizes slightly smaller.
-      2) Change their background to white with black texts and black dots.
-    */
     #scrollDownBtn > div,
     #playSongBtn > div {
       background-color: #ffffff !important;
@@ -666,13 +668,11 @@
       font-size: 1rem !important;
       color: #000000 !important;
     }
-    /* Override the dotted background pattern to black for specific buttons */
     #scrollDownBtn > div::before,
     #playSongBtn > div::before {
       background-image: radial-gradient(rgb(0 0 0 / 80%) 20%, transparent 20%),
         radial-gradient(rgb(0 0 0 / 100%) 20%, transparent 20%);
     }
-    /* Button Text and Icons */
     .button > div > span {
       position: relative;
       display: flex;
@@ -766,7 +766,7 @@
     .modal-content {
       background: #fff;
       padding: 40px;
-      border-radius: 15px;
+      border-radius: 16px;
       text-align: center;
       position: relative;
       animation: fadeInModal 0.5s;
@@ -785,7 +785,7 @@
       border: 3px solid var(--primary-color);
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
       transition: all 0.3s ease;
-      border-radius: 15px;
+      border-radius: 16px;
       overflow: hidden;
       position: relative;
     }
@@ -936,7 +936,8 @@
         grid-template-columns: 1fr;
       }
       .gallery-item {
-        aspect-ratio: 4/3;
+        /* Maintain 1:1 aspect ratio even on small screens */
+        aspect-ratio: 1;
       }
     }
     @media (pointer: coarse) {
@@ -1068,6 +1069,28 @@
         <div class="gallery-frame">
           <img src="images/kiss.jpg" loading="lazy" alt="Muah Muah" class="gallery-image" />
           <p class="gallery-caption">First Kiss 💋</p>
+        </div>
+      </div>
+      <!-- New Items to make 3x3 -->
+      <div class="gallery-item">
+        <div class="glass-overlay"></div>
+        <div class="gallery-frame">
+          <img src="images/second_date.jpg" loading="lazy" alt="Second Date" class="gallery-image" />
+          <p class="gallery-caption">Second Date 💘</p>
+        </div>
+      </div>
+      <div class="gallery-item">
+        <div class="glass-overlay"></div>
+        <div class="gallery-frame">
+          <img src="images/ponce.jpg" loading="lazy" alt="Trip to Ponce" class="gallery-image" />
+          <p class="gallery-caption">Trip to Ponce 🏙️</p>
+        </div>
+      </div>
+      <div class="gallery-item">
+        <div class="glass-overlay"></div>
+        <div class="gallery-frame">
+          <img src="images/crumbl.jpg" loading="lazy" alt="Crumbl Cookies" class="gallery-image" />
+          <p class="gallery-caption">Crumbl Cookies 🍪</p>
         </div>
       </div>
     </div>
