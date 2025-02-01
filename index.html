@@ -104,9 +104,7 @@
       color: #ff3366;
       z-index: 0;
     }
-    .box-heart {
-      /* Consistent styling for all mini heart icons */
-    }
+    .box-heart { }
 
     /* Counter Boxes */
     .time-counter {
@@ -124,6 +122,7 @@
       text-align: center;
       line-height: 1.4;
       z-index: 1001;
+      font-weight: bold;
     }
     .time-counter:hover {
       transform: translate(-4px, -4px);
@@ -206,7 +205,6 @@
         width: 20px;
         height: 20px;
       }
-      /* Increased spacing for Yes and No buttons when stacked on mobile */
       .buttons {
         flex-direction: column;
         align-items: center;
@@ -220,38 +218,45 @@
       }
     }
 
-    /* Close button for modals - not used on yay modal, replaced by a custom 'Close' button */
-    .close-modal {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      font-size: 2rem;
-      color: #fff;
-      cursor: pointer;
-      z-index: 1100;
-    }
+    /* Removed dots styling for buttons */
 
-    /* New styling for the yay modal Close button */
-    .close-button {
+    /* New styling for the yay modal buttons container */
+    .yay-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: auto;
+      padding-top: 20px;
+    }
+    .close-button, .airbnb-button {
       font-family: 'DM Sans', sans-serif;
       font-weight: 700;
       font-size: 0.9rem;
-      background: #fff;
-      color: #000;
+      /* AirBnB button now uses same styling as the YES button */
+      background: #f472b6;
+      color: #fff;
       border: 2px solid #000;
       border-radius: 8px;
       padding: 0.4rem 0.8rem;
-      margin-top: 20px;
       box-shadow: 4px 4px 0 #000;
       transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
-    .close-button:hover {
+    .close-button:hover, .airbnb-button:hover {
       transform: translate(-2px, -2px);
       box-shadow: 6px 6px 0 #000;
     }
-    .close-button:active {
+    .close-button:active, .airbnb-button:active {
       transform: translate(2px, 2px);
       box-shadow: 2px 2px 0 #000;
+    }
+    /* Specific styling for the Return Home button (white background) */
+    #yayModalClose {
+      background: #fff;
+      color: #000;
+    }
+    #yayModalClose:hover, #yayModalClose:active {
+      transform: translate(-2px, -2px);
+      box-shadow: 6px 6px 0 #000;
     }
 
     /* Funny Message */
@@ -461,15 +466,31 @@
       line-height: 1.4;
       transition: all 0.3s ease;
     }
-    .gallery-item:hover .gallery-caption {
+    /* Gradient effect for the caption text only */
+    .gallery-caption .caption-text {
+      transition: all 0.3s ease;
+    }
+    .gallery-item:hover .gallery-caption .caption-text {
       background: linear-gradient(90deg, #f472b6, #ff4d8d);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      transform: translateY(-2px);
+    }
+    /* No gradient effect for the emoji on hover */
+    .gallery-caption .emoji {
+      transition: all 0.3s ease;
+      background: none !important;
+      -webkit-background-clip: initial;
+      -webkit-text-fill-color: initial;
     }
     .gallery-item:hover {
       transform: translateY(-5px);
       box-shadow: var(--box-shadow-hover);
+    }
+    .gallery-item:hover .gallery-image {
+      transform: scale(1.05);
+    }
+    .gallery-item:hover .gallery-caption {
+      transform: translateY(-2px);
     }
     /* Gallery Modal */
     .gallery-modal {
@@ -502,6 +523,16 @@
       margin-top: 15px;
       font-family: var(--font-sg);
       font-size: clamp(1.2em, 3vw, 1.5em);
+    }
+    /* Maintain the 'X' close button for the photo gallery on both web and mobile */
+    .gallery-modal .close-modal {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 2rem;
+      color: #fff;
+      cursor: pointer;
+      z-index: 1010;
     }
 
     /* Main Container */
@@ -588,26 +619,10 @@
       background: #fff;
       color: #000;
     }
-    /* Reflection feature has been completely removed. */
 
-    /* Add tiny rows of dots flowing for retro effects on all buttons */
-    .button::before {
-      content: "";
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 4px;
-      background-image: radial-gradient(circle, rgba(0,0,0,0.3) 1px, transparent 1px);
-      background-size: 6px 6px;
-      opacity: 0.5;
-      pointer-events: none;
-      z-index: 0;
-      animation: flowDots 3s linear infinite;
-    }
-    @keyframes flowDots {
-      from { background-position: 0 0; }
-      to { background-position: 6px 0; }
+    /* Gallery Section Buttons and Captions */
+    .gallery-caption .emoji {
+      transition: all 0.3s ease;
     }
 
     /* Modal Styles */
@@ -646,7 +661,8 @@
       text-align: center;
       position: relative;
       border: 4px solid #fff;
-      /* No container animation on the modal itself */
+      display: flex;
+      flex-direction: column;
     }
     /* Dynamic gradient element inside the yay modal */
     .dynamic-gradient {
@@ -660,11 +676,6 @@
       background-size: 200% 200%;
       animation: gradientFlow 8s ease infinite;
       opacity: 0.6;
-    }
-    @keyframes gradientFlow {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
     }
     /* Ensure modal content is above dynamic gradient */
     .yay-card > *:not(.dynamic-gradient) {
@@ -692,25 +703,31 @@
       display: block;
     }
 
-    /* New Close Button for Yay Modal */
-    .close-button {
+    /* Yay Modal Buttons Container at the bottom */
+    .yay-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: auto;
+      padding-top: 20px;
+    }
+    .close-button, .airbnb-button {
       font-family: 'DM Sans', sans-serif;
       font-weight: 700;
       font-size: 0.9rem;
-      background: #fff;
-      color: #000;
+      background: #f472b6;
+      color: #fff;
       border: 2px solid #000;
       border-radius: 8px;
       padding: 0.4rem 0.8rem;
-      margin-top: 20px;
       box-shadow: 4px 4px 0 #000;
       transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
-    .close-button:hover {
+    .close-button:hover, .airbnb-button:hover {
       transform: translate(-2px, -2px);
       box-shadow: 6px 6px 0 #000;
     }
-    .close-button:active {
+    .close-button:active, .airbnb-button:active {
       transform: translate(2px, 2px);
       box-shadow: 2px 2px 0 #000;
     }
@@ -944,42 +961,42 @@
         <div class="glass-overlay"></div>
         <div class="gallery-frame">
           <img src="images/first_date.jpg" loading="lazy" alt="First Date" class="gallery-image" />
-          <p class="gallery-caption">First Date ❤️</p>
+          <p class="gallery-caption"><span class="caption-text">First Date</span> <span class="emoji">❤️</span></p>
         </div>
       </div>
       <div class="gallery-item">
         <div class="glass-overlay"></div>
         <div class="gallery-frame">
           <img src="images/first_roadtrip.jpg" loading="lazy" alt="First Road Trip" class="gallery-image" />
-          <p class="gallery-caption">Road Trip 🚗</p>
+          <p class="gallery-caption"><span class="caption-text">Road Trip</span> <span class="emoji">🚗</span></p>
         </div>
       </div>
       <div class="gallery-item">
         <div class="glass-overlay"></div>
         <div class="gallery-frame">
           <img src="images/first_pet.jpg" loading="lazy" alt="First Pet" class="gallery-image" />
-          <p class="gallery-caption">Our Pet 🐾</p>
+          <p class="gallery-caption"><span class="caption-text">Our Pet</span> <span class="emoji">🐾</span></p>
         </div>
       </div>
       <div class="gallery-item">
         <div class="glass-overlay"></div>
         <div class="gallery-frame">
           <img src="images/farmcart.JPG" loading="lazy" alt="Farm Market" class="gallery-image" />
-          <p class="gallery-caption">Farm Market 🚜</p>
+          <p class="gallery-caption"><span class="caption-text">Farm Market</span> <span class="emoji">🚜</span></p>
         </div>
       </div>
       <div class="gallery-item">
         <div class="glass-overlay"></div>
         <div class="gallery-frame">
           <img src="images/stoneyriver.jpg" loading="lazy" alt="Stoney River" class="gallery-image" />
-          <p class="gallery-caption">Stoney River 🌊</p>
+          <p class="gallery-caption"><span class="caption-text">Stoney River</span> <span class="emoji">🌊</span></p>
         </div>
       </div>
       <div class="gallery-item">
         <div class="glass-overlay"></div>
         <div class="gallery-frame">
           <img src="images/kiss.jpg" loading="lazy" alt="Muah Muah" class="gallery-image" />
-          <p class="gallery-caption">First Kiss 💋</p>
+          <p class="gallery-caption"><span class="caption-text">First Kiss</span> <span class="emoji">💋</span></p>
         </div>
       </div>
       <!-- New Items to make 3x3 -->
@@ -987,25 +1004,26 @@
         <div class="glass-overlay"></div>
         <div class="gallery-frame">
           <img src="images/second_date.jpg" loading="lazy" alt="Second Date" class="gallery-image" />
-          <p class="gallery-caption">Second Date 💘</p>
+          <p class="gallery-caption"><span class="caption-text">Second Date</span> <span class="emoji">💘</span></p>
         </div>
       </div>
       <div class="gallery-item">
         <div class="glass-overlay"></div>
         <div class="gallery-frame">
           <img src="images/ponce.jpg" loading="lazy" alt="Trip to Ponce" class="gallery-image" />
-          <p class="gallery-caption">Trip to Ponce 🏙️</p>
+          <p class="gallery-caption"><span class="caption-text">Trip to Ponce</span> <span class="emoji">🏙️</span></p>
         </div>
       </div>
       <div class="gallery-item">
         <div class="glass-overlay"></div>
         <div class="gallery-frame">
           <img src="images/crumbl.jpg" loading="lazy" alt="Crumbl Cookies" class="gallery-image" />
-          <p class="gallery-caption">Crumbl Cookies 🍪</p>
+          <p class="gallery-caption"><span class="caption-text">Crumbl Cookies</span> <span class="emoji">🍪</span></p>
         </div>
       </div>
     </div>
-    <!-- Removed duplicate close button for picture modals -->
+    <!-- Maintained 'X' for closing the photo gallery -->
+    <span class="close-modal" id="galleryModalClose">×</span>
   </section>
 
   <!-- Scroll Down Button -->
@@ -1076,8 +1094,11 @@
       <div class="yay-image-container">
         <img src="images/photo1.jpg" alt="Special Moment" />
       </div>
-      <!-- New Close button styled like other buttons, placed at the bottom -->
-      <button id="yayModalClose" class="button close-button">Close</button>
+      <!-- Yay modal buttons at the bottom -->
+      <div class="yay-buttons">
+        <a href="https://www.airbnb.com/s/Tennessee--United-States/homes?refinement_paths%5B%5D=%2Fhomes&flexible_trip_lengths%5B%5D=one_week&monthly_start_date=2025-03-01&monthly_length=3&monthly_end_date=2025-06-01&price_filter_input_type=0&channel=EXPLORE&query=Tennessee&place_id=ChIJA8-XniNLYYgRVpGBpcEgPgM&location_bb=QhK2iMKjSzZCC%2B6EwrSe%2BQ%3D%3D&date_picker_type=calendar&checkin=2025-03-29&checkout=2025-04-01&source=structured_search_input_header&search_type=autocomplete_click" class="button airbnb-button" target="_blank" rel="noopener">AirBnB Tennessee</a>
+        <button id="yayModalClose" class="button close-button">Return Home</button>
+      </div>
     </div>
   </div>
 
@@ -1128,7 +1149,6 @@
         if (this.isMoving || this.button.disabled) return;
         this.isMoving = true;
         const r = this.button.getBoundingClientRect();
-
         // Convert to fixed positioning once "No" starts to run
         if (this.button.style.position !== "fixed") {
           this.button.style.position = "fixed";
@@ -1197,7 +1217,6 @@
         this.button.disabled = true;
         this.button.style.opacity = "0.5";
         this.button.style.cursor = "not-allowed";
-        // No change needed here as the reset will occur in enable()
       }
     }
 
