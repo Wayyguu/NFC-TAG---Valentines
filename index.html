@@ -1252,7 +1252,7 @@
       }
     }
 
-    /* Confetti Manager with varied rotation physics */
+    /* Confetti Manager with varied rotation and explosion radius */
     class ConfettiManager {
       constructor(co) {
         this.co = co;
@@ -1294,7 +1294,7 @@
           p.vy *= 1 - this.d;
           p.x += p.vx;
           p.y += p.vy;
-          // Update rotation with varied speed
+          // Update rotation if rotation speed is nonzero
           p.r += p.rs;
           this.drawP(p);
           if (p.x < -100 || p.x > this.cv.width + 100 || p.y > this.cv.height + 100) {
@@ -1326,11 +1326,16 @@
         for (let i = 0; i < count; i++) {
           if (this.ps.length >= this.mp) break;
           const a = Math.random() * 2 * Math.PI;
-          const sp = Math.random() * 4 + 3;
-          const vx = Math.cos(a) * sp;
-          const vy = Math.sin(a) * sp;
+          // Vary explosion radius: 50% chance to use a smaller radius, 50% a larger one
+          const explosionRadius = Math.random() < 0.5 ? (Math.random() * 4 + 3) : (Math.random() * 8 + 5);
+          const vx = Math.cos(a) * explosionRadius;
+          const vy = Math.sin(a) * explosionRadius;
+          // Randomize size based on mode
           const bs = m ? 8 : 12;
           const sr = m ? 10 : 16;
+          // Randomly determine if this particle will rotate (70% chance) or be fixed (30% chance)
+          const rotateParticle = Math.random() < 0.7;
+          const rotationSpeed = rotateParticle ? ((Math.random() - 0.5) * 0.1) : 0;
           this.ps.push({
             x: cx,
             y: cy,
@@ -1338,8 +1343,8 @@
             vy,
             sz: bs + Math.random() * sr,
             cl: this.cs[Math.floor(Math.random() * this.cs.length)],
-            r: Math.random() * 2 * Math.PI,         // random initial rotation
-            rs: (Math.random() - 0.5) * 0.3           // varied rotation speed
+            r: Math.random() * 2 * Math.PI, // random initial rotation
+            rs: rotationSpeed
           });
         }
       }
@@ -1364,6 +1369,8 @@
           const sp = 1 + Math.random() * 2;
           const vx = Math.cos(a) * sp;
           const vy = Math.sin(a) * sp;
+          const rotateParticle = Math.random() < 0.7;
+          const rotationSpeed = rotateParticle ? ((Math.random() - 0.5) * 0.05) : 0;
           this.ps.push({
             x,
             y,
@@ -1371,8 +1378,8 @@
             vy,
             sz: 6 + Math.random() * 8,
             cl: "rgba(255,255,255,0.9)",
-            r: Math.random() * 2 * Math.PI,         // random initial rotation
-            rs: (Math.random() - 0.5) * 0.2           // varied rotation speed for spark particles
+            r: Math.random() * 2 * Math.PI,
+            rs: rotationSpeed
           });
         }
       }
