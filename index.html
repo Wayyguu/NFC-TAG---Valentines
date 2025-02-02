@@ -721,7 +721,9 @@
       right: 0;
       bottom: 0;
       z-index: 1;
-      background: linear-gradient(135deg, #f472b6, #9b59b6, #e6e6fa);
+      /* New gradient using fallback and radial gradient */
+      background: rgb(238,174,202);
+      background: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%);
       background-size: 200% 200%;
       animation: gradientFlow 8s ease infinite;
       opacity: 0.6;
@@ -1591,13 +1593,14 @@
       const typewriterElem = document.getElementById("typewriterMessage");
       // Updated typewriter message with heart emoji appended at the end
       const typewriterText = "Baby I can't believe this is our second Valentine's together, and I'm so happy that you are paying for NARA, muah muahh. You genuinely make me a better person, and I really can't imagine my life without you. I love you lots ❤️";
+      // When closing the modal, resetModal is called.
       const resetModal = () => {
         // Terminate any running typewriter logic
         if (twInstance) {
           twInstance.reset();
           twInstance = null;
         }
-        // On mobile, scroll back to the main container to center it
+        // On mobile, scroll back to the main container so it is centered (same as the scroll button)
         if(window.matchMedia("(max-width: 768px)").matches){
           document.querySelector(".container").scrollIntoView({ behavior:"smooth", block:"center" });
         }
