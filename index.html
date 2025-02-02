@@ -76,17 +76,16 @@
       100% { background-position: 0% 50%; }
     }
 
-    /* Keyframes for the scroll down button animation.
-       This alternates between state 1 (default: not pressed) and state 2 (pressed) */
+    /* Updated Scroll Down Animation:
+       This keyframes sequence creates varied twitch motions (fast, slow, double twitch)
+       and uses a longer overall duration so that the motion is less frequent. */
     @keyframes scrollPulse {
-      0%, 100% { 
-        transform: translate(0, 0);
-        box-shadow: 12px 12px 0 #000;
-      }
-      50% { 
-        transform: translate(-6px, -6px);
-        box-shadow: 18px 18px 0 #000;
-      }
+      0% { transform: translate(0, 0); box-shadow: 12px 12px 0 #000; }
+      20% { transform: translate(-8px, -8px); box-shadow: 16px 16px 0 #000; }
+      30% { transform: translate(4px, 4px); box-shadow: 10px 10px 0 #000; }
+      40% { transform: translate(-6px, -6px); box-shadow: 14px 14px 0 #000; }
+      50% { transform: translate(0, 0); box-shadow: 12px 12px 0 #000; }
+      100% { transform: translate(0, 0); box-shadow: 12px 12px 0 #000; }
     }
 
     * {
@@ -272,21 +271,27 @@
       box-shadow: 6px 6px 0 #000;
     }
 
-    /* Tiny 'x' button for the YAY modal */
+    /* Tiny 'x' button for the YAY modal,
+       positioned just outside the yay-card border */
     .modal-close-x {
       position: absolute;
-      top: 10px;
-      right: 10px;
-      background: transparent;
-      border: none;
-      font-size: 1.5rem;
-      color: #fff;
+      top: -10px;
+      right: -10px;
+      background: #fff;
+      border: 2px solid #000;
+      border-radius: 50%;
+      font-size: 1.2rem;
+      color: #000;
       cursor: pointer;
       z-index: 3;
-      padding: 5px;
+      width: 30px;
+      height: 30px;
+      line-height: 26px;
+      text-align: center;
     }
     .modal-close-x:hover {
-      color: #f472b6;
+      background: #f472b6;
+      color: #fff;
     }
 
     /* Funny Message */
@@ -827,7 +832,7 @@
       margin-bottom: 600px;
     }
     .scroll-down {
-      animation: scrollPulse 1.5s ease-in-out infinite;
+      animation: scrollPulse 3.5s ease-in-out infinite;
     }
     @media (max-width: 1200px) {
       .gallery-grid {
@@ -1098,7 +1103,7 @@
     <div class="yay-card">
       <!-- Dynamic gradient element inside the yay modal for a flowing effect optimized for mobile -->
       <div class="dynamic-gradient"></div>
-      <!-- Tiny 'x' button on the top right for closing the modal -->
+      <!-- Tiny 'x' button placed just outside the yay-card border -->
       <button class="modal-close-x" id="yayModalX">×</button>
       <!-- New smaller title in white using Quicksand, moved slightly towards the top with a red heart -->
       <h2 id="yayModalTitle" style="font-family: 'Quicksand', sans-serif; font-weight: 700; color: #fff; font-size: clamp(1.5em, 4vw, 2em); text-align: center; margin-top: 10px;">
@@ -1581,7 +1586,7 @@
           twInstance = null;
         }
         // On mobile, scroll back to the main container to center it
-        if (window.matchMedia("(max-width: 768px)").matches) {
+        if(window.matchMedia("(max-width: 768px)").matches){
           document.querySelector(".container").scrollIntoView({ behavior:"smooth", block:"center" });
         }
         allButtons.forEach((b) => (b.style.display = "inline-block"));
