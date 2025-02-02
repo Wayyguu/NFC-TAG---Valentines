@@ -272,6 +272,23 @@
       box-shadow: 6px 6px 0 #000;
     }
 
+    /* Tiny 'x' button for the YAY modal */
+    .modal-close-x {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: transparent;
+      border: none;
+      font-size: 1.5rem;
+      color: #fff;
+      cursor: pointer;
+      z-index: 3;
+      padding: 5px;
+    }
+    .modal-close-x:hover {
+      color: #f472b6;
+    }
+
     /* Funny Message */
     .funny-message {
       position: fixed;
@@ -766,32 +783,6 @@
       box-shadow: 6px 6px 0 #000;
     }
 
-    /* Mobile adjustments for the yay modal to ensure proper sizing and formatting */
-    @media (max-width: 768px) {
-      .yay-card {
-        width: 90% !important;
-        height: auto !important;
-        padding: 15px;
-      }
-      .yay-image-container {
-        width: 80%;
-        margin: 10px auto 15px auto;
-      }
-      .yay-card h2 {
-        font-size: 1.8em !important;
-        margin-top: 10px;
-      }
-      .yay-buttons {
-        flex-direction: column;
-        gap: 15px;
-        margin-top: 20px;
-      }
-      .airbnb-button, .close-button {
-        width: 100%;
-        box-sizing: border-box;
-      }
-    }
-
     @keyframes fadeIn {
       from {
         opacity: 0;
@@ -1107,6 +1098,8 @@
     <div class="yay-card">
       <!-- Dynamic gradient element inside the yay modal for a flowing effect optimized for mobile -->
       <div class="dynamic-gradient"></div>
+      <!-- Tiny 'x' button on the top right for closing the modal -->
+      <button class="modal-close-x" id="yayModalX">×</button>
       <!-- New smaller title in white using Quicksand, moved slightly towards the top with a red heart -->
       <h2 id="yayModalTitle" style="font-family: 'Quicksand', sans-serif; font-weight: 700; color: #fff; font-size: clamp(1.5em, 4vw, 2em); text-align: center; margin-top: 10px;">
         I knew you'd say yes <span style="color: red;">❤️</span>
@@ -1115,7 +1108,7 @@
       <div class="yay-image-container">
         <img src="images/photo1.jpg" alt="Special Moment" />
       </div>
-      <!-- New typewriter message container using DS Sans -->
+      <!-- New typewriter message element using DS Sans -->
       <p id="typewriterMessage"></p>
       <!-- Yay modal buttons at the bottom -->
       <div class="yay-buttons">
@@ -1126,6 +1119,67 @@
   </div>
 
   <script>
+    // ------------------ NEW TYPEWRITER CLASS ------------------
+    class Typewriter {
+      /**
+       * Creates a new Typewriter instance.
+       * @param {HTMLElement} element - The DOM element where text will be typed.
+       * @param {Object} options - Configuration options.
+       *        options.typingSpeed: base delay in ms (default 75)
+       *        options.variance: additional random delay in ms (default 75)
+       */
+      constructor(element, options = {}) {
+        if (!element) {
+          throw new Error("Typewriter requires a valid DOM element.");
+        }
+        this.element = element;
+        this.typingSpeed = options.typingSpeed || 75;
+        this.variance = options.variance || 75;
+        this.text = "";
+        this.index = 0;
+        this.isTyping = false;
+        this.timeoutId = null;
+      }
+      /**
+       * Begins typing the provided text.
+       * @param {string} text - The text to type.
+       */
+      type(text) {
+        this.reset();
+        this.text = text;
+        this.isTyping = true;
+        this._typeNext();
+      }
+      _typeNext() {
+        if (!this.isTyping) return;
+        if (this.index < this.text.length) {
+          this.element.textContent += this.text.charAt(this.index);
+          this.index++;
+          const delay = this.typingSpeed + Math.random() * this.variance;
+          this.timeoutId = setTimeout(() => this._typeNext(), delay);
+        } else {
+          this.isTyping = false;
+        }
+      }
+      /**
+       * Resets the typewriter to its initial state.
+       */
+      reset() {
+        this.isTyping = false;
+        if (this.timeoutId) {
+          clearTimeout(this.timeoutId);
+          this.timeoutId = null;
+        }
+        this.index = 0;
+        this.element.textContent = "";
+      }
+    }
+
+    // Global variable to hold the current Typewriter instance
+    let twInstance = null;
+
+    // ------------------ OTHER SCRIPT LOGIC ------------------
+
     // Witty messages when "No" tries to flee
     const wittyMessages = [
       "Intrigued yet?😉",
@@ -1138,7 +1192,6 @@
       "Indulge a little. Live a little.😈",
       "Sprinkles?😏",
       "'No' is boring.🤫",
-      "Resistance is kinda cute.😉",
       "Think 'DEFINITE'.😜",
       "Worst choice🙃",
       "No regrets later.😈",
@@ -1149,22 +1202,6 @@
       "You don't love me?🥺",
       "You trynna say something??😭"
     ];
-
-    // Typewriter function with varied typing speed
-    function typeWriter(text, element) {
-      element.textContent = "";
-      let i = 0;
-      function type() {
-        if (i < text.length) {
-          element.textContent += text.charAt(i);
-          i++;
-          // Vary delay to simulate human typing: between 50ms and 150ms
-          const delay = 50 + Math.random() * 100;
-          setTimeout(type, delay);
-        }
-      }
-      type();
-    }
 
     class NoButtonHandler {
       constructor(button, msg) {
@@ -1452,7 +1489,7 @@
 
     // Unified modal close functionality for both WEB and MOBILE
     function setupModalClose(modal, onCloseCallback) {
-      const closeButtons = modal.querySelectorAll(".close-modal, .close-button");
+      const closeButtons = modal.querySelectorAll(".close-modal, .close-button, .modal-close-x");
       closeButtons.forEach(btn => {
         btn.addEventListener("click", () => {
           modal.style.display = "none";
@@ -1538,6 +1575,15 @@
       // Updated typewriter message
       const typewriterText = "Baby I can't believe this is our second Valentine's together, and I'm so happy that you are paying for NARA, muah muahh. You genuinely make me a better person, and I really can't imagine my life without you. I love you lots :)";
       const resetModal = () => {
+        // Terminate any running typewriter logic
+        if (twInstance) {
+          twInstance.reset();
+          twInstance = null;
+        }
+        // On mobile, scroll back to the main container to center it
+        if (window.matchMedia("(max-width: 768px)").matches) {
+          document.querySelector(".container").scrollIntoView({ behavior:"smooth", block:"center" });
+        }
         allButtons.forEach((b) => (b.style.display = "inline-block"));
         if (musicPlayer) musicPlayer.style.display = "block";
         if (window.matchMedia("(max-width: 768px)").matches) {
@@ -1552,12 +1598,7 @@
         yesButton.focus();
       };
       setupModalClose(yayModal, resetModal);
-      // When the yay modal is shown, run the typewriter effect
-      yayModal.addEventListener("transitionend", () => {
-        if (yayModal.style.display === "flex") {
-          typeWriter(typewriterText, typewriterElem);
-        }
-      });
+      // The typewriter animation will be triggered in showYayModal
     }
 
     function setupMusicPlayer() {
@@ -1607,10 +1648,12 @@
         if (window.matchMedia("(max-width: 768px)").matches) {
           timeCounters.forEach((tc) => (tc.style.display = "none"));
         }
-        // Start the typewriter animation immediately after showing the modal
+        // Use the new Typewriter class for a robust typewriter animation
         const typewriterElem = document.getElementById("typewriterMessage");
         const typewriterText = "Baby I can't believe this is our second Valentine's together, and I'm so happy that you are paying for NARA, muah muahh. You genuinely make me a better person, and I really can't imagine my life without you. I love you lots :)";
-        typeWriter(typewriterText, typewriterElem);
+        // Create and store the instance so it can be reset on modal close
+        twInstance = new Typewriter(typewriterElem, { typingSpeed: 50, variance: 100 });
+        twInstance.type(typewriterText);
       }
 
       yesButton.addEventListener("click", () => {
@@ -1669,22 +1712,6 @@
         });
       }
     });
-
-    // Typewriter animation: types text into an element one character at a time with varied speed.
-    function typeWriter(text, element) {
-      element.textContent = "";
-      let i = 0;
-      function type() {
-        if (i < text.length) {
-          element.textContent += text.charAt(i);
-          i++;
-          // Vary delay: between 50ms and 150ms per character
-          const delay = 50 + Math.random() * 100;
-          setTimeout(type, delay);
-        }
-      }
-      type();
-    }
   </script>
 </body>
 </html>
