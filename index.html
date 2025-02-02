@@ -1252,7 +1252,7 @@
       }
     }
 
-    /* Confetti Manager with simple rotation physics restored */
+    /* Confetti Manager with varied rotation physics */
     class ConfettiManager {
       constructor(co) {
         this.co = co;
@@ -1294,7 +1294,7 @@
           p.vy *= 1 - this.d;
           p.x += p.vx;
           p.y += p.vy;
-          // Add back simple rotation physics
+          // Update rotation with varied speed
           p.r += p.rs;
           this.drawP(p);
           if (p.x < -100 || p.x > this.cv.width + 100 || p.y > this.cv.height + 100) {
@@ -1311,7 +1311,6 @@
       drawP(p) {
         this.cx.save();
         this.cx.translate(p.x, p.y);
-        // Apply rotation based on the current rotation value
         this.cx.rotate(p.r);
         this.cx.beginPath();
         const s = p.sz;
@@ -1339,8 +1338,8 @@
             vy,
             sz: bs + Math.random() * sr,
             cl: this.cs[Math.floor(Math.random() * this.cs.length)],
-            r: Math.random() * 2 * Math.PI, // random initial rotation
-            rs: (Math.random() - 0.5) * 0.1  // simple rotation speed
+            r: Math.random() * 2 * Math.PI,         // random initial rotation
+            rs: (Math.random() - 0.5) * 0.3           // varied rotation speed
           });
         }
       }
@@ -1372,8 +1371,8 @@
             vy,
             sz: 6 + Math.random() * 8,
             cl: "rgba(255,255,255,0.9)",
-            r: Math.random() * 2 * Math.PI, // random initial rotation
-            rs: (Math.random() - 0.5) * 0.05  // simple rotation speed
+            r: Math.random() * 2 * Math.PI,         // random initial rotation
+            rs: (Math.random() - 0.5) * 0.2           // varied rotation speed for spark particles
           });
         }
       }
