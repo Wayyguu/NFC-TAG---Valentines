@@ -76,6 +76,19 @@
       100% { background-position: 0% 50%; }
     }
 
+    /* Keyframes for the scroll down button animation.
+       This alternates between state 1 (default: not pressed) and state 2 (pressed) */
+    @keyframes scrollPulse {
+      0%, 100% { 
+        transform: translate(0, 0);
+        box-shadow: 12px 12px 0 #000;
+      }
+      50% { 
+        transform: translate(-6px, -6px);
+        box-shadow: 18px 18px 0 #000;
+      }
+    }
+
     * {
       margin: 0;
       padding: 0;
@@ -329,7 +342,8 @@
       color: var(--secondary-color);
       font-size: 24px;
       pointer-events: none;
-      z-index: 1002;
+      /* Increased z-index to ensure the custom cursor is visible over modals */
+      z-index: 9999;
       background: transparent;
       border-radius: 16px;
       box-shadow: none;
@@ -358,10 +372,11 @@
       animation: fadeIn 1.5s ease-in-out;
       font-family: var(--font-sg);
     }
+    /* Gallery title changed to Quicksand and black */
     .gallery-title {
-      font-family: var(--font-ds);
+      font-family: 'Quicksand', sans-serif;
       font-weight: 700;
-      color: #f472b6;
+      color: #000;
       font-size: clamp(2.2em, 6vw, 4em);
       text-align: center;
       margin-bottom: 60px;
@@ -457,7 +472,7 @@
     }
     .gallery-caption {
       font-family: var(--font-sg);
-      font-weight: bold;
+      font-weight: 700;
       color: #000;
       font-size: clamp(1em, 3vw, 1.2em);
       text-align: center;
@@ -501,7 +516,7 @@
       width: 100%;
       height: 100%;
       background: rgba(0, 0, 0, 0.9);
-      z-index: 1000;
+      z-index: 1100;
       justify-content: center;
       align-items: center;
       padding: max(var(--safe-area-inset-top), 20px) max(var(--safe-area-inset-right), 20px) max(var(--safe-area-inset-bottom), 20px) max(var(--safe-area-inset-left), 20px);
@@ -550,10 +565,10 @@
       animation: fadeIn 1.5s ease-in-out;
       font-family: var(--font-sg);
     }
-    /* Updated Title: Using Quicksand, red font for the sign, boldened with slight shadow */
+    /* Updated Title and Message: Both use Quicksand with consistent font weight (700) and a proportionate ratio */
     h1 {
       font-family: 'Quicksand', sans-serif;
-      font-weight: bold;
+      font-weight: 700;
       color: #f472b6;
       font-size: clamp(2.5em, 8vw, 5em);
       margin-bottom: 50px;
@@ -561,7 +576,8 @@
       text-shadow: 2px 2px 4px rgba(0,0,0,0.15);
     }
     .message {
-      font-family: var(--font-sg);
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 700;
       font-size: clamp(1.2em, 4vw, 2em);
       color: #000;
       margin-bottom: 50px;
@@ -636,7 +652,7 @@
       background: rgba(0, 0, 0, 0.5);
       justify-content: center;
       align-items: center;
-      z-index: 1000;
+      z-index: 1100;
       padding: max(var(--safe-area-inset-top), 20px) max(var(--safe-area-inset-right), 20px) max(var(--safe-area-inset-bottom), 20px) max(var(--safe-area-inset-left), 20px);
       overflow-y: auto;
     }
@@ -702,6 +718,15 @@
       object-fit: cover;
       display: block;
     }
+    /* New typewriter message element using DS Sans */
+    #typewriterMessage {
+      font-family: var(--font-ds);
+      font-size: 1.2em;
+      color: #fff;
+      margin: 20px 0;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+      min-height: 1.2em;
+    }
 
     /* Yay Modal Buttons Container at the bottom */
     .yay-buttons {
@@ -759,6 +784,7 @@
       .yay-buttons {
         flex-direction: column;
         gap: 15px;
+        margin-top: 20px;
       }
       .airbnb-button, .close-button {
         width: 100%;
@@ -808,6 +834,9 @@
     .scroll-down-container {
       text-align: center;
       margin-bottom: 600px;
+    }
+    .scroll-down {
+      animation: scrollPulse 1.5s ease-in-out infinite;
     }
     @media (max-width: 1200px) {
       .gallery-grid {
@@ -1079,13 +1108,15 @@
       <!-- Dynamic gradient element inside the yay modal for a flowing effect optimized for mobile -->
       <div class="dynamic-gradient"></div>
       <!-- New smaller title in white using Quicksand, moved slightly towards the top with a red heart -->
-      <h2 id="yayModalTitle" style="font-family: 'Quicksand', sans-serif; font-weight: bold; color: #fff; font-size: clamp(1.5em, 4vw, 2em); text-align: center; margin-top: 10px;">
+      <h2 id="yayModalTitle" style="font-family: 'Quicksand', sans-serif; font-weight: 700; color: #fff; font-size: clamp(1.5em, 4vw, 2em); text-align: center; margin-top: 10px;">
         I knew you'd say yes <span style="color: red;">❤️</span>
       </h2>
       <!-- New image container with 1:1 ratio, centered, with a thicker white border, moved slightly upwards -->
       <div class="yay-image-container">
         <img src="images/photo1.jpg" alt="Special Moment" />
       </div>
+      <!-- New typewriter message container using DS Sans -->
+      <p id="typewriterMessage"></p>
       <!-- Yay modal buttons at the bottom -->
       <div class="yay-buttons">
         <a href="https://www.airbnb.com/s/Tennessee--United-States/homes?refinement_paths%5B%5D=%2Fhomes&flexible_trip_lengths%5B%5D=one_week&monthly_start_date=2025-03-01&monthly_length=3&monthly_end_date=2025-06-01&price_filter_input_type=0&channel=EXPLORE&query=Tennessee&place_id=ChIJA8-XniNLYYgRVpGBpcEgPgM&location_bb=QhK2iMKjSzZCC%2B6EwrSe%2BQ%3D%3D&date_picker_type=calendar&checkin=2025-03-29&checkout=2025-04-01&source=structured_search_input_header&search_type=autocomplete_click" class="button airbnb-button" target="_blank" rel="noopener">AirBnB Tennessee</a>
@@ -1118,6 +1149,22 @@
       "You don't love me?🥺",
       "You trynna say something??😭"
     ];
+
+    // Typewriter function with varied typing speed
+    function typeWriter(text, element) {
+      element.textContent = "";
+      let i = 0;
+      function type() {
+        if (i < text.length) {
+          element.textContent += text.charAt(i);
+          i++;
+          // Vary delay to simulate human typing: between 50ms and 150ms
+          const delay = 50 + Math.random() * 100;
+          setTimeout(type, delay);
+        }
+      }
+      type();
+    }
 
     class NoButtonHandler {
       constructor(button, msg) {
@@ -1252,7 +1299,7 @@
       }
     }
 
-    /* Confetti Manager with varied rotation and explosion radius */
+    /* Confetti Manager with varied rotation, explosion radius, and random rotation behavior */
     class ConfettiManager {
       constructor(co) {
         this.co = co;
@@ -1335,7 +1382,8 @@
           const sr = m ? 10 : 16;
           // Randomly determine if this particle will rotate (70% chance) or be fixed (30% chance)
           const rotateParticle = Math.random() < 0.7;
-          const rotationSpeed = rotateParticle ? ((Math.random() - 0.5) * 0.1) : 0;
+          // Increase rotation speed slightly based on explosionRadius so that faster particles rotate more
+          const rotationSpeed = rotateParticle ? ((Math.random() - 0.5) * 0.1 * (explosionRadius / 5)) : 0;
           this.ps.push({
             x: cx,
             y: cy,
@@ -1348,20 +1396,6 @@
           });
         }
       }
-      launch(m) {
-        const tb = 5;
-        const cnt = m ? 25 : 40;
-        const intv = m ? 300 : 800;
-        for (let i = 0; i < tb; i++) {
-          setTimeout(() => {
-            const cx = this.cv.width * 0.2 + Math.random() * this.cv.width * 0.6;
-            const cy = this.cv.height * 0.2 + Math.random() * this.cv.height * 0.6;
-            this.burst(cx, cy, cnt, m);
-            this.spark(cx, cy);
-            if (!this.af) this.upd();
-          }, i * intv);
-        }
-      }
       spark(x, y) {
         for (let i = 0; i < 8; i++) {
           if (this.ps.length >= this.mp) break;
@@ -1370,7 +1404,8 @@
           const vx = Math.cos(a) * sp;
           const vy = Math.sin(a) * sp;
           const rotateParticle = Math.random() < 0.7;
-          const rotationSpeed = rotateParticle ? ((Math.random() - 0.5) * 0.05) : 0;
+          // Slightly increase rotation speed based on particle speed for spark particles as well
+          const rotationSpeed = rotateParticle ? ((Math.random() - 0.5) * 0.05 * (sp / 2)) : 0;
           this.ps.push({
             x,
             y,
@@ -1381,6 +1416,36 @@
             r: Math.random() * 2 * Math.PI,
             rs: rotationSpeed
           });
+        }
+      }
+      launchShort(m) {
+        // Shorter confetti effect when YES is pressed
+        const tb = 3;
+        const cnt = m ? 15 : 25;
+        const intv = m ? 300 : 600;
+        for (let i = 0; i < tb; i++) {
+          setTimeout(() => {
+            const cx = this.cv.width * 0.2 + Math.random() * this.cv.width * 0.6;
+            const cy = this.cv.height * 0.2 + Math.random() * this.cv.height * 0.6;
+            this.burst(cx, cy, cnt, m);
+            this.spark(cx, cy);
+            if (!this.af) this.upd();
+          }, i * intv);
+        }
+      }
+      launchLong(m) {
+        // Longer confetti effect when the YAY modal is exited
+        const tb = 7;
+        const cnt = m ? 35 : 50;
+        const intv = m ? 400 : 900;
+        for (let i = 0; i < tb; i++) {
+          setTimeout(() => {
+            const cx = this.cv.width * 0.2 + Math.random() * this.cv.width * 0.6;
+            const cy = this.cv.height * 0.2 + Math.random() * this.cv.height * 0.6;
+            this.burst(cx, cy, cnt, m);
+            this.spark(cx, cy);
+            if (!this.af) this.upd();
+          }, i * intv);
         }
       }
     }
@@ -1469,21 +1534,30 @@
       const allButtons = document.querySelectorAll(".button");
       const musicPlayer = document.querySelector(".music-player");
       const timeCounters = document.querySelectorAll(".time-counter");
+      const typewriterElem = document.getElementById("typewriterMessage");
+      // Updated typewriter message
+      const typewriterText = "Baby I can't believe this is our second Valentine's together, and I'm so happy that you are paying for NARA, muah muahh. You genuinely make me a better person, and I really can't imagine my life without you. I love you lots :)";
       const resetModal = () => {
         allButtons.forEach((b) => (b.style.display = "inline-block"));
         if (musicPlayer) musicPlayer.style.display = "block";
         if (window.matchMedia("(max-width: 768px)").matches) {
           timeCounters.forEach((tc) => (tc.style.display = "block"));
         }
-        // Trigger the confetti animation only after the yay modal is closed
+        // Trigger the longer confetti animation when the yay modal is closed
         const isMobile = window.matchMedia("(max-width: 768px)").matches;
-        confetti.launch(isMobile);
+        confetti.launchLong(isMobile);
         pressedYes = false;
         noBtnHandler.enable();
         yesButton.disabled = false;
         yesButton.focus();
       };
       setupModalClose(yayModal, resetModal);
+      // When the yay modal is shown, run the typewriter effect
+      yayModal.addEventListener("transitionend", () => {
+        if (yayModal.style.display === "flex") {
+          typeWriter(typewriterText, typewriterElem);
+        }
+      });
     }
 
     function setupMusicPlayer() {
@@ -1533,11 +1607,17 @@
         if (window.matchMedia("(max-width: 768px)").matches) {
           timeCounters.forEach((tc) => (tc.style.display = "none"));
         }
+        // Start the typewriter animation immediately after showing the modal
+        const typewriterElem = document.getElementById("typewriterMessage");
+        const typewriterText = "Baby I can't believe this is our second Valentine's together, and I'm so happy that you are paying for NARA, muah muahh. You genuinely make me a better person, and I really can't imagine my life without you. I love you lots :)";
+        typeWriter(typewriterText, typewriterElem);
       }
 
       yesButton.addEventListener("click", () => {
+        // Trigger a shorter confetti burst when YES is pressed
+        const isMobile = window.matchMedia("(max-width: 768px)").matches;
+        confetti.launchShort(isMobile);
         showYayModal();
-        // Do not trigger confetti here; it will trigger once the yay modal is closed.
         if (!pressedYes) {
           pressedYes = true;
           noBtnHandler.disable();
@@ -1589,6 +1669,22 @@
         });
       }
     });
+
+    // Typewriter animation: types text into an element one character at a time with varied speed.
+    function typeWriter(text, element) {
+      element.textContent = "";
+      let i = 0;
+      function type() {
+        if (i < text.length) {
+          element.textContent += text.charAt(i);
+          i++;
+          // Vary delay: between 50ms and 150ms per character
+          const delay = 50 + Math.random() * 100;
+          setTimeout(type, delay);
+        }
+      }
+      type();
+    }
   </script>
 </body>
 </html>
