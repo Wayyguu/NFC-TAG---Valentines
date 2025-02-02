@@ -77,8 +77,8 @@
     }
 
     /* Updated Scroll Down Animation:
-       This keyframes sequence creates varied twitch motions (fast, slow, double twitch)
-       and uses a longer overall duration so that the motion is less frequent. */
+       This sequence includes varied twitch motions (fast, slow, double twitch)
+       with a total duration of 3.5s for less frequent motion. */
     @keyframes scrollPulse {
       0% { transform: translate(0, 0); box-shadow: 12px 12px 0 #000; }
       20% { transform: translate(-8px, -8px); box-shadow: 16px 16px 0 #000; }
@@ -182,9 +182,20 @@
     #dating-counter {
       right: max(var(--safe-area-inset-right), 20px);
     }
+    /* Changed label for second counter */
     #valentine-counter {
       left: max(var(--safe-area-inset-left), 20px);
     }
+    #valentine-counter .counter-label {
+      font-family: var(--font-ds);
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: #f472b6;
+      margin-bottom: 0.5rem;
+      letter-spacing: 0.02em;
+      text-align: center;
+    }
+    /* Change the text in the second counter via JS (see below) */
 
     @media (pointer: coarse) {
       .time-counter:hover {
@@ -272,11 +283,11 @@
     }
 
     /* Tiny 'x' button for the YAY modal,
-       positioned just outside the yay-card border */
+       positioned symmetrically just outside the yay-card border */
     .modal-close-x {
       position: absolute;
-      top: -10px;
-      right: -10px;
+      top: -5px;
+      right: -5px;
       background: #fff;
       border: 2px solid #000;
       border-radius: 50%;
@@ -944,7 +955,8 @@
     <svg class="heart-icon box-heart" viewBox="0 0 24 24" fill="currentColor">
       <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
     </svg>
-    <span class="counter-label">Until Valentine's</span>
+    <!-- Updated label -->
+    <span class="counter-label">Valentine's Clock</span>
     <div class="time-values">
       <div class="numbers">
         <span id="valentine-days">0</span>
@@ -1103,11 +1115,11 @@
     <div class="yay-card">
       <!-- Dynamic gradient element inside the yay modal for a flowing effect optimized for mobile -->
       <div class="dynamic-gradient"></div>
-      <!-- Tiny 'x' button placed just outside the yay-card border -->
+      <!-- Tiny 'x' button placed symmetrically in the top right corner, just outside the border -->
       <button class="modal-close-x" id="yayModalX">×</button>
-      <!-- New smaller title in white using Quicksand, moved slightly towards the top with a red heart -->
+      <!-- Updated title with ';)' instead of a heart emoji -->
       <h2 id="yayModalTitle" style="font-family: 'Quicksand', sans-serif; font-weight: 700; color: #fff; font-size: clamp(1.5em, 4vw, 2em); text-align: center; margin-top: 10px;">
-        I knew you'd say yes <span style="color: red;">❤️</span>
+        I knew you'd say yes ;)
       </h2>
       <!-- New image container with 1:1 ratio, centered, with a thicker white border, moved slightly upwards -->
       <div class="yay-image-container">
@@ -1577,8 +1589,8 @@
       const musicPlayer = document.querySelector(".music-player");
       const timeCounters = document.querySelectorAll(".time-counter");
       const typewriterElem = document.getElementById("typewriterMessage");
-      // Updated typewriter message
-      const typewriterText = "Baby I can't believe this is our second Valentine's together, and I'm so happy that you are paying for NARA, muah muahh. You genuinely make me a better person, and I really can't imagine my life without you. I love you lots :)";
+      // Updated typewriter message with heart emoji appended at the end
+      const typewriterText = "Baby I can't believe this is our second Valentine's together, and I'm so happy that you are paying for NARA, muah muahh. You genuinely make me a better person, and I really can't imagine my life without you. I love you lots ❤️";
       const resetModal = () => {
         // Terminate any running typewriter logic
         if (twInstance) {
@@ -1653,11 +1665,11 @@
         if (window.matchMedia("(max-width: 768px)").matches) {
           timeCounters.forEach((tc) => (tc.style.display = "none"));
         }
-        // Use the new Typewriter class for a robust typewriter animation
+        // Use the new Typewriter class for a robust and faster typewriter animation
         const typewriterElem = document.getElementById("typewriterMessage");
-        const typewriterText = "Baby I can't believe this is our second Valentine's together, and I'm so happy that you are paying for NARA, muah muahh. You genuinely make me a better person, and I really can't imagine my life without you. I love you lots :)";
+        const typewriterText = "Baby I can't believe this is our second Valentine's together, and I'm so happy that you are paying for NARA, muah muahh. You genuinely make me a better person, and I really can't imagine my life without you. I love you lots ❤️";
         // Create and store the instance so it can be reset on modal close
-        twInstance = new Typewriter(typewriterElem, { typingSpeed: 50, variance: 100 });
+        twInstance = new Typewriter(typewriterElem, { typingSpeed: 30, variance: 50 });
         twInstance.type(typewriterText);
       }
 
