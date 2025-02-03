@@ -299,10 +299,19 @@
       height: 30px;
       line-height: 26px;
       text-align: center;
+      /* Hide the 'x' by default */
+      display: none;
     }
     .modal-close-x:hover {
       background: #f472b6;
       color: #fff;
+    }
+
+    /* Show the 'x' button on mobile only */
+    @media (max-width: 768px) {
+      .modal-close-x {
+        display: block;
+      }
     }
 
     /* Funny Message */
@@ -990,68 +999,76 @@
     </svg>
     <h2 class="gallery-title">Our Journey Together</h2>
     <div class="gallery-grid">
+      <!-- Item 1: First Date -->
       <div class="gallery-item">
         <div class="glass-overlay"></div>
         <div class="gallery-frame">
-          <img src="images/first_date.jpg" loading="lazy" alt="First Date" class="gallery-image" />
+          <img src="images/1.jpg" loading="lazy" alt="First Date" class="gallery-image" />
           <p class="gallery-caption"><span class="caption-text">First Date</span> <span class="emoji">❤️</span></p>
         </div>
       </div>
+      <!-- Item 2: Second Date -->
       <div class="gallery-item">
         <div class="glass-overlay"></div>
         <div class="gallery-frame">
-          <img src="images/first_roadtrip.jpg" loading="lazy" alt="First Road Trip" class="gallery-image" />
-          <p class="gallery-caption"><span class="caption-text">Road Trip</span> <span class="emoji">🚗</span></p>
-        </div>
-      </div>
-      <div class="gallery-item">
-        <div class="glass-overlay"></div>
-        <div class="gallery-frame">
-          <img src="images/first_pet.jpg" loading="lazy" alt="First Pet" class="gallery-image" />
-          <p class="gallery-caption"><span class="caption-text">Our Pet</span> <span class="emoji">🐾</span></p>
-        </div>
-      </div>
-      <div class="gallery-item">
-        <div class="glass-overlay"></div>
-        <div class="gallery-frame">
-          <img src="images/farmcart.JPG" loading="lazy" alt="Farm Market" class="gallery-image" />
-          <p class="gallery-caption"><span class="caption-text">Farm Market</span> <span class="emoji">🚜</span></p>
-        </div>
-      </div>
-      <div class="gallery-item">
-        <div class="glass-overlay"></div>
-        <div class="gallery-frame">
-          <img src="images/stoneyriver.jpg" loading="lazy" alt="Stoney River" class="gallery-image" />
-          <p class="gallery-caption"><span class="caption-text">Stoney River</span> <span class="emoji">🌊</span></p>
-        </div>
-      </div>
-      <div class="gallery-item">
-        <div class="glass-overlay"></div>
-        <div class="gallery-frame">
-          <img src="images/kiss.jpg" loading="lazy" alt="Muah Muah" class="gallery-image" />
-          <p class="gallery-caption"><span class="caption-text">First Kiss</span> <span class="emoji">💋</span></p>
-        </div>
-      </div>
-      <!-- New Items to make 3x3 -->
-      <div class="gallery-item">
-        <div class="glass-overlay"></div>
-        <div class="gallery-frame">
-          <img src="images/second_date.jpg" loading="lazy" alt="Second Date" class="gallery-image" />
+          <img src="images/2.jpg" loading="lazy" alt="Second Date" class="gallery-image" />
           <p class="gallery-caption"><span class="caption-text">Second Date</span> <span class="emoji">💘</span></p>
         </div>
       </div>
+      <!-- Item 3: Made it Official -->
       <div class="gallery-item">
         <div class="glass-overlay"></div>
         <div class="gallery-frame">
-          <img src="images/ponce.jpg" loading="lazy" alt="Trip to Ponce" class="gallery-image" />
-          <p class="gallery-caption"><span class="caption-text">Trip to Ponce</span> <span class="emoji">🏙️</span></p>
+          <img src="images/3.jpg" loading="lazy" alt="Made it Official" class="gallery-image" />
+          <p class="gallery-caption"><span class="caption-text">Made it Official</span> <span class="emoji">💍</span></p>
         </div>
       </div>
+      <!-- Item 4: Our Pet -->
       <div class="gallery-item">
         <div class="glass-overlay"></div>
         <div class="gallery-frame">
-          <img src="images/crumbl.jpg" loading="lazy" alt="Crumbl Cookies" class="gallery-image" />
-          <p class="gallery-caption"><span class="caption-text">Crumbl Cookies</span> <span class="emoji">🍪</span></p>
+          <img src="images/4.jpg" loading="lazy" alt="Our Pet" class="gallery-image" />
+          <p class="gallery-caption"><span class="caption-text">Our Pet</span> <span class="emoji">🐾</span></p>
+        </div>
+      </div>
+      <!-- Item 5: Stoney River (Steak House) -->
+      <div class="gallery-item">
+        <div class="glass-overlay"></div>
+        <div class="gallery-frame">
+          <img src="images/5.jpg" loading="lazy" alt="Stoney River" class="gallery-image" />
+          <p class="gallery-caption"><span class="caption-text">Stoney River</span> <span class="emoji">🥩</span></p>
+        </div>
+      </div>
+      <!-- Item 6: Farm Cart (Burger Joint) -->
+      <div class="gallery-item">
+        <div class="glass-overlay"></div>
+        <div class="gallery-frame">
+          <img src="images/6.jpg" loading="lazy" alt="Farm Cart" class="gallery-image" />
+          <p class="gallery-caption"><span class="caption-text">Farm Cart</span> <span class="emoji">🍔</span></p>
+        </div>
+      </div>
+      <!-- Item 7: Road Trip -->
+      <div class="gallery-item">
+        <div class="glass-overlay"></div>
+        <div class="gallery-frame">
+          <img src="images/7.jpg" loading="lazy" alt="Road Trip" class="gallery-image" />
+          <p class="gallery-caption"><span class="caption-text">Road Trip</span> <span class="emoji">🚗</span></p>
+        </div>
+      </div>
+      <!-- Item 8: GT Parties -->
+      <div class="gallery-item">
+        <div class="glass-overlay"></div>
+        <div class="gallery-frame">
+          <img src="images/8.jpg" loading="lazy" alt="GT Parties" class="gallery-image" />
+          <p class="gallery-caption"><span class="caption-text">GT Parties</span> <span class="emoji">🎉</span></p>
+        </div>
+      </div>
+      <!-- Item 9: Christmas -->
+      <div class="gallery-item">
+        <div class="glass-overlay"></div>
+        <div class="gallery-frame">
+          <img src="images/9.jpg" loading="lazy" alt="Christmas" class="gallery-image" />
+          <p class="gallery-caption"><span class="caption-text">Christmas</span> <span class="emoji">🎄</span></p>
         </div>
       </div>
     </div>
@@ -1075,7 +1092,7 @@
     <h1>Will You Be My Valentine?</h1>
     <p class="message">
       From the moment we met, you've brought so much joy and love into my life.
-      Every day with you is a new adventure, and I can't imagine my life without you.
+      I want to cherish every moment and memory we've made, so I made this website for you.
       Will you be my Valentine?
     </p>
     <div class="buttons" style="display: flex; justify-content: center; gap: 30px;">
@@ -1117,7 +1134,7 @@
     <div class="yay-card">
       <!-- Dynamic gradient element inside the yay modal for a flowing effect optimized for mobile -->
       <div class="dynamic-gradient"></div>
-      <!-- Tiny 'x' button placed symmetrically in the top right corner, just outside the border -->
+      <!-- Tiny 'x' button placed symmetrically in the top right corner, just outside the border (visible only on mobile) -->
       <button class="modal-close-x" id="yayModalX">×</button>
       <!-- Updated title with ';)' instead of a heart emoji -->
       <h2 id="yayModalTitle" style="font-family: 'Quicksand', sans-serif; font-weight: 700; color: #fff; font-size: clamp(1.5em, 4vw, 2em); text-align: center; margin-top: 10px;">
@@ -1592,7 +1609,7 @@
       const timeCounters = document.querySelectorAll(".time-counter");
       const typewriterElem = document.getElementById("typewriterMessage");
       // Updated typewriter message with heart emoji appended at the end
-      const typewriterText = "Baby I can't believe this is our second Valentine's together, and I'm so happy that you are paying for NARA, muah muahh. You genuinely make me a better person, and I really can't imagine my life without you. I love you lots ❤️";
+      const typewriterText = "Baby I can't believe this is our second Valentine's together, and thank you for NARA, muah muahh. You genuinely make me a better person, and I really can't imagine my life without you. I love you lots ❤️";
       // When closing the modal, resetModal is called.
       const resetModal = () => {
         // Terminate any running typewriter logic
@@ -1602,7 +1619,9 @@
         }
         // On mobile, scroll back to the main container so it is centered (same as the scroll button)
         if(window.matchMedia("(max-width: 768px)").matches){
-          document.querySelector(".container").scrollIntoView({ behavior:"smooth", block:"center" });
+          setTimeout(() => {
+            document.querySelector(".container").scrollIntoView({ behavior:"smooth", block:"center" });
+          }, 200);
         }
         allButtons.forEach((b) => (b.style.display = "inline-block"));
         if (musicPlayer) musicPlayer.style.display = "block";
@@ -1670,7 +1689,7 @@
         }
         // Use the new Typewriter class for a robust and faster typewriter animation
         const typewriterElem = document.getElementById("typewriterMessage");
-        const typewriterText = "Baby I can't believe this is our second Valentine's together, and I'm so happy that you are paying for NARA, muah muahh. You genuinely make me a better person, and I really can't imagine my life without you. I love you lots ❤️";
+        const typewriterText = "Baby I can't believe this is our second Valentine's together, and thank you for NARA, muah muahh. You genuinely make me a better person, and I really can't imagine my life without you. I love you lots ❤️";
         // Create and store the instance so it can be reset on modal close
         twInstance = new Typewriter(typewriterElem, { typingSpeed: 30, variance: 50 });
         twInstance.type(typewriterText);
